@@ -11,20 +11,20 @@ const Hero = () => {
           {/* Left content */}
           <div className="space-y-8">
             <div className="space-y-6">
-              <h1 className="text-5xl lg:text-7xl font-bold text-gray-900 leading-tight">
+              <h1 className="text-5xl lg:text-7xl font-bold text-primary-brown leading-tight">
                 Luxury house
                 <br />
-                <span className="text-gray-700">near the forest</span>
+                <span className="text-gray-700">find yours today</span>
               </h1>
               <p className="text-lg text-gray-600 max-w-md leading-relaxed">
-                Experience the perfect blend of modern luxury and natural
-                serenity in this stunning forest-adjacent property.
+                Explore a curated selection of premium properties that offer the
+                perfect blend of luxury, comfort, and convenience. Our listings
+                include a diverse range of options to suit every lifestyle and
+                budget.
               </p>
             </div>
 
-            <Button className="bg-amber-600 hover:bg-amber-700 text-white px-8 py-3 text-lg">
-              Book Now
-            </Button>
+            <Button className="py-3">Book Now</Button>
 
             {/* Property stats */}
             <div className="flex items-center space-x-8 pt-8">
@@ -71,7 +71,7 @@ const Hero = () => {
                   className="w-12 h-12 rounded-full object-cover"
                 />
                 <div>
-                  <div className="font-semibold text-gray-900">Tom Wilson</div>
+                  <div className="font-semibold text-gray-900">Angela</div>
                   <div className="text-sm text-gray-600">Property Agent</div>
                 </div>
                 <div className="w-8 h-8 bg-green-500 rounded-full flex items-center justify-center ml-auto">

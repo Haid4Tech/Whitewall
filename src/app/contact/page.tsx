@@ -1,7 +1,7 @@
 export default function Page() {
   return (
     <div>
-      <div>Gallery</div>
+      <div>Contact Us</div>
     </div>
   );
 }

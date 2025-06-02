@@ -2,7 +2,10 @@
 
 @theme {
   --color-primary-black: oklch(0.2562 0 0); /* #232323 */
-  --color-primary-brown: oklch(0.7233 0.0574 32.47); /* #c7998f */
+  --color-primary-brown: oklch(0.2453 0.0574 32.47); /* #37140e */
   --color-primary-gray: oklch(0.9551 0 0); /* #f0f0f0 */
   --color-primary-darkgray: oklch(0.3639 0 0); /* #3e3e3e */
+  --color-primary-orange: oklch(0.6726 0.1752 51.04); /* #e76f00 */
+  --color-primary-gold: oklch(0.7445 0.154 74); /* #e59b14 */
+  --color-primary-lightgold: oklch(0.881 0.0845 79.21); /* #f6d298 */
 }

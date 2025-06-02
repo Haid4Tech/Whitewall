@@ -1,21 +1,15 @@
+import { Cctv, HousePlug } from "lucide-react";
+
 const Features = () => {
   const features = [
     {
-      icon: (
-        <svg className="w-8 h-8" fill="currentColor" viewBox="0 0 20 20">
-          <path d="M10 2L3 7v11h4v-6h6v6h4V7l-7-5z" />
-        </svg>
-      ),
+      icon: <HousePlug size={30} />,
       title: "Smart House",
       description:
         "Fully automated smart home system with cutting-edge technology and premium integrations.",
     },
     {
-      icon: (
-        <svg className="w-8 h-8" fill="currentColor" viewBox="0 0 20 20">
-          <path d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
-        </svg>
-      ),
+      icon: <Cctv size={30} />,
       title: "High Security",
       description:
         "State-of-the-art security system with 24/7 monitoring and premium safeguards.",

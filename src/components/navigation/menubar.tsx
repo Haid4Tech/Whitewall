@@ -1,62 +1,54 @@
 "use client";
 
 import { useState } from "react";
+import { useRouter } from "next/navigation";
 import { Button } from "@/components/ui/button";
+import { NavItems } from "@/common/data";
+import Link from "next/link";
 
 const Header = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const router = useRouter();
 
   return (
-    <header className="relative z-50 bg-white/95 backdrop-blur-sm">
+    <header className="relative z-50 bg-white/95 shadow-sm">
       <div className="container mx-auto px-6 py-4">
         <div className="flex items-center justify-between">
           {/* Logo */}
           <div className="text-2xl font-bold text-gray-900">
-            SIL<span className="text-gray-600">ENT</span>
+            <img src="/wh_logo.webp" alt="" className={"w-30 h-15"} />
           </div>
 
           {/* Desktop Navigation */}
           <nav className="hidden md:flex items-center space-x-8">
-            <a
-              href="#home"
-              className="text-gray-700 hover:text-gray-900 transition-colors"
-            >
-              Home
-            </a>
-            <a
-              href="#gallery"
-              className="text-gray-700 hover:text-gray-900 transition-colors"
-            >
-              Gallery
-            </a>
-            <a
-              href="#layout"
-              className="text-gray-700 hover:text-gray-900 transition-colors"
-            >
-              House layout
-            </a>
-            <a
-              href="#contact"
-              className="text-gray-700 hover:text-gray-900 transition-colors"
-            >
-              How to get
-            </a>
+            {NavItems.map(({ id, url, label }) => (
+              <Link
+                key={id}
+                href={url}
+                className="text-gray-700 hover:text-gray-900 transition-colors"
+              >
+                {label}
+              </Link>
+            ))}
           </nav>
 
           {/* Right side buttons */}
           <div className="hidden md:flex items-center space-x-4">
             <div className="flex items-center space-x-2 text-sm text-gray-600">
               <span className="w-2 h-2 bg-green-500 rounded-full"></span>
-              <span>EN</span>
+              <span className="cursor-pointer no-select">EN</span>
             </div>
-            <Button className="bg-gray-900 hover:bg-gray-800 text-white px-6">
+            <Button
+              onClick={() => router.push("/contact")}
+              className="bg-gray-900 hover:bg-gray-800 text-white px-6"
+            >
               Contact Us
             </Button>
           </div>
 
           {/* Mobile menu button */}
           <button
-            className="md:hidden"
+            className="md:hidden cursor-pointer"
             onClick={() => setIsMenuOpen(!isMenuOpen)}
           >
             <div className="w-6 h-6 flex flex-col justify-center items-center">
@@ -83,30 +75,16 @@ const Header = () => {
         {isMenuOpen && (
           <div className="md:hidden mt-4 pb-4">
             <nav className="flex flex-col space-y-4">
-              <a
-                href="#home"
-                className="text-gray-700 hover:text-gray-900 transition-colors"
-              >
-                Home
-              </a>
-              <a
-                href="#gallery"
-                className="text-gray-700 hover:text-gray-900 transition-colors"
-              >
-                Gallery
-              </a>
-              <a
-                href="#layout"
-                className="text-gray-700 hover:text-gray-900 transition-colors"
-              >
-                House layout
-              </a>
-              <a
-                href="#contact"
-                className="text-gray-700 hover:text-gray-900 transition-colors"
-              >
-                How to get
-              </a>
+              {NavItems.map(({ id, url, label }) => (
+                <Link
+                  key={id}
+                  href={url}
+                  className="text-gray-700 hover:text-gray-900 transition-colors"
+                >
+                  {label}
+                </Link>
+              ))}
+
               <Button className="bg-gray-900 hover:bg-gray-800 text-white w-full mt-4">
                 Contact Us
               </Button>

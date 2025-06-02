@@ -57,9 +57,7 @@ const Contact = () => {
               />
             </div>
 
-            <Button className="bg-amber-600 hover:bg-amber-700 text-white w-full py-3">
-              Send Message
-            </Button>
+            <Button className="text-white w-full py-3">Send Message</Button>
 
             <p className="text-sm text-gray-500 text-center">
               *You can also call directly. It is located in different regions.
