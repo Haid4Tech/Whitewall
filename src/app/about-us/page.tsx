@@ -117,12 +117,21 @@ export default function Page() {
         </div>
       </div>
 
+      <div className="rounded-lg mx-8 grid md:grid-cols-3 space-y-8 items-center justify-center bg-primary-brown py-20 px-8">
+        {achievement.map(({ label, value }, index) => (
+          <div key={index} className={"flex flex-col items-center gap-3"}>
+            <p className="text-5xl md:text-6xl font-bold text-white">{value}</p>
+            <p className={"text-gray-500 text-white/50"}>{label}</p>
+          </div>
+        ))}
+      </div>
+
       <div
         className={
           "bg-primary-gray flex flex-col items-center justify-center gap-12 py-15 px-8"
         }
       >
-        <p className="font-bold text-2xl md:text-4xl lg:text-5xl">
+        <p className="font-bold text-xl md:text-3xl lg:text-4xl">
           Our Main Focus
         </p>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-5 ">
@@ -133,7 +142,7 @@ export default function Page() {
               }
               key={id}
             >
-              <p className="text-xl md:text-3xl font-bold">{title}</p>
+              <p className="text-xl md:text-2xl font-bold">{title}</p>
               <p className="text-sm">{description}</p>
               <Button onClick={() => router.push("/properties")}>
                 Find a home
@@ -145,7 +154,7 @@ export default function Page() {
 
       <div className={"px-8 grid md:grid-cols-2"}>
         <div className="flex flex-col gap-4 bg-primary-gold/10 rounded-lg p-8">
-          <p className="font-semibold text-xl md:text-3xl">Our Vision</p>
+          <p className="font-bold text-xl md:text-3xl">Our Vision</p>
           <p className={""}>
             We envision a future where every client finds their dream property
             effortlessly. By leveraging innovative technology, market expertise,
@@ -155,7 +164,7 @@ export default function Page() {
           </p>
         </div>
         <div className="flex flex-col gap-4 rounded-lg p-8">
-          <p className="font-semibold text-xl md:text-3xl">Our Mission</p>
+          <p className="font-bold text-xl md:text-3xl">Our Mission</p>
           <p>
             Our mission is to connect buyers, sellers, and renters with the best
             properties that meet their needs and exceed their expectations. We
@@ -164,15 +173,6 @@ export default function Page() {
             transparency, and our unwavering commitment to client satisfaction.
           </p>
         </div>
-      </div>
-
-      <div className="px-8 grid md:grid-cols-3 space-y-8 items-center justify-center bg-primary-brown py-20 px-8">
-        {achievement.map(({ label, value }, index) => (
-          <div key={index} className={"flex flex-col items-center gap-3"}>
-            <p className="text-5xl md:text-6xl font-bold text-white">{value}</p>
-            <p className={"text-gray-500 text-white/50"}>{label}</p>
-          </div>
-        ))}
       </div>
     </div>
   );
