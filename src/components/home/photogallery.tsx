@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import Image from "next/image";
 import ImageSwiper from "../gallery/image-swiper";
 
 const PhotoGallery = () => {
@@ -49,7 +49,9 @@ const PhotoGallery = () => {
           {/* Featured video/image */}
           <div className="m-18">
             <div className="rounded-2xl overflow-hidden shadow-2xl">
-              <img
+              <Image
+                width={200}
+                height={200}
                 src="/wh_img3.jpg"
                 alt="House exterior view"
                 className="w-full h-96 object-cover object-top"

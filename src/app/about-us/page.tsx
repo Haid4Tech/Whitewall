@@ -71,7 +71,7 @@ const achievement = [
 export default function Page() {
   const router = useRouter();
   return (
-    <div className="flex flex-col gap-24 py-20">
+    <div className="flex flex-col gap-24 py-15">
       <div className={"px-10 flex flex-col md:flex-row gap-12"}>
         {/* <div className=""></div> */}
         <Image

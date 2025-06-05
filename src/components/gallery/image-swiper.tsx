@@ -1,7 +1,8 @@
 "use client";
 
-import { useState, useEffect } from "react";
 import { cn } from "@/lib/utils";
+import Image from "next/image";
+import { useState, useEffect } from "react";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Swiper as SwiperClass } from "swiper";
 import { EffectCoverflow } from "swiper/modules";
@@ -55,7 +56,10 @@ export default function ImageSwiper({ slides }: { slides: ImagesDataProps[] }) {
       >
         {slides.map(({ alt, src }, index) => (
           <SwiperSlide key={index}>
-            <img
+            <Image
+              priority
+              width={200}
+              height={200}
               src={src}
               alt={alt}
               className="rounded-lg w-full h-96 object-cover object-center"

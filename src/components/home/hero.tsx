@@ -1,4 +1,5 @@
 import { Button } from "@/components/ui/button";
+import Image from "next/image";
 
 const Hero = () => {
   return (
@@ -6,7 +7,7 @@ const Hero = () => {
       id="home"
       className="relative min-h-screen bg-gradient-to-br from-gray-50 to-gray-100 overflow-hidden"
     >
-      <div className="container mx-auto px-6 py-20">
+      <div className="container mx-auto px-6 py-15">
         <div className="grid lg:grid-cols-2 gap-12 items-center min-h-[80vh]">
           {/* Left content */}
           <div className="space-y-8">
@@ -39,8 +40,10 @@ const Hero = () => {
           <div className="relative">
             {/* House image */}
             <div className="relative z-10">
-              <img
-                src="https://images.unsplash.com/photo-1518005020951-eccb494ad742?w=800&h=600&fit=crop"
+              <Image
+                width={200}
+                height={200}
+                src="/wh_img3.jpg"
                 alt="Luxury house near forest"
                 className="w-full h-[500px] object-cover rounded-2xl shadow-2xl"
               />
@@ -65,8 +68,10 @@ const Hero = () => {
             {/* Agent card */}
             <div className="absolute bottom-6 right-6 bg-white rounded-2xl p-4 shadow-xl z-20 max-w-xs">
               <div className="flex items-center space-x-3">
-                <img
-                  src="https://images.unsplash.com/photo-1649972904349-6e44c42644a7?w=60&h=60&fit=crop&crop=face"
+                <Image
+                  width={100}
+                  height={100}
+                  src={"/wh_img2.jpg"}
                   alt="Agent Tom Wilson"
                   className="w-12 h-12 rounded-full object-cover"
                 />
