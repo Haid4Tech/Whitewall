@@ -1,6 +1,5 @@
 "use client";
 
-import { FC } from "react";
 import { Phone, MapPin, Mail } from "lucide-react";
 import Contact from "@/components/contact/contact";
 
@@ -9,7 +8,6 @@ import { Map, View, TileLayer } from "react-openlayers";
 import "react-openlayers/dist/index.css";
 
 export default function Page() {
-  const position = [51.505, -0.09];
   return (
     <div className="flex flex-col gap-10 py-15 px-5">
       <div className="grid md:grid-cols-2 gap-2">

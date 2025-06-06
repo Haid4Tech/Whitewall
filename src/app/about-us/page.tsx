@@ -135,7 +135,7 @@ export default function Page() {
           Our Main Focus
         </p>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-5 ">
-          {focus.map(({ id, title, description, icon }) => (
+          {focus.map(({ id, title, description }) => (
             <div
               className={
                 "space-y-4 border border-primary-gold/30 rounded-lg p-5"
