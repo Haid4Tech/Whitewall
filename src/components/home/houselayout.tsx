@@ -42,7 +42,10 @@ const HouseLayout = () => {
 
             {/* Interior image */}
             <div className="mt-8">
-              <img
+              <Image
+                priority
+                width={100}
+                height={100}
                 src="/diner_room.jpg"
                 alt="Modern interior"
                 className="w-full h-full object-cover rounded-2xl shadow-lg"
@@ -53,7 +56,10 @@ const HouseLayout = () => {
           {/* Right side - Floor plan */}
           <div className="">
             <div>
-              <img
+              <Image
+                priority
+                width={200}
+                height={200}
                 src="/housing_plan.jpg"
                 alt="House floor plan"
                 className="w-full h-auto rounded-lg"

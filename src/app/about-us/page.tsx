@@ -71,7 +71,7 @@ const achievement = [
 export default function Page() {
   const router = useRouter();
   return (
-    <div className="flex flex-col gap-24 py-20">
+    <div className="flex flex-col gap-24 py-15">
       <div className={"px-10 flex flex-col md:flex-row gap-12"}>
         {/* <div className=""></div> */}
         <Image
@@ -135,7 +135,7 @@ export default function Page() {
           Our Main Focus
         </p>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-5 ">
-          {focus.map(({ id, title, description, icon }) => (
+          {focus.map(({ id, title, description }) => (
             <div
               className={
                 "space-y-4 border border-primary-gold/30 rounded-lg p-5"

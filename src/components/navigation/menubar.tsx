@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import { NavItems } from "@/common/data";
@@ -16,7 +17,14 @@ const Header = () => {
         <div className="flex items-center justify-between">
           {/* Logo */}
           <div className="text-2xl font-bold text-gray-900">
-            <img src="/wh_logo.webp" alt="" className={"w-30 h-15"} />
+            <Image
+              priority
+              width={100}
+              height={100}
+              src="/wh_logo.webp"
+              alt="Logo"
+              className={"w-30 h-15"}
+            />
           </div>
 
           {/* Desktop Navigation */}
@@ -40,7 +48,7 @@ const Header = () => {
             </div>
             <Button
               onClick={() => router.push("/contact")}
-              className="bg-gray-900 hover:bg-gray-800 text-white px-6"
+              className="bg-primary-black hover:bg-primary-black/50 text-white px-6"
             >
               Contact Us
             </Button>
@@ -74,7 +82,7 @@ const Header = () => {
         {/* Mobile menu */}
         {isMenuOpen && (
           <div className="md:hidden mt-4 pb-4">
-            <nav className="flex flex-col space-y-4">
+            <nav className="flex flex-col items-center justify-center space-y-4">
               {NavItems.map(({ id, url, label }) => (
                 <Link
                   key={id}

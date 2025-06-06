@@ -1,3 +1,4 @@
+import Image from "next/image";
 import { Cctv, HousePlug } from "lucide-react";
 
 const Features = () => {
@@ -41,7 +42,9 @@ const Features = () => {
                 design, forest views and quiet charm.
               </p>
             </div>
-            <img
+            <Image
+              width={200}
+              height={200}
               src={"/stairs.jpg"}
               alt={"Dinning room"}
               className={"w-full h-50 object-cover rounded-2xl"}
