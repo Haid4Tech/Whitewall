@@ -3,6 +3,7 @@ import { Calendar, User, Clock } from "lucide-react";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { BlogPost } from "@/common/types";
+import Image from "next/image";
 
 interface BlogCardProps {
   post: BlogPost;
@@ -12,7 +13,9 @@ export const BlogCard = ({ post }: BlogCardProps) => {
   return (
     <Card className="group cursor-pointer overflow-hidden hover-scale transition-all duration-300 hover:shadow-lg animate-fade-in">
       <div className="relative overflow-hidden">
-        <img
+        <Image
+          width={200}
+          height={200}
           src={post.image}
           alt={post.title}
           className="w-full h-48 object-cover transition-transform duration-300 group-hover:scale-110"

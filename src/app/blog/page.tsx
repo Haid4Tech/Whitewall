@@ -8,6 +8,7 @@ import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { BlogCard } from "@/components/blog/blog-card";
 import { blogPosts } from "@/common/data";
+import Image from "next/image";
 
 export default function Page() {
   const router = useRouter();
@@ -61,7 +62,9 @@ export default function Page() {
           <h2 className="text-2xl font-bold mb-6">Featured Article</h2>
           <div className="grid md:grid-cols-2 gap-8 bg-card rounded-lg overflow-hidden shadow-lg hover:shadow-xl transition-shadow">
             <div className="relative h-64 md:h-auto">
-              <img
+              <Image
+                width={200}
+                height={200}
                 src={featuredPost.image}
                 alt={featuredPost.title}
                 className="w-full h-full object-cover"

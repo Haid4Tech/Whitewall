@@ -1,11 +1,13 @@
 "use client";
 
+import { useEffect } from "react";
 import { useParams, useRouter } from "next/navigation";
-import { Calendar, User, Clock, Share2, BookOpen } from "lucide-react";
+import { Calendar, User, Clock, BookOpen } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { BlogCard } from "@/components/blog/blog-card";
 import { blogPosts } from "@/common/data";
+import Image from "next/image";
 
 export default function Page() {
   const router = useRouter();
@@ -13,9 +15,12 @@ export default function Page() {
 
   const post = blogPosts.find((p) => p.slug === slug);
 
-  if (!post) {
-    // return <Navigate to="/blog" replace />;
-  }
+  // redirect to blog
+  useEffect(() => {
+    if (!post) {
+      return router.replace("/blog");
+    }
+  }, [post, router]);
 
   const relatedPosts = blogPosts
     .filter(
@@ -26,25 +31,27 @@ export default function Page() {
     )
     .slice(0, 3);
 
-  const handleShare = () => {
-    if (navigator.share) {
-      navigator.share({
-        title: post?.title,
-        text: post?.excerpt,
-        url: window.location.href,
-      });
-    } else {
-      navigator.clipboard.writeText(window.location.href);
-    }
-  };
+  // const handleShare = () => {
+  //   if (navigator.share) {
+  //     navigator.share({
+  //       title: post?.title,
+  //       text: post?.excerpt,
+  //       url: window.location.href,
+  //     });
+  //   } else {
+  //     navigator.clipboard.writeText(window.location.href);
+  //   }
+  // };
 
   return (
     <div className="min-h-screen bg-background">
       {/* Hero Image */}
       <div className="relative h-[70vh] overflow-hidden">
-        <img
-          src={post?.image}
-          alt={post?.title}
+        <Image
+          width={400}
+          height={400}
+          src={post?.image ?? ""}
+          alt={post?.title ?? "Blog image"}
           className="w-full h-full object-cover object-center"
         />
         <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/20 to-transparent" />

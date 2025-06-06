@@ -3,6 +3,7 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Property } from "@/common/types";
+import Image from "next/image";
 
 interface PropertyCardProps {
   property: Property;
@@ -13,7 +14,9 @@ export const PropertyCard = ({ property, onClick }: PropertyCardProps) => {
   return (
     <Card className="group cursor-pointer overflow-hidden hover-scale transition-all duration-300 hover:shadow-2xl animate-fade-in">
       <div className="relative overflow-hidden">
-        <img
+        <Image
+          width={200}
+          height={200}
           src={property.image}
           alt={property.title}
           className="w-full h-48 object-cover transition-transform duration-300 group-hover:scale-110"

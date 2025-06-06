@@ -4,6 +4,7 @@ import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Separator } from "@/components/ui/separator";
 import { Property } from "@/common/types";
+import Image from "next/image";
 
 interface PropertyModalProps {
   property: Property | null;
@@ -23,7 +24,9 @@ export const PropertyModal = ({
       <DialogContent className="max-w-4xl max-h-[90vh] overflow-y-auto">
         <DialogHeader className="relative p-0">
           <div className="relative">
-            <img
+            <Image
+              width={200}
+              height={200}
               src={property.image}
               alt={property.title}
               className="w-full h-64 object-cover rounded-t-lg"

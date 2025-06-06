@@ -29,7 +29,7 @@ interface SearchFiltersProps {
 export const SearchFilters = ({ filters, setFilters }: SearchFiltersProps) => {
   const [showFilters, setShowFilters] = useState(false);
 
-  const updateFilter = (key: keyof Filters, value: any) => {
+  const updateFilter = (key: keyof Filters, value: string | number) => {
     setFilters({ ...filters, [key]: value });
   };
 
