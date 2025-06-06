@@ -29,8 +29,10 @@ export default function RootLayout({
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
-        <Header />
-        <div>{children}</div>
+        <div>
+          <Header />
+          <div>{children}</div>
+        </div>
         <Footer />
       </body>
     </html>
