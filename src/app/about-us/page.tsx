@@ -117,7 +117,7 @@ export default function Page() {
         </div>
       </div>
 
-      <div className="rounded-lg mx-8 grid md:grid-cols-3 space-y-8 items-center justify-center bg-primary-brown py-20 px-8">
+      <div className="rounded-lg mx-8 grid md:grid-cols-3 space-y-8 items-center justify-center bg-primary-black py-20 px-8">
         {achievement.map(({ label, value }, index) => (
           <div key={index} className={"flex flex-col items-center gap-3"}>
             <p className="text-5xl md:text-6xl font-bold text-white">{value}</p>

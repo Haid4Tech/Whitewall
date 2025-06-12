@@ -45,7 +45,7 @@ export default function Page() {
       {/* Hero Section */}
       <div className="relative py-16 bg-gradient-to-br from-background to-muted/20 border-b-1 border-gray-300">
         <div className="container mx-auto px-4 text-center">
-          <h1 className="text-4xl md:text-6xl font-bold mb-6 text-primary-brown animate-fade-in">
+          <h1 className="text-4xl md:text-6xl font-bold mb-6 text-primary-gold animate-fade-in">
             Real Estate
             <span className="h-20 block text-gray-700">Insights & Tips</span>
           </h1>
@@ -70,9 +70,7 @@ export default function Page() {
                 className="w-full h-full object-cover"
               />
               <div className="absolute top-4 left-4">
-                <Badge className="bg-primary-brown text-white py-2">
-                  Featured
-                </Badge>
+                <Badge className="text-white py-2">Featured</Badge>
               </div>
             </div>
             <div className="p-6 flex flex-col justify-center">
