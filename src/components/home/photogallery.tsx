@@ -47,7 +47,7 @@ const PhotoGallery = () => {
           <ImageSwiper slides={images} />
 
           {/* Featured video/image */}
-          <div className="m-18">
+          <div className="m-2 md:m-18">
             <div className="rounded-2xl overflow-hidden shadow-2xl">
               <Image
                 width={200}

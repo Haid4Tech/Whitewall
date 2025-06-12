@@ -31,17 +31,17 @@ export default function Page() {
         <div className={"grid grid-row-2 gap-4"}>
           <div className={"bg-primary-gray rounded-lg md:p-8 p-5"}>
             <div className="border-b-1 border-gray-300 pb-2">
-              <p className="font-semibold text-lg md:text-xl text-primary-brown">
+              <p className="font-semibold text-lg md:text-xl text-primary-black">
                 Contact Information
               </p>
             </div>
             <div className={"grid md:grid-cols-2 gap-5 p-3"}>
               <div className="flex flex-row gap-3 items-center">
-                <Phone className={"text-primary-brown"} />
+                <Phone className={"text-primary-black"} />
                 <div>
                   <p
                     className={
-                      "text-xs font-semibold  text-primary-brown uppercase"
+                      "text-xs font-semibold  text-primary-black uppercase"
                     }
                   >
                     Phone
@@ -50,11 +50,11 @@ export default function Page() {
                 </div>
               </div>
               <div className="flex flex-row gap-3 items-center">
-                <MapPin className={"text-primary-brown"} />
+                <MapPin className={"text-primary-black"} />
                 <div>
                   <p
                     className={
-                      "text-xs font-semibold text-primary-brown uppercase"
+                      "text-xs font-semibold text-primary-black uppercase"
                     }
                   >
                     Address
@@ -66,11 +66,11 @@ export default function Page() {
                 </div>
               </div>
               <div className="flex flex-row gap-3 items-center">
-                <Mail className={"text-primary-brown"} />
+                <Mail className={"text-primary-black"} />
                 <div>
                   <p
                     className={
-                      "text-xs font-semibold text-primary-brown  uppercase"
+                      "text-xs font-semibold text-primary-black  uppercase"
                     }
                   >
                     Email
@@ -88,25 +88,25 @@ export default function Page() {
             }
           >
             <div className="border-b-1 border-gray-300 pb-2">
-              <p className="font-semibold text-lg md:text-xl text-primary-brown">
+              <p className="font-semibold text-lg md:text-xl text-primary-black">
                 Business Hours
               </p>
             </div>
             <div className={"grid md:grid-cols-3 gap-5 p-3"}>
               <div>
-                <p className="text-sm font-semibold uppercase text-primary-brown">
+                <p className="text-sm font-semibold uppercase text-primary-black">
                   MONDAY - FRIDAY
                 </p>
                 <p className="text-sm font-light">9:00AM - 8:00PM</p>
               </div>
               <div>
-                <p className="text-sm font-semibold uppercase text-primary-brown">
+                <p className="text-sm font-semibold uppercase text-primary-black">
                   saturday
                 </p>
                 <p className="text-sm font-light">9:00AM - 8:00PM</p>
               </div>
               <div>
-                <p className="text-sm font-semibold uppercase text-primary-brown">
+                <p className="text-sm font-semibold uppercase text-primary-black">
                   sunday
                 </p>
                 <p className="text-sm font-light">9:00AM - 8:00PM</p>
