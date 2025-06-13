@@ -15,11 +15,11 @@ const menuItems = [
 
 export const Sidebar = ({ activeSection, onSectionChange }: SidebarProps) => {
   return (
-    <div className="w-64 bg-card border-r border-border">
+    <div className="w-64 bg-card border-r border-gray-200">
       <div className="p-6">
         <div className="flex items-center gap-2 mb-8">
-          <Home className="h-8 w-8 text-primary" />
-          <h1 className="text-xl font-bold text-foreground">
+          <Home className="text-primary" size={16} />
+          <h1 className="text-sm font-bold text-foreground">
             Real Estate Admin
           </h1>
         </div>
@@ -32,13 +32,13 @@ export const Sidebar = ({ activeSection, onSectionChange }: SidebarProps) => {
                 key={item.id}
                 onClick={() => onSectionChange(item.id)}
                 className={cn(
-                  "w-full flex items-center gap-3 px-3 py-2 rounded-lg text-left transition-colors",
+                  "text-sm cursor-pointer w-full flex items-center gap-3 px-3 py-2 rounded-lg text-left transition-colors",
                   activeSection === item.id
-                    ? "bg-primary text-primary-foreground"
-                    : "text-muted-foreground hover:text-foreground hover:bg-accent"
+                    ? "bg-primary-gold/10 text-primary-foreground"
+                    : "text-muted-foreground hover:text-foreground hover:bg-gray-100"
                 )}
               >
-                <Icon className="h-5 w-5" />
+                <Icon size={15} />
                 {item.label}
               </button>
             );

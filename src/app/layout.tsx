@@ -1,7 +1,5 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
-import Header from "@/components/navigation/menubar";
-import Footer from "@/components/navigation/footer";
 import "./globals.css";
 
 const geistSans = Geist({
@@ -15,25 +13,21 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "White Hall",
+  title: "White Wall",
   description: "The One Stop for RealEstate",
 };
 
 export default function RootLayout({
   children,
-}: Readonly<{
+}: {
   children: React.ReactNode;
-}>) {
+}) {
   return (
     <html lang="en">
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
-        <div>
-          <Header />
-          <div>{children}</div>
-        </div>
-        <Footer />
+        <main>{children}</main>
       </body>
     </html>
   );
