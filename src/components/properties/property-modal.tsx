@@ -21,7 +21,7 @@ export const PropertyModal = ({
 
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
-      <DialogContent className="max-w-4xl max-h-[90vh] overflow-y-auto">
+      <DialogContent className="max-w-4xl max-h-[90vh] overflow-y-auto scrollbar-width">
         <DialogHeader className="relative p-0">
           <div className="relative">
             <Image
@@ -29,16 +29,9 @@ export const PropertyModal = ({
               height={200}
               src={property.image}
               alt={property.title}
-              className="w-full h-64 object-cover rounded-t-lg"
+              className="w-full h-64 object-cover"
             />
-            <Button
-              variant="ghost"
-              size="icon"
-              onClick={onClose}
-              className="absolute top-4 right-4 bg-white/90 hover:bg-white"
-            >
-              <X className="h-4 w-4" />
-            </Button>
+
             {property.featured && (
               <Badge className="absolute top-4 left-4 bg-gradient-to-r from-blue-600 to-purple-600">
                 Featured Property
@@ -116,7 +109,7 @@ export const PropertyModal = ({
           <Separator className="my-6" />
 
           <div className="flex gap-4">
-            <Button className="flex-1 bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700">
+            <Button className="flex-1">
               <Calendar className="mr-2 h-4 w-4" />
               Schedule Viewing
             </Button>
