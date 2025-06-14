@@ -1,5 +1,10 @@
 import { X, MapPin, Bed, Bath, Square, Calendar, Star } from "lucide-react";
-import { Dialog, DialogContent, DialogHeader } from "@/components/ui/dialog";
+import {
+  Dialog,
+  DialogTitle,
+  DialogContent,
+  DialogHeader,
+} from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Separator } from "@/components/ui/separator";
@@ -21,6 +26,7 @@ export const PropertyModal = ({
 
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
+      <DialogTitle></DialogTitle>
       <DialogContent className="max-w-4xl max-h-[90vh] overflow-y-auto scrollbar-width">
         <DialogHeader className="relative p-0">
           <div className="relative">
