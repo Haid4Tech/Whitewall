@@ -11,7 +11,7 @@ const AdminNavBar: FC<IAdminNavBar> = ({ pageTitle }) => {
   const lastInitials = "Angie";
 
   return (
-    <div className="flex items-center justify-between gap-4 w-full px-4 py-3 bg-white border-b border-gray-200">
+    <div className="flex items-center justify-between gap-4 w-full px-4 py-3 bg-white">
       <div className="w-full flex items-center gap-6">
         <div>
           <Image
