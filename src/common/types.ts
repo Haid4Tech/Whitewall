@@ -43,3 +43,8 @@ export interface IFieldItems {
   placeholder?: string;
   compulsory?: boolean;
 }
+
+export interface User {
+  name: string;
+  uid: string;
+}

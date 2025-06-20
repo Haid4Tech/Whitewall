@@ -1,7 +1,10 @@
+"use client";
+
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Eye, EyeOff, Mail, Lock, User } from "lucide-react";
 import InputWithLabel from "@/components/general/input-field";
+import { login } from "@/firebase/auth";
 
 interface AuthFormProps {
   isLogin: boolean;
@@ -47,14 +50,11 @@ const AuthForm = ({ isLogin }: AuthFormProps) => {
       return;
     }
 
-    // Simulate API call
-    await new Promise((resolve) => setTimeout(resolve, 1500));
+    const email = formData?.email;
+    const password = formData?.password;
+    const res = await login(email, password);
 
-    console.log("Auth attempt:", {
-      ...formData,
-      action: isLogin ? "login" : "signup",
-    });
-    alert(`${isLogin ? "Login" : "Signup"} successful! (This is a demo)`);
+    console.log("LOGIN ", res);
 
     setIsLoading(false);
   };
