@@ -1,4 +1,4 @@
-import { X, MapPin, Bed, Bath, Square, Calendar, Star } from "lucide-react";
+import { MapPin, Bed, Bath, Square, Calendar, Star } from "lucide-react";
 import {
   Dialog,
   DialogTitle,

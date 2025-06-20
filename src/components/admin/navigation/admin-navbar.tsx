@@ -1,4 +1,4 @@
-import { FC, Dispatch, SetStateAction } from "react";
+import { FC } from "react";
 import UserProfile from "./user-profile";
 import Image from "next/image";
 

@@ -1,9 +1,9 @@
 "use client";
 
-import { FC, useEffect } from "react";
-import { ChevronDown, ChevronUp } from "lucide-react";
+import { FC } from "react";
+import { ChevronDown } from "lucide-react";
 import AvatarProfile from "@/components/general/avatar-profile";
-import { toast } from "sonner";
+// import { toast } from "sonner";
 import { Button } from "@/components/ui/button";
 import {
   DropdownMenu,

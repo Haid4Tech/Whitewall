@@ -33,3 +33,13 @@ export interface BlogPost {
   image: string;
   tags: string[];
 }
+
+export interface IFieldItems {
+  id: string;
+  htmlfor: string;
+  label: string;
+  name?: string;
+  type?: string;
+  placeholder?: string;
+  compulsory?: boolean;
+}
