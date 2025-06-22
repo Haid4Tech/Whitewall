@@ -15,12 +15,14 @@ interface PropertyModalProps {
   property: Property | null;
   isOpen: boolean;
   onClose: () => void;
+  admin?: boolean;
 }
 
 export const PropertyModal = ({
   property,
   isOpen,
   onClose,
+  admin,
 }: PropertyModalProps) => {
   if (!property) return null;
 
@@ -98,7 +100,7 @@ export const PropertyModal = ({
             </p>
           </div>
 
-          <div className="mb-6">
+          <div className="mb-6 w-full">
             <h3 className="text-lg font-semibold mb-3">Features & Amenities</h3>
             <div className="grid grid-cols-2 md:grid-cols-3 gap-2">
               {property.amenities.map((amenity, index) => (
@@ -114,15 +116,27 @@ export const PropertyModal = ({
 
           <Separator className="my-6" />
 
-          <div className="flex gap-4">
-            <Button className="flex-1">
-              <Calendar className="mr-2 h-4 w-4" />
-              Schedule Viewing
-            </Button>
-            <Button variant="outline" className="flex-1">
-              Contact Agent
-            </Button>
-          </div>
+          {admin ? (
+            <div className="flex gap-4">
+              <Button variant={"destructive"} className="flex-1">
+                <Calendar className="mr-2 h-4 w-4" />
+                Delete property
+              </Button>
+              <Button variant="outline" className="flex-1">
+                Edit property
+              </Button>
+            </div>
+          ) : (
+            <div className="flex gap-4">
+              <Button className="flex-1">
+                <Calendar className="mr-2 h-4 w-4" />
+                Schedule Viewing
+              </Button>
+              <Button variant="outline" className="flex-1">
+                Contact Agent
+              </Button>
+            </div>
+          )}
         </div>
       </DialogContent>
     </Dialog>

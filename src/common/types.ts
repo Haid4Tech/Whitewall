@@ -20,22 +20,26 @@ export interface Property {
   amenities: string[];
 }
 
+export type IBlogCard = BlogPost & { id: string };
+
 export interface BlogPost {
-  id: string;
-  slug: string;
-  title: string;
-  excerpt: string;
-  content: string;
-  author: string;
-  publishDate: string;
-  readTime: string;
-  category: string;
-  image: string;
+  slug?: string;
+  title?: string;
+  excerpt?: string;
+  content?: string;
+  author?: string;
+  readTime?: number;
+  category?: string;
+  image?: string;
+  isPublished?: boolean;
   tags: string[];
+  createdAt?: string | Date;
+  publishDate?: string | Date;
+  updatedAt?: string | Date;
 }
 
 export interface IFieldItems {
-  id: string;
+  id?: string;
   htmlfor: string;
   label: string;
   name?: string;

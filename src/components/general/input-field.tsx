@@ -30,4 +30,4 @@ const InputWithLabel: FC<InputWithLabelProps> = ({ items, ...rest }) => {
   );
 };
 
-export default React.memo(InputWithLabel);
+export default InputWithLabel;

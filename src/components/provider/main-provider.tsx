@@ -11,7 +11,6 @@ import {
   useEffect,
 } from "react";
 import { auth } from "@/config/firebase";
-import { toast } from "sonner";
 import { User } from "@/common/types";
 
 // Define context type
@@ -36,8 +35,11 @@ const MainProvider: FC<IAppProvider> = ({ children }) => {
       try {
         if (user) {
           setIsLoggedin(true);
+        } else {
+          setIsLoggedin(false);
         }
       } catch (error) {
+        setIsLoggedin(false);
         throw new Error("Error logging in");
       }
     });

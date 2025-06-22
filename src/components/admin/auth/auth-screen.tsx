@@ -2,9 +2,10 @@ import { useState } from "react";
 import AuthForm from "./auth-form";
 import { format } from "date-fns";
 import { Button } from "@/components/ui/button";
+import { useMainContext } from "@/components/provider/main-provider";
 
 const AuthScreen = () => {
-  const [isLogin, setIsLogin] = useState<boolean>(true);
+  const { isLogin } = useMainContext();
   const [date] = useState(new Date());
 
   return (

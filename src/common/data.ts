@@ -218,7 +218,9 @@ export const properties: Property[] = [
   },
 ];
 
-export const blogPosts: BlogPost[] = [
+type IBlogCard = BlogPost & { id: string };
+
+export const blogPosts: IBlogCard[] = [
   {
     id: "1",
     slug: "first-time-homebuyer-guide-2024",
@@ -246,7 +248,7 @@ export const blogPosts: BlogPost[] = [
     `,
     author: "Sarah Johnson",
     publishDate: "2024-01-15",
-    readTime: "8 min read",
+    readTime: 8,
     category: "Buying Guide",
     image:
       "https://images.unsplash.com/photo-1721322800607-8c38375eef04?w=800&h=600&fit=crop",
@@ -280,7 +282,7 @@ export const blogPosts: BlogPost[] = [
     `,
     author: "Michael Chen",
     publishDate: "2024-03-10",
-    readTime: "6 min read",
+    readTime: 6,
     category: "Market Analysis",
     image:
       "https://images.unsplash.com/photo-1649972904349-6e44c42644a7?w=800&h=600&fit=crop",
@@ -321,7 +323,7 @@ export const blogPosts: BlogPost[] = [
     `,
     author: "Emma Rodriguez",
     publishDate: "2024-02-28",
-    readTime: "5 min read",
+    readTime: 5,
     category: "Selling Tips",
     image:
       "https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?w=800&h=600&fit=crop",
@@ -362,7 +364,7 @@ export const blogPosts: BlogPost[] = [
     `,
     author: "David Kim",
     publishDate: "2024-01-20",
-    readTime: "10 min read",
+    readTime: 10,
     category: "Investment",
     image:
       "https://images.unsplash.com/photo-1488590528505-98d2b5aba04b?w=800&h=600&fit=crop",
@@ -404,7 +406,7 @@ export const blogPosts: BlogPost[] = [
     `,
     author: "Victoria Sterling",
     publishDate: "2024-03-05",
-    readTime: "7 min read",
+    readTime: 7,
     category: "Luxury Market",
     image:
       "https://images.unsplash.com/photo-1472396961693-142e6e269027?w=800&h=600&fit=crop",

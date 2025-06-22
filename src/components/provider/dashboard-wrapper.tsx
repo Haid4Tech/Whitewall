@@ -5,7 +5,7 @@ import { useMainContext } from "@/components/provider/main-provider";
 import { Sidebar } from "@/components/admin/navigation/sidebar";
 import AdminNavBar from "@/components/admin/navigation/admin-navbar";
 import AuthScreen from "@/components/admin/auth/auth-screen";
-import AdminProvider from "@/components/provider/layout"; // wraps MainProvider
+import AdminProvider from "@/components/provider/layout";
 
 export default function DashboardLayoutWrapper({
   children,

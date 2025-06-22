@@ -5,8 +5,10 @@ import { Badge } from "@/components/ui/badge";
 import { BlogPost } from "@/common/types";
 import Image from "next/image";
 
+type IBlogCard = BlogPost & { id: string };
+
 interface BlogCardProps {
-  post: BlogPost;
+  post: IBlogCard;
 }
 
 export const BlogCard = ({ post }: BlogCardProps) => {
@@ -16,8 +18,8 @@ export const BlogCard = ({ post }: BlogCardProps) => {
         <Image
           width={200}
           height={200}
-          src={post.image}
-          alt={post.title}
+          src={post?.image ?? ""}
+          alt={post?.title ?? ""}
           className="w-full h-48 object-cover transition-transform duration-300 group-hover:scale-110"
         />
         <div className="absolute top-3 left-3">
@@ -43,7 +45,7 @@ export const BlogCard = ({ post }: BlogCardProps) => {
           </div>
           <div className="flex items-center">
             <Calendar className="h-3 w-3 mr-1" />
-            {new Date(post.publishDate).toLocaleDateString()}
+            {new Date(post?.publishDate ?? "").toLocaleDateString()}
           </div>
           <div className="flex items-center">
             <Clock className="h-3 w-3 mr-1" />
