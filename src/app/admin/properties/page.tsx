@@ -111,14 +111,15 @@ export default function Page() {
   return (
     <div className="min-h-screen bg-gray-50">
       {/* Header */}
-      <div className="bg-white shadow-sm border-b">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex items-center justify-between h-16">
-            <Button className="">
-              <Plus className="h-4 w-4 mr-2" />
-              Add Property
-            </Button>
-          </div>
+      <div>
+        <div className="flex flex-row items-center justify-between">
+          <h2 className="text-2xl font-semibold text-gray-900 mb-4">
+            Properties
+          </h2>
+          <Button className="">
+            <Plus className="h-4 w-4 mr-2" />
+            Add Property
+          </Button>
         </div>
       </div>
 
@@ -187,12 +188,6 @@ export default function Page() {
         </div> */}
 
         {/* Properties Grid */}
-        <div className="mb-6">
-          <h2 className="text-xl font-semibold text-gray-900 mb-4">
-            Properties
-          </h2>
-        </div>
-
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
           {properties.map((property) => (
             <AdminPropertyCard
