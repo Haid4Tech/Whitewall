@@ -14,7 +14,7 @@ export interface Property {
   bathrooms: number;
   sqft: number;
   type: string;
-  image: string;
+  images: string[];
   featured: boolean;
   description: string;
   amenities: string[];

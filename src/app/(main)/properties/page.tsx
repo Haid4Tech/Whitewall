@@ -1,14 +1,19 @@
 "use client";
 
-import { useState, useMemo } from "react";
+import { useState, useMemo, useEffect } from "react";
 import { PropertiesHero } from "@/components/properties/property-hero";
 import { SearchFilters } from "@/components/properties/search-filters";
 import { PropertyCard } from "@/components/properties/property-card";
 import { PropertyModal } from "@/components/properties/property-modal";
 import { Property } from "@/common/types";
-import { properties } from "@/common/data";
+import { getProperties, searchProperties } from "@/firebase/properties";
+import LoadingSpinner from "@/components/ui/loading-spinner";
+// import { LoadingSpinner } from "@/components/ui/loading-spinner";
 
 export default function Page() {
+  const [properties, setProperties] = useState<Property[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
   const [selectedProperty, setSelectedProperty] = useState<Property | null>(
     null
   );
@@ -21,7 +26,29 @@ export default function Page() {
     location: "",
   });
 
+  // Fetch properties on component mount
+  useEffect(() => {
+    const fetchProperties = async () => {
+      try {
+        setLoading(true);
+        setError(null);
+        const fetchedProperties = await getProperties();
+        setProperties(fetchedProperties);
+      } catch (err) {
+        console.error("Error fetching properties:", err);
+        setError("Failed to load properties. Please try again later.");
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchProperties();
+  }, []);
+
+  // Filter properties based on search and filters
   const filteredProperties = useMemo(() => {
+    if (loading) return [];
+
     return properties.filter((property) => {
       const matchesSearch =
         property.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
@@ -48,7 +75,35 @@ export default function Page() {
         matchesLocation
       );
     });
-  }, [searchQuery, filters]);
+  }, [properties, searchQuery, filters, loading]);
+
+  if (loading) {
+    return (
+      <div className="min-h-screen bg-background flex flex-col items-center justify-center">
+        <LoadingSpinner size="lg" />
+        <p className="mt-4 text-muted-foreground">Loading properties...</p>
+      </div>
+    );
+  }
+
+  if (error) {
+    return (
+      <div className="min-h-screen bg-background flex items-center justify-center">
+        <div className="text-center">
+          <h2 className="text-xl font-semibold text-foreground mb-2">
+            Error Loading Properties
+          </h2>
+          <p className="text-muted-foreground mb-4">{error}</p>
+          <button
+            onClick={() => window.location.reload()}
+            className="px-4 py-2 bg-primary text-primary-foreground rounded-md hover:bg-primary/90"
+          >
+            Try Again
+          </button>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="min-h-screen bg-background">
@@ -71,11 +126,7 @@ export default function Page() {
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
           {filteredProperties.map((property) => (
-            <PropertyCard
-              key={property.id}
-              property={property}
-              onClick={() => setSelectedProperty(property)}
-            />
+            <PropertyCard key={property.id} property={property} />
           ))}
         </div>
 

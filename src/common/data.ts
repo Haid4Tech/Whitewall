@@ -34,8 +34,9 @@ export const properties: Property[] = [
     bathrooms: 3,
     sqft: 3200,
     type: "villa",
-    image:
+    images: [
       "https://images.unsplash.com/photo-1721322800607-8c38375eef04?w=800&h=600&fit=crop",
+    ],
     featured: true,
     description:
       "Stunning modern villa featuring open-plan living, premium finishes, and breathtaking city views. Located in one of the most prestigious neighborhoods with easy access to entertainment and shopping districts.",
@@ -58,8 +59,9 @@ export const properties: Property[] = [
     bathrooms: 2,
     sqft: 1800,
     type: "apartment",
-    image:
+    images: [
       "https://images.unsplash.com/photo-1487887235947-a955ef187fcc?w=800&h=600&fit=crop",
+    ],
     featured: false,
     description:
       "Luxurious penthouse apartment in the heart of Manhattan with panoramic city views, modern amenities, and premium finishes throughout. Perfect for urban professionals.",
@@ -82,8 +84,9 @@ export const properties: Property[] = [
     bathrooms: 4,
     sqft: 4200,
     type: "house",
-    image:
+    images: [
       "https://images.unsplash.com/photo-1486312338219-ce68d2c6f44d?w=800&h=600&fit=crop",
+    ],
     featured: true,
     description:
       "Spacious family home in a quiet suburban neighborhood with excellent schools nearby. Features a large backyard, modern kitchen, and plenty of room for a growing family.",
@@ -106,8 +109,9 @@ export const properties: Property[] = [
     bathrooms: 2,
     sqft: 2100,
     type: "condo",
-    image:
+    images: [
       "https://images.unsplash.com/photo-1461749280684-dccba630e2f6?w=800&h=600&fit=crop",
+    ],
     featured: false,
     description:
       "Beautiful beachfront condominium with direct ocean access and stunning sunset views. Fully furnished with modern amenities and resort-style facilities.",
@@ -130,8 +134,9 @@ export const properties: Property[] = [
     bathrooms: 5,
     sqft: 5500,
     type: "house",
-    image:
+    images: [
       "https://images.unsplash.com/photo-1488590528505-98d2b5aba04b?w=800&h=600&fit=crop",
+    ],
     featured: true,
     description:
       "Magnificent mountain retreat offering privacy and luxury in the Colorado Rockies. Perfect for those seeking a peaceful escape with world-class skiing nearby.",
@@ -154,8 +159,9 @@ export const properties: Property[] = [
     bathrooms: 1,
     sqft: 1200,
     type: "apartment",
-    image:
+    images: [
       "https://images.unsplash.com/photo-1649972904349-6e44c42644a7?w=800&h=600&fit=crop",
+    ],
     featured: false,
     description:
       "Stylish industrial loft in the trendy Pearl District with exposed brick walls, high ceilings, and modern amenities. Walking distance to restaurants and galleries.",
@@ -178,8 +184,9 @@ export const properties: Property[] = [
     bathrooms: 6,
     sqft: 8200,
     type: "villa",
-    image:
+    images: [
       "https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?w=800&h=600&fit=crop",
+    ],
     featured: true,
     description:
       "Exquisite countryside estate nestled in the heart of wine country. Features vineyard views, luxury amenities, and entertaining spaces perfect for hosting.",
@@ -202,8 +209,9 @@ export const properties: Property[] = [
     bathrooms: 1,
     sqft: 1400,
     type: "apartment",
-    image:
+    images: [
       "https://images.unsplash.com/photo-1487058792275-0ad4aaf24ca7?w=800&h=600&fit=crop",
+    ],
     featured: false,
     description:
       "Modern apartment in the heart of downtown Chicago with easy access to public transportation, shopping, and dining. Features updated amenities and city views.",
