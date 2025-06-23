@@ -1,3 +1,5 @@
+import { Timestamp } from "firebase/firestore";
+
 export interface INavItems {
   id: number;
   label: string;
@@ -15,9 +17,12 @@ export interface Property {
   sqft: number;
   type: string;
   images: string[];
+  status?: string;
   featured: boolean;
   description: string;
   amenities: string[];
+  createdAt?: string | Timestamp;
+  updatedAt?: string | Timestamp;
 }
 
 export type IBlogCard = BlogPost & { id: string };

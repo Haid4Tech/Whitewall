@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useMemo } from "react";
+import { useState, useMemo, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { PropertiesHero } from "@/components/properties/property-hero";
 import { SearchFilters } from "@/components/properties/search-filters";
@@ -17,13 +17,17 @@ import { Button } from "@/components/ui/button";
 import { initialProperties } from "@/common/properties";
 
 import { useMainContext } from "@/components/provider/main-provider";
+import { getProperties } from "@/firebase/properties";
+import LoadingSpinner from "@/components/ui/loading-spinner";
 
 export default function Page() {
   const router = useRouter();
-  const [properties, setProperties] = useState(initialProperties);
-  const [editingProperty, setEditingProperty] = useState<
-    (typeof initialProperties)[0] | null
-  >(null);
+  // const [properties, setProperties] = useState(initialProperties);
+
+  const [properties, setProperties] = useState<Property[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
+  const [editingProperty, setEditingProperty] = useState<Property | null>(null);
   const [isEditDialogOpen, setIsEditDialogOpen] = useState(false);
 
   const totalProperties = properties.length;
@@ -33,36 +37,30 @@ export default function Page() {
   const rentedProperties = properties.filter(
     (p) => p.status === "Rented"
   ).length;
-  const totalRevenue = properties.reduce(
-    (sum, p) => sum + (p.monthlyRevenue || 0),
-    0
-  );
 
-  const handleEditProperty = (property: (typeof initialProperties)[0]) => {
+  const handleEditProperty = (property: Property) => {
     setEditingProperty(property);
     setIsEditDialogOpen(true);
   };
 
-  const handleSaveProperty = (
-    updatedProperty: (typeof initialProperties)[0]
-  ) => {
-    setProperties((prev) =>
+  const handleSaveProperty = (updatedProperty: Property) => {
+    /*  setProperties((prev) =>
       prev.map((p) => (p.id === updatedProperty.id ? updatedProperty : p))
-    );
+    ); */
     // toast({
     //   title: "Property Updated",
     //   description: "Property details have been successfully updated.",
     // });
   };
 
-  const handleViewProperty = (property: (typeof initialProperties)[0]) => {
+  const handleViewProperty = (property: Property) => {
     // toast({
     //   title: "View Property",
     //   description: `Viewing details for ${property.title}`,
     // });
   };
 
-  const handleDeleteProperty = (property: (typeof initialProperties)[0]) => {
+  const handleDeleteProperty = (property: Property) => {
     // toast({
     //   title: "Delete Property",
     //   description: `Delete functionality for ${property.title}`,
@@ -110,13 +108,60 @@ export default function Page() {
   //   });
   // }, [searchQuery, filters]);
 
+  // Fetch properties on component mount
+  useEffect(() => {
+    const fetchProperties = async () => {
+      try {
+        setLoading(true);
+        setError(null);
+        const fetchedProperties = await getProperties();
+        setProperties(fetchedProperties);
+      } catch (err) {
+        console.error("Error fetching properties:", err);
+        setError("Failed to load properties. Please try again later.");
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchProperties();
+  }, []);
+
+  if (loading) {
+    return (
+      <div className="min-h-screen bg-background flex flex-col items-center justify-center">
+        <LoadingSpinner size="lg" />
+        <p className="mt-4 text-muted-foreground">Loading properties...</p>
+      </div>
+    );
+  }
+
+  if (error) {
+    return (
+      <div className="min-h-screen bg-background flex items-center justify-center">
+        <div className="text-center">
+          <h2 className="text-xl font-semibold text-foreground mb-2">
+            Error Loading Properties
+          </h2>
+          <p className="text-muted-foreground mb-4">{error}</p>
+          <button
+            onClick={() => window.location.reload()}
+            className="px-4 py-2 bg-primary text-primary-foreground rounded-md hover:bg-primary/90"
+          >
+            Try Again
+          </button>
+        </div>
+      </div>
+    );
+  }
+
   return (
     <div className="min-h-screen bg-gray-50">
       {/* Header */}
       <div className="bg-white shadow-sm border-b">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex items-center justify-between h-16">
-            <Button 
+            <Button
               onClick={() => router.push("/admin/properties/add")}
               className=""
             >
@@ -201,8 +246,7 @@ export default function Page() {
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
           {properties.map((property) => (
             <AdminPropertyCard
-              key={property.id}
-              {...property}
+              property={property}
               onEdit={() => handleEditProperty(property)}
               onView={() => handleViewProperty(property)}
               onDelete={() => handleDeleteProperty(property)}
@@ -219,13 +263,10 @@ export default function Page() {
             setIsEditDialogOpen(false);
             setEditingProperty(null);
           }}
-          property={editingProperty}
+          property={initialProperties[0]}
           onSave={handleSaveProperty}
         />
       )}
-
-
-      
     </div>
   );
 }
