@@ -12,7 +12,7 @@ import { blogService } from "@/services/blog-services";
 import { BlogPost } from "@/common/types";
 import { toast } from "sonner";
 
-const BlogForm = () => {
+const CreateBlogForm = () => {
   const { id } = useParams<{ id: string }>();
   const router = useRouter();
   const isEditing = Boolean(id);
@@ -108,7 +108,7 @@ const BlogForm = () => {
   }
 
   return (
-    <div className="w-full px-6 mx-auto">
+    <div className="w-full mx-auto">
       <div className="mb-6">
         <h1 className="text-3xl font-bold text-gray-900">
           {isEditing ? "Edit Blog Post" : "Create New Blog Post"}
@@ -239,4 +239,4 @@ const BlogForm = () => {
   );
 };
 
-export default BlogForm;
+export default CreateBlogForm;

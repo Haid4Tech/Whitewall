@@ -11,7 +11,7 @@ export default function DashboardLayout({
   return (
     <AppLayout>
       <DashboardLayoutWrapper>
-        <main className="min-h-screen bg-background">{children}</main>
+        <main className="min-h-screen bg-background px-4">{children}</main>
       </DashboardLayoutWrapper>
     </AppLayout>
   );
