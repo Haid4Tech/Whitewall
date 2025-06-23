@@ -10,6 +10,7 @@ const nextConfig: NextConfig = {
       "images.unsplash.com",
       "unsplash.com",
       "plus.unsplash.com",
+      "fra1.digitaloceanspaces.com",
     ].map((hostname) => ({
       protocol: "https",
       hostname,

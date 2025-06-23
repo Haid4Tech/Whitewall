@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useMemo } from "react";
+import { useRouter } from "next/navigation";
 import { PropertiesHero } from "@/components/properties/property-hero";
 import { SearchFilters } from "@/components/properties/search-filters";
 import { PropertyCard } from "@/components/properties/property-card";
@@ -18,6 +19,7 @@ import { initialProperties } from "@/common/properties";
 import { useMainContext } from "@/components/provider/main-provider";
 
 export default function Page() {
+  const router = useRouter();
   const [properties, setProperties] = useState(initialProperties);
   const [editingProperty, setEditingProperty] = useState<
     (typeof initialProperties)[0] | null
@@ -114,7 +116,10 @@ export default function Page() {
       <div className="bg-white shadow-sm border-b">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex items-center justify-between h-16">
-            <Button className="">
+            <Button 
+              onClick={() => router.push("/admin/properties/add")}
+              className=""
+            >
               <Plus className="h-4 w-4 mr-2" />
               Add Property
             </Button>
@@ -218,6 +223,9 @@ export default function Page() {
           onSave={handleSaveProperty}
         />
       )}
+
+
+      
     </div>
   );
 }

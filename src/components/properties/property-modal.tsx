@@ -35,7 +35,7 @@ export const PropertyModal = ({
             <Image
               width={200}
               height={200}
-              src={property.image}
+              src={property.images[0]}
               alt={property.title}
               className="w-full h-64 object-cover"
             />
