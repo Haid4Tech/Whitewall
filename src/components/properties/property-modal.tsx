@@ -1,5 +1,10 @@
-import { X, MapPin, Bed, Bath, Square, Calendar, Star } from "lucide-react";
-import { Dialog, DialogContent, DialogHeader } from "@/components/ui/dialog";
+import { MapPin, Bed, Bath, Square, Calendar, Star } from "lucide-react";
+import {
+  Dialog,
+  DialogTitle,
+  DialogContent,
+  DialogHeader,
+} from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Separator } from "@/components/ui/separator";
@@ -10,18 +15,21 @@ interface PropertyModalProps {
   property: Property | null;
   isOpen: boolean;
   onClose: () => void;
+  admin?: boolean;
 }
 
 export const PropertyModal = ({
   property,
   isOpen,
   onClose,
+  admin,
 }: PropertyModalProps) => {
   if (!property) return null;
 
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
-      <DialogContent className="max-w-4xl max-h-[90vh] overflow-y-auto">
+      <DialogTitle></DialogTitle>
+      <DialogContent className="max-w-4xl max-h-[90vh] overflow-y-auto scrollbar-width">
         <DialogHeader className="relative p-0">
           <div className="relative">
             <Image
@@ -29,16 +37,9 @@ export const PropertyModal = ({
               height={200}
               src={property.image}
               alt={property.title}
-              className="w-full h-64 object-cover rounded-t-lg"
+              className="w-full h-64 object-cover"
             />
-            <Button
-              variant="ghost"
-              size="icon"
-              onClick={onClose}
-              className="absolute top-4 right-4 bg-white/90 hover:bg-white"
-            >
-              <X className="h-4 w-4" />
-            </Button>
+
             {property.featured && (
               <Badge className="absolute top-4 left-4 bg-gradient-to-r from-blue-600 to-purple-600">
                 Featured Property
@@ -99,7 +100,7 @@ export const PropertyModal = ({
             </p>
           </div>
 
-          <div className="mb-6">
+          <div className="mb-6 w-full">
             <h3 className="text-lg font-semibold mb-3">Features & Amenities</h3>
             <div className="grid grid-cols-2 md:grid-cols-3 gap-2">
               {property.amenities.map((amenity, index) => (
@@ -115,15 +116,27 @@ export const PropertyModal = ({
 
           <Separator className="my-6" />
 
-          <div className="flex gap-4">
-            <Button className="flex-1 bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700">
-              <Calendar className="mr-2 h-4 w-4" />
-              Schedule Viewing
-            </Button>
-            <Button variant="outline" className="flex-1">
-              Contact Agent
-            </Button>
-          </div>
+          {admin ? (
+            <div className="flex gap-4">
+              <Button variant={"destructive"} className="flex-1">
+                <Calendar className="mr-2 h-4 w-4" />
+                Delete property
+              </Button>
+              <Button variant="outline" className="flex-1">
+                Edit property
+              </Button>
+            </div>
+          ) : (
+            <div className="flex gap-4">
+              <Button className="flex-1">
+                <Calendar className="mr-2 h-4 w-4" />
+                Schedule Viewing
+              </Button>
+              <Button variant="outline" className="flex-1">
+                Contact Agent
+              </Button>
+            </div>
+          )}
         </div>
       </DialogContent>
     </Dialog>

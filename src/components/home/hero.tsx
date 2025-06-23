@@ -12,8 +12,8 @@ const Hero = () => {
           {/* Left content */}
           <div className="space-y-8">
             <div className="space-y-6">
-              <h1 className="text-5xl lg:text-7xl font-bold text-primary-brown leading-tight">
-                Luxury house
+              <h1 className="text-5xl lg:text-7xl font-bold text-primary-gold leading-tight">
+                Luxury houses
                 <br />
                 <span className="text-gray-700">find yours today</span>
               </h1>

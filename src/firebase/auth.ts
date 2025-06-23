@@ -7,8 +7,9 @@ import { auth } from "../config/firebase";
  * @param password
  * @returns
  */
-export const Login = async (email: string, password: string) => {
+export const login = async (email: string, password: string) => {
   try {
+    console.log("start login");
     const response = await signInWithEmailAndPassword(auth, email, password);
     return response.user;
   } catch (error) {

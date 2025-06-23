@@ -36,7 +36,7 @@ export const PropertyCard = ({ property, onClick }: PropertyCardProps) => {
         </Button>
         {property.featured && (
           <div className="absolute bottom-3 left-3">
-            <Badge className="bg-primary-brown text-white">Featured</Badge>
+            <Badge className="bg-primary-gold text-white">Featured</Badge>
           </div>
         )}
       </div>
