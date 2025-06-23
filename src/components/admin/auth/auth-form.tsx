@@ -28,10 +28,6 @@ const AuthForm = ({ isLogin }: AuthFormProps) => {
     // Basic validation
     const newErrors: Record<string, string> = {};
 
-    if (!isLogin && !formData.name.trim()) {
-      newErrors.name = "Name is required";
-    }
-
     if (!formData.email.trim()) {
       newErrors.email = "Email is required";
     } else if (!/\S+@\S+\.\S+/.test(formData.email)) {
@@ -52,41 +48,13 @@ const AuthForm = ({ isLogin }: AuthFormProps) => {
 
     const email = formData?.email;
     const password = formData?.password;
-    const res = await login(email, password);
-
-    console.log("LOGIN ", res);
+    await login(email, password);
 
     setIsLoading(false);
   };
 
-  const handleChange = (field: string, value: string) => {
-    setFormData((prev) => ({ ...prev, [field]: value }));
-    if (errors[field]) {
-      setErrors((prev) => ({ ...prev, [field]: "" }));
-    }
-  };
-
   return (
     <form onSubmit={handleSubmit} className="space-y-6">
-      {!isLogin && (
-        <InputWithLabel
-          items={{
-            id: "name",
-            label: "Full Name",
-            placeholder: "Enter Full Name",
-            type: "text",
-            htmlfor: "name",
-          }}
-          value={formData.name}
-          onChange={(e) =>
-            setFormData((prev) => ({
-              ...prev,
-              name: e.target.value,
-            }))
-          }
-        />
-      )}
-
       <InputWithLabel
         items={{
           id: "email",
