@@ -7,6 +7,7 @@ export interface INavItems {
 }
 
 export interface Property {
+  id: string;
   title?: string;
   location?: string;
   price?: number;

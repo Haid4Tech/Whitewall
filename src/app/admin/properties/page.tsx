@@ -2,6 +2,7 @@
 
 import { useState, useMemo, useEffect } from "react";
 import { useRouter } from "next/navigation";
+import { useMainContext } from "@/components/provider/main-provider";
 import { PropertiesHero } from "@/components/properties/property-hero";
 import { SearchFilters } from "@/components/properties/search-filters";
 import { PropertyCard } from "@/components/properties/property-card";
@@ -15,7 +16,6 @@ import { Button } from "@/components/ui/button";
 
 import { initialProperties } from "@/common/properties";
 
-import { useMainContext } from "@/components/provider/main-provider";
 import { getProperties } from "@/firebase/properties";
 import LoadingSpinner from "@/components/ui/loading-spinner";
 
@@ -33,9 +33,7 @@ export default function Page() {
   const availableProperties = properties.filter(
     (p) => p.status === "Available"
   ).length;
-  const rentedProperties = properties.filter(
-    (p) => p.status === "Rented"
-  ).length;
+  const soldProperties = properties.filter((p) => p.status === "Sold").length;
 
   const handleEditProperty = (property: Property) => {
     setEditingProperty(property);
