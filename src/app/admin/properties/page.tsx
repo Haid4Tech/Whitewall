@@ -59,7 +59,7 @@ export default function Page() {
   };
 
   const handleViewProperty = (property: Property) => {
-    router.push(`/admin/properties/${property.id}`);
+    router.push(`/admin/properties/${property.slug}`);
   };
 
   const handleDeleteProperty = async (property: Property) => {
@@ -201,7 +201,10 @@ export default function Page() {
               Manage your properties, view details, and edit listings.
             </p>
           </div>
-          <Button className="">
+          <Button
+            className=""
+            onClick={() => router.push(`/admin/properties/add`)}
+          >
             <Plus className="h-4 w-4 mr-2" />
             Add Property
           </Button>

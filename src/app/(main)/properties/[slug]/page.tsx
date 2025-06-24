@@ -1,20 +1,22 @@
 import { Property } from "@/common/types";
-import { getPropertyById } from "@/firebase/properties";
+import { getPropertyBySlug } from "@/firebase/properties";
 import { getAbsoluteUrl } from "@/lib/utils";
 import { Metadata } from "next";
 import PropertyDetailPage from "./property-page-client";
 
 interface Props {
   params: {
-    id: string;
+    slug: string;
   };
 }
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const param = await params;
-  const id = param.id;
+  const slug = param.slug;
 
-  const listing = await getPropertyById(id);
+  const listing = await getPropertyBySlug(slug);
+
+  console.log(listing);
 
   if (!listing) {
     return {
@@ -23,7 +25,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   }
 
   const imageUrl = `${listing.images[0]}?auto=format&fit=crop&w=1200&h=630`;
-  const currentUrl = getAbsoluteUrl(`/properties/${listing.id}`);
+  const currentUrl = getAbsoluteUrl(`/properties/${listing.slug}`);
 
   return {
     title: listing.title,
@@ -55,11 +57,11 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     },
   };
 }
-export default async function Page({ params }: { params: { id: string } }) {
+export default async function Page({ params }: { params: { slug: string } }) {
   const param = await params;
-  const id = param.id;
+  const slug = param.slug;
 
-  const propertyData = await getPropertyById(id);
+  const propertyData = await getPropertyBySlug(slug);
   const plainListing = JSON.parse(JSON.stringify(propertyData));
 
   return <PropertyDetailPage property={plainListing} />;

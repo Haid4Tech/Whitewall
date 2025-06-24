@@ -60,7 +60,7 @@ export const AdminPropertyCard = ({
     if (onView) {
       onView();
     } else {
-      router.push(`/admin/properties/${property.id}`);
+      router.push(`/admin/properties/${property.slug}`);
     }
   };
 
@@ -75,7 +75,7 @@ export const AdminPropertyCard = ({
           </div>
         </div>
       )}
-      
+
       <div className="relative">
         <div className="aspect-[4/3] overflow-hidden">
           <img

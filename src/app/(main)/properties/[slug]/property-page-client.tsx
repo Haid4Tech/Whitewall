@@ -34,8 +34,6 @@ import { FaDog, FaSwimmingPool, FaWhatsapp } from "react-icons/fa";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Property } from "@/common/types";
-import { getPropertyById } from "@/firebase/properties";
-import LoadingSpinner from "@/components/ui/loading-spinner";
 import Image from "next/image";
 import { Separator } from "@/components/ui/separator";
 
@@ -54,27 +52,6 @@ export default function PropertyDetailPage({
   const [isFavorite, setIsFavorite] = useState(false);
   const [isSharing, setIsSharing] = useState(false);
   const [showShareOptions, setShowShareOptions] = useState(false);
-  /* 
-  useEffect(() => {
-     const fetchProperty = async () => {
-      if (!params.id) return;
-      try {
-        setLoading(true);
-        setError(null);
-        const propertyData = await getPropertyById(params.id as string);
-        if (propertyData) {
-          setProperty(propertyData);
-        } else {
-          setError("Property not found");
-        }
-      } catch (err) {
-        setError("Failed to load property details. Please try again later.");
-      } finally {
-        setLoading(false);
-      }
-    };
-    fetchProperty(); 
-  }, [params.id]); */
 
   const nextImage = () => {
     if (!property) return;
@@ -439,7 +416,7 @@ export default function PropertyDetailPage({
                     key={index}
                     className="flex items-center p-4 bg-slate-50 rounded-xl hover:bg-slate-100 transition-colors"
                   >
-                    <div className="w-10 h-10 bg-blue-100 rounded-lg flex items-center justify-center mr-4">
+                    <div className="w-10 h-10 bg-blue-100 rounded-lg flex items-center justify-center mr-4 text-blue-600">
                       {amenityIcons[amenity] || (
                         <Home className="w-5 h-5 text-blue-600" />
                       )}

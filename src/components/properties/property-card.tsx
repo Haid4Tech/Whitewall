@@ -12,7 +12,7 @@ interface PropertyCardProps {
 
 export const PropertyCard = ({ property }: PropertyCardProps) => {
   return (
-    <Link href={`/properties/${property.id}`} passHref legacyBehavior>
+    <Link href={`/properties/${property.slug}`} passHref legacyBehavior>
       <a className="block">
         <Card className="group cursor-pointer overflow-hidden hover-scale transition-all duration-300 hover:shadow-2xl animate-fade-in">
           <div className="relative overflow-hidden">

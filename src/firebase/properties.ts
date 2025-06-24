@@ -14,6 +14,7 @@ import {
 } from "firebase/firestore";
 import { Property } from "../common/types";
 import { db } from "../config/firebase";
+import { generateSlug, generateUniqueSlug } from "../lib/utils";
 
 /**
  * Fetches all properties from Firestore.
@@ -90,6 +91,56 @@ export const getFeaturedProperties = async (
 };
 
 /**
+ * Fetches a single property by slug from Firestore.
+ * @param slug - The property slug.
+ * @returns The property document or null if not found.
+ */
+export const getPropertyBySlug = async (
+  slug: string
+): Promise<Property | null> => {
+  try {
+    const q = query(collection(db, "properties"), where("slug", "==", slug));
+    const querySnapshot = await getDocs(q);
+
+    if (!querySnapshot.empty) {
+      const doc = querySnapshot.docs[0];
+      return {
+        id: doc.id,
+        ...doc.data(),
+      } as Property;
+    } else {
+      return null;
+    }
+  } catch (error) {
+    console.error("Error fetching property by slug:", error);
+    return null;
+  }
+};
+
+/**
+ * Gets all existing slugs from the properties collection.
+ * @returns Array of existing slugs.
+ */
+export const getExistingSlugs = async (): Promise<string[]> => {
+  try {
+    const querySnapshot = await getDocs(collection(db, "properties"));
+    const slugs: string[] = [];
+
+    querySnapshot.docs.forEach((doc) => {
+      const data = doc.data();
+      if (data.slug) {
+        slugs.push(data.slug);
+      }
+    });
+
+    return slugs;
+  } catch (error) {
+    console.error("Error fetching existing slugs:", error);
+    return [];
+  }
+};
+
+/**
  * Adds a new property to the Firestore "properties" collection.
  * @param propertyData - An object containing the property data.
  * @returns The newly created document ID or null if the operation fails.
@@ -98,8 +149,14 @@ export const createProperty = async (
   propertyData: Omit<Property, "id">
 ): Promise<string | null> => {
   try {
+    // Generate slug from title
+    const baseSlug = generateSlug(propertyData.title);
+    const existingSlugs = await getExistingSlugs();
+    const uniqueSlug = generateUniqueSlug(baseSlug, existingSlugs);
+
     const docRef = await addDoc(collection(db, "properties"), {
       ...propertyData,
+      slug: uniqueSlug,
       createdAt: Timestamp.now(),
       updatedAt: Timestamp.now(),
     });
@@ -124,10 +181,25 @@ export const updateProperty = async (
 ): Promise<boolean> => {
   try {
     const docRef = doc(db, "properties", id);
-    await updateDoc(docRef, {
-      ...propertyData,
-      updatedAt: Timestamp.now(),
-    });
+
+    // If title is being updated, regenerate the slug
+    let updatedData = { ...propertyData, updatedAt: Timestamp.now() };
+
+    if (propertyData.title) {
+      const baseSlug = generateSlug(propertyData.title);
+      const existingSlugs = await getExistingSlugs();
+
+      // Get current property to exclude its own slug from uniqueness check
+      const currentProperty = await getPropertyById(id);
+      const otherSlugs = existingSlugs.filter(
+        (slug) => slug !== currentProperty?.slug
+      );
+
+      const uniqueSlug = generateUniqueSlug(baseSlug, otherSlugs);
+      updatedData.slug = uniqueSlug;
+    }
+
+    await updateDoc(docRef, updatedData);
 
     console.log("Property updated successfully");
     return true;

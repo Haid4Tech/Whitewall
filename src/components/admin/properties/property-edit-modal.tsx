@@ -16,7 +16,8 @@ import { ErrorToast } from "@/components/ui/error-toast";
 import { updateProperty } from "@/firebase/properties";
 import { uploadImagesToSpaces, deleteImageFromSpaces } from "@/lib/spaces-upload";
 import DropdownSelect from "@/components/general/select-comp";
-import { Upload, X, Plus, Loader2, Trash2 } from "lucide-react";
+import { Upload, X, Plus, Loader2, Trash2, Link } from "lucide-react";
+import { generateSlug } from "@/lib/utils";
 
 // Constants
 const ABUJA_LOCATIONS = [
@@ -72,6 +73,7 @@ interface PropertyEditDialogProps {
     featured: boolean;
     description: string;
     amenities: string[];
+    slug?: string;
   };
   onSave: (updatedProperty: any) => void;
 }
@@ -96,6 +98,8 @@ export const PropertyEditDialog = ({
     amenities: property.amenities || [],
   });
 
+  const [currentSlug, setCurrentSlug] = useState(property.slug || "");
+  const [previewSlug, setPreviewSlug] = useState("");
   const [existingImages, setExistingImages] = useState<string[]>(property.images || []);
   const [newImages, setNewImages] = useState<File[]>([]);
   const [newImageUrls, setNewImageUrls] = useState<string[]>([]);
@@ -123,10 +127,21 @@ export const PropertyEditDialog = ({
       description: property.description,
       amenities: property.amenities || [],
     });
+    setCurrentSlug(property.slug || "");
+    setPreviewSlug("");
     setExistingImages(property.images || []);
     setNewImages([]);
     setNewImageUrls([]);
   }, [property]);
+
+  // Update preview slug when title changes
+  useEffect(() => {
+    if (formData.title) {
+      setPreviewSlug(generateSlug(formData.title));
+    } else {
+      setPreviewSlug("");
+    }
+  }, [formData.title]);
 
   const handleImageUpload = useCallback(
     (files: FileList | null) => {
@@ -409,6 +424,28 @@ export const PropertyEditDialog = ({
                     placeholder="e.g., Modern 3-Bedroom Villa"
                     required
                   />
+                </div>
+
+                {/* Slug Preview */}
+                <div className="flex flex-col gap-3">
+                  <Label className="flex items-center gap-2">
+                    <Link className="h-4 w-4" />
+                    URL Slug
+                  </Label>
+                  <div className="flex items-center gap-2">
+                    <span className="text-sm text-gray-500">/properties/</span>
+                    <Input
+                      value={previewSlug || currentSlug}
+                      readOnly
+                      className="flex-1 bg-gray-50"
+                      placeholder="slug-will-be-generated"
+                    />
+                  </div>
+                  {previewSlug && previewSlug !== currentSlug && (
+                    <p className="text-xs text-blue-600">
+                      Slug will be updated when you save
+                    </p>
+                  )}
                 </div>
 
                 <DropdownSelect

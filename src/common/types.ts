@@ -9,6 +9,7 @@ export interface INavItems {
 export interface Property {
   id: string;
   title: string;
+  slug?: string;
   location: string;
   price: number;
   currency?: "USD" | "EUR" | "GBP" | "NGR";

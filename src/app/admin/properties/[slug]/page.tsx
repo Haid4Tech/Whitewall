@@ -2,13 +2,24 @@
 
 import { useState, useEffect } from "react";
 import { useParams, useRouter } from "next/navigation";
-import { ArrowLeft, Edit, Trash2, Eye, MapPin, Bed, Bath, Square, Star, Building } from "lucide-react";
+import {
+  ArrowLeft,
+  Edit,
+  Trash2,
+  Eye,
+  MapPin,
+  Bed,
+  Bath,
+  Square,
+  Star,
+  Building,
+} from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { PropertyEditDialog } from "@/components/admin/properties/property-edit-modal";
 import { ConfirmDialog } from "@/components/ui/confirm-dialog";
-import { getPropertyById, deleteProperty } from "@/firebase/properties";
+import { getPropertyBySlug, deleteProperty } from "@/firebase/properties";
 import { Property } from "@/common/types";
 import LoadingSpinner from "@/components/ui/loading-spinner";
 import { SuccessToast } from "@/components/ui/success-toast";
@@ -17,7 +28,7 @@ import { ErrorToast } from "@/components/ui/error-toast";
 export default function PropertyDetailPage() {
   const params = useParams();
   const router = useRouter();
-  const propertyId = params.id as string;
+  const propertySlug = params.slug as string;
 
   const [property, setProperty] = useState<Property | null>(null);
   const [loading, setLoading] = useState(true);
@@ -36,8 +47,8 @@ export default function PropertyDetailPage() {
       try {
         setLoading(true);
         setError(null);
-        const fetchedProperty = await getPropertyById(propertyId);
-        
+        const fetchedProperty = await getPropertyBySlug(propertySlug);
+
         if (fetchedProperty) {
           setProperty(fetchedProperty);
         } else {
@@ -51,10 +62,10 @@ export default function PropertyDetailPage() {
       }
     };
 
-    if (propertyId) {
+    if (propertySlug) {
       fetchProperty();
     }
-  }, [propertyId]);
+  }, [propertySlug]);
 
   const handleEditProperty = () => {
     setIsEditDialogOpen(true);
@@ -117,9 +128,9 @@ export default function PropertyDetailPage() {
 
   const formatDate = (date: string | Date | any) => {
     if (!date) return "N/A";
-    
+
     let dateObj: Date;
-    
+
     if (typeof date === "string") {
       dateObj = new Date(date);
     } else if (date && typeof date === "object" && date.toDate) {
@@ -130,7 +141,7 @@ export default function PropertyDetailPage() {
     } else {
       dateObj = new Date();
     }
-    
+
     return dateObj.toLocaleDateString("en-US", {
       year: "numeric",
       month: "long",
@@ -248,11 +259,13 @@ export default function PropertyDetailPage() {
                     <div className="relative aspect-video bg-gray-100 rounded-lg overflow-hidden">
                       <img
                         src={property.images[currentImageIndex]}
-                        alt={`${property.title} - Image ${currentImageIndex + 1}`}
+                        alt={`${property.title} - Image ${
+                          currentImageIndex + 1
+                        }`}
                         className="w-full h-full object-cover"
                       />
                     </div>
-                    
+
                     {/* Thumbnail Navigation */}
                     {property.images.length > 1 && (
                       <div className="grid grid-cols-6 gap-2">
@@ -283,7 +296,9 @@ export default function PropertyDetailPage() {
             {/* Property Details */}
             <Card>
               <CardHeader>
-                <CardTitle className="text-xl font-semibold">Property Details</CardTitle>
+                <CardTitle className="text-xl font-semibold">
+                  Property Details
+                </CardTitle>
               </CardHeader>
               <CardContent>
                 <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
@@ -296,7 +311,7 @@ export default function PropertyDetailPage() {
                       <p className="font-semibold">{property.bedrooms}</p>
                     </div>
                   </div>
-                  
+
                   <div className="flex items-center gap-3">
                     <div className="p-2 bg-green-100 rounded-lg">
                       <Bath className="h-5 w-5 text-green-600" />
@@ -306,24 +321,28 @@ export default function PropertyDetailPage() {
                       <p className="font-semibold">{property.bathrooms}</p>
                     </div>
                   </div>
-                  
+
                   <div className="flex items-center gap-3">
                     <div className="p-2 bg-purple-100 rounded-lg">
                       <Square className="h-5 w-5 text-purple-600" />
                     </div>
                     <div>
                       <p className="text-sm text-gray-600">Square Feet</p>
-                      <p className="font-semibold">{property.sqft.toLocaleString()}</p>
+                      <p className="font-semibold">
+                        {property.sqft.toLocaleString()}
+                      </p>
                     </div>
                   </div>
-                  
+
                   <div className="flex items-center gap-3">
                     <div className="p-2 bg-orange-100 rounded-lg">
                       <Building className="h-5 w-5 text-orange-600" />
                     </div>
                     <div>
                       <p className="text-sm text-gray-600">Type</p>
-                      <p className="font-semibold capitalize">{property.type}</p>
+                      <p className="font-semibold capitalize">
+                        {property.type}
+                      </p>
                     </div>
                   </div>
                 </div>
@@ -333,7 +352,9 @@ export default function PropertyDetailPage() {
             {/* Description */}
             <Card>
               <CardHeader>
-                <CardTitle className="text-xl font-semibold">Description</CardTitle>
+                <CardTitle className="text-xl font-semibold">
+                  Description
+                </CardTitle>
               </CardHeader>
               <CardContent>
                 <p className="text-gray-700 leading-relaxed">
@@ -346,7 +367,9 @@ export default function PropertyDetailPage() {
             {property.amenities && property.amenities.length > 0 && (
               <Card>
                 <CardHeader>
-                  <CardTitle className="text-xl font-semibold">Amenities & Features</CardTitle>
+                  <CardTitle className="text-xl font-semibold">
+                    Amenities & Features
+                  </CardTitle>
                 </CardHeader>
                 <CardContent>
                   <div className="flex flex-wrap gap-2">
@@ -366,7 +389,9 @@ export default function PropertyDetailPage() {
             {/* Property Status */}
             <Card>
               <CardHeader>
-                <CardTitle className="text-lg font-semibold">Property Status</CardTitle>
+                <CardTitle className="text-lg font-semibold">
+                  Property Status
+                </CardTitle>
               </CardHeader>
               <CardContent>
                 <div className="space-y-4">
@@ -395,7 +420,9 @@ export default function PropertyDetailPage() {
             {/* Property Information */}
             <Card>
               <CardHeader>
-                <CardTitle className="text-lg font-semibold">Property Information</CardTitle>
+                <CardTitle className="text-lg font-semibold">
+                  Property Information
+                </CardTitle>
               </CardHeader>
               <CardContent>
                 <div className="space-y-4">
@@ -422,7 +449,9 @@ export default function PropertyDetailPage() {
             {/* Quick Actions */}
             <Card>
               <CardHeader>
-                <CardTitle className="text-lg font-semibold">Quick Actions</CardTitle>
+                <CardTitle className="text-lg font-semibold">
+                  Quick Actions
+                </CardTitle>
               </CardHeader>
               <CardContent>
                 <div className="space-y-3">
@@ -435,7 +464,7 @@ export default function PropertyDetailPage() {
                   </Button>
                   <Button
                     variant="outline"
-                    onClick={() => router.push(`/properties/${property.id}`)}
+                    onClick={() => router.push(`/properties/${property.slug}`)}
                     className="w-full flex items-center gap-2"
                   >
                     <Eye className="h-4 w-4" />
@@ -486,7 +515,11 @@ export default function PropertyDetailPage() {
         onClose={cancelDelete}
         onConfirm={confirmDelete}
         title="Delete Property"
-        description={property ? `Are you sure you want to delete "${property.title}"? This action cannot be undone and will permanently remove the property from the system.` : ""}
+        description={
+          property
+            ? `Are you sure you want to delete "${property.title}"? This action cannot be undone and will permanently remove the property from the system.`
+            : ""
+        }
         confirmText="Delete Property"
         cancelText="Cancel"
         variant="danger"
@@ -494,4 +527,4 @@ export default function PropertyDetailPage() {
       />
     </div>
   );
-} 
+}
