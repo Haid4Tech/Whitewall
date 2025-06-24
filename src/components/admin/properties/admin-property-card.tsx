@@ -7,10 +7,12 @@ import {
   DollarSign,
   Edit,
   Eye,
+  Loader2,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent } from "@/components/ui/card";
+import { useRouter } from "next/navigation";
 
 import PropertiesDropDown from "./properties-dropdown";
 import { Property } from "@/common/types";
@@ -21,6 +23,7 @@ interface PropertyCardProps {
   onEdit?: () => void;
   onView?: () => void;
   onDelete?: () => void;
+  isDeleting?: boolean;
 }
 
 export const AdminPropertyCard = ({
@@ -28,7 +31,10 @@ export const AdminPropertyCard = ({
   onEdit,
   onView,
   onDelete,
+  isDeleting = false,
 }: PropertyCardProps) => {
+  const router = useRouter();
+
   const formatPrice = (amount: number) => {
     return new Intl.NumberFormat("en-US", {
       style: "currency",
@@ -38,7 +44,7 @@ export const AdminPropertyCard = ({
   };
 
   const getStatusColor = (status: string) => {
-    switch (status) {
+    switch (status?.toLowerCase()) {
       case "available":
         return "bg-green-100 text-green-800 hover:bg-green-200";
       case "rented":
@@ -50,8 +56,26 @@ export const AdminPropertyCard = ({
     }
   };
 
+  const handleView = () => {
+    if (onView) {
+      onView();
+    } else {
+      router.push(`/admin/properties/${property.id}`);
+    }
+  };
+
   return (
-    <Card className="group overflow-hidden hover:shadow-lg transition-all duration-300 bg-white">
+    <Card className="group overflow-hidden hover:shadow-lg transition-all duration-300 bg-white relative">
+      {/* Loading Overlay */}
+      {isDeleting && (
+        <div className="absolute inset-0 bg-white/80 backdrop-blur-sm z-10 flex items-center justify-center">
+          <div className="flex items-center gap-2 text-gray-600">
+            <Loader2 className="h-5 w-5 animate-spin" />
+            <span className="text-sm font-medium">Deleting...</span>
+          </div>
+        </div>
+      )}
+      
       <div className="relative">
         <div className="aspect-[4/3] overflow-hidden">
           <img
@@ -64,18 +88,19 @@ export const AdminPropertyCard = ({
         {/* Status Badge */}
         <Badge
           className={`absolute top-3 left-3 capitalize font-medium ${getStatusColor(
-            status
+            property.status || "available"
           )}`}
         >
-          {status}
+          {property.status || "Available"}
         </Badge>
 
         {/* Actions Dropdown */}
         <div className="absolute top-3 right-3">
           <PropertiesDropDown
             onEdit={onEdit}
-            onView={onView}
+            onView={handleView}
             onDelete={onDelete}
+            isDeleting={isDeleting}
           />
         </div>
 
@@ -132,7 +157,7 @@ export const AdminPropertyCard = ({
               variant="outline"
               size="sm"
               className="flex-1"
-              onClick={onView}
+              onClick={handleView}
             >
               <Eye className="h-4 w-4 mr-2" />
               View

@@ -12,12 +12,14 @@ interface PropertiesDropDown {
   onEdit?: () => void;
   onView?: () => void;
   onDelete?: () => void;
+  isDeleting?: boolean;
 }
 
 const PropertiesDropDown: FC<PropertiesDropDown> = ({
   onEdit,
   onView,
   onDelete,
+  isDeleting = false,
 }) => {
   return (
     <DropdownMenu>
@@ -40,11 +42,12 @@ const PropertiesDropDown: FC<PropertiesDropDown> = ({
           Edit Property
         </DropdownMenuItem>
         <DropdownMenuItem
-          className="cursor-pointer text-red-600"
-          onClick={onDelete}
+          className={`cursor-pointer ${isDeleting ? 'text-gray-400 cursor-not-allowed' : 'text-red-600'}`}
+          onClick={isDeleting ? undefined : onDelete}
+          disabled={isDeleting}
         >
           <Trash2 className="mr-2 h-4 w-4" />
-          Delete
+          {isDeleting ? 'Deleting...' : 'Delete'}
         </DropdownMenuItem>
       </DropdownMenuContent>
     </DropdownMenu>
