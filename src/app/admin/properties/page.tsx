@@ -41,7 +41,6 @@ export default function Page() {
     (p) => p.status === "Available"
   ).length;
   const soldProperties = properties.filter((p) => p.status === "Sold").length;
-  const soldProperties = properties.filter((p) => p.status === "Sold").length;
 
   const handleEditProperty = (property: Property) => {
     setEditingProperty(property);
