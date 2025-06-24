@@ -6,16 +6,13 @@ import type { NextConfig } from "next";
 const nextConfig: NextConfig = {
   /* config options here */
   images: {
-    remotePatterns: [
-      "images.unsplash.com",
-      "unsplash.com",
-      "plus.unsplash.com",
-      "fra1.digitaloceanspaces.com",
-    ].map((hostname) => ({
-      protocol: "https",
-      hostname,
-      port: "",
-    })),
+    remotePatterns: ["images.unsplash.com", "fra1.digitaloceanspaces.com"].map(
+      (hostname) => ({
+        protocol: "https",
+        hostname,
+        port: "",
+      })
+    ),
   },
 };
 
