@@ -11,13 +11,14 @@ export interface Property {
   title: string;
   location: string;
   price: number;
+  currency?: "USD" | "EUR" | "GBP" | "NGR";
   priceType: string;
   bedrooms: number;
   bathrooms: number;
   sqft: number;
   type: string;
   images: string[];
-  status?: string;
+  status?: "Available" | "Sold";
   featured: boolean;
   description: string;
   amenities: string[];

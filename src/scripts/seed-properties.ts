@@ -5,7 +5,7 @@ import { properties } from "../common/data";
  * Script to seed the Firebase Firestore database with properties data
  * Run this script once to populate your database with the existing properties
  */
-export const seedProperties = async () => {
+/* export const seedProperties = async () => {
   console.log("Starting to seed properties...");
   
   try {
@@ -24,7 +24,7 @@ export const seedProperties = async () => {
   } catch (error) {
     console.error("Error seeding properties:", error);
   }
-};
+}; */
 
 // Uncomment the line below to run the seeding script
-// seedProperties(); 
+// seedProperties();

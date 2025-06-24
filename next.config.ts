@@ -11,11 +11,13 @@ const nextConfig: NextConfig = {
       "unsplash.com",
       "plus.unsplash.com",
       "fra1.digitaloceanspaces.com",
-    ].map((hostname) => ({
-      protocol: "https",
-      hostname,
-      port: "",
-    })),
+    , "fra1.digitaloceanspaces.com"].map(
+      (hostname) => ({
+        protocol: "https",
+        hostname,
+        port: "",
+      })
+    ),
   },
 };
 
