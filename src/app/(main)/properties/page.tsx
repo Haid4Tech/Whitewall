@@ -1,17 +1,19 @@
 "use client";
 
-import { useState, useMemo } from "react";
+import { useState, useMemo, useEffect } from "react";
 import { PropertiesHero } from "@/components/properties/property-hero";
 import { SearchFilters } from "@/components/properties/search-filters";
 import { PropertyCard } from "@/components/properties/property-card";
 import { PropertyModal } from "@/components/properties/property-modal";
 import { Property } from "@/common/types";
-import { properties } from "@/common/data";
+import { getProperties } from "@/firebase/properties";
+
+type PropertyWithId = Property & { id: string };
 
 export default function Page() {
-  const [selectedProperty, setSelectedProperty] = useState<Property | null>(
-    null
-  );
+  const [properties, setProperties] = useState<PropertyWithId[]>([]);
+  const [selectedProperty, setSelectedProperty] =
+    useState<PropertyWithId | null>(null);
   const [searchQuery, setSearchQuery] = useState("");
   const [filters, setFilters] = useState({
     minPrice: 0,
@@ -21,23 +23,33 @@ export default function Page() {
     location: "",
   });
 
+  useEffect(() => {
+    const getPropertiesData = async () => {
+      const response = await getProperties();
+      setProperties(response);
+    };
+
+    getPropertiesData();
+  }, []);
+
   const filteredProperties = useMemo(() => {
     return properties.filter((property) => {
       const matchesSearch =
-        property.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
-        property.location.toLowerCase().includes(searchQuery.toLowerCase());
+        property?.title?.toLowerCase().includes(searchQuery.toLowerCase()) ||
+        property?.location?.toLowerCase().includes(searchQuery.toLowerCase());
       const matchesPrice =
-        property.price >= filters.minPrice &&
-        property.price <= filters.maxPrice;
+        property?.price &&
+        property?.price >= filters.minPrice &&
+        property?.price <= filters.maxPrice;
       const matchesBedrooms =
-        filters.bedrooms === 0 || property.bedrooms >= filters.bedrooms;
+        filters.bedrooms === 0 || (property?.bedrooms ?? 0) >= filters.bedrooms;
       const matchesType =
         filters.propertyType === "all" ||
         property.type === filters.propertyType;
       const matchesLocation =
         !filters.location ||
-        property.location
-          .toLowerCase()
+        property?.location
+          ?.toLowerCase()
           .includes(filters.location.toLowerCase());
 
       return (

@@ -1,0 +1,21 @@
+import { Property } from "./types";
+
+export const initialProperties: Property = {
+  title: "",
+  location: "",
+  price: 0,
+  currency: "NGR",
+  priceType: "",
+  bedrooms: 0,
+  bathrooms: 0,
+  sqft: 0,
+  type: "",
+  images: [],
+  featured: false,
+  description: "",
+  amenities: [],
+  status: "Available",
+  liked: false,
+  updatedAt: undefined,
+  createdAt: undefined,
+};

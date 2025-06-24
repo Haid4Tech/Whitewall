@@ -6,7 +6,6 @@ import { SearchFilters } from "@/components/properties/search-filters";
 import { PropertyCard } from "@/components/properties/property-card";
 import { PropertyModal } from "@/components/properties/property-modal";
 import { Property } from "@/common/types";
-import { properties } from "@/common/data";
 
 import { AdminPropertyCard } from "@/components/admin/properties/admin-property-card";
 import { PropertyEditDialog } from "@/components/admin/properties/property-edit-modal";
@@ -113,9 +112,12 @@ export default function Page() {
       {/* Header */}
       <div>
         <div className="flex flex-row items-center justify-between">
-          <h2 className="text-2xl font-semibold text-gray-900 mb-4">
-            Properties
-          </h2>
+          <div>
+            <h2 className="text-3xl font-bold text-foreground">Properties</h2>
+            <p className="text-muted-foreground">
+              Manage your properties, view details, and edit listings.
+            </p>
+          </div>
           <Button className="">
             <Plus className="h-4 w-4 mr-2" />
             Add Property

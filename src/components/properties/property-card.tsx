@@ -17,8 +17,8 @@ export const PropertyCard = ({ property, onClick }: PropertyCardProps) => {
         <Image
           width={200}
           height={200}
-          src={property.image}
-          alt={property.title}
+          src={property.images?.[0] ?? ""}
+          alt={property?.title ?? "Property Image"}
           className="w-full h-48 object-cover transition-transform duration-300 group-hover:scale-110"
           onClick={onClick}
         />
@@ -54,7 +54,7 @@ export const PropertyCard = ({ property, onClick }: PropertyCardProps) => {
 
         <div className="flex items-center justify-between mb-3">
           <div className="text-2xl font-bold text-primary">
-            ${property.price.toLocaleString()}
+            ${property?.price?.toLocaleString() ?? 0}
           </div>
           <div className="text-sm text-muted-foreground">
             {property.priceType}
