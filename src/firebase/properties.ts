@@ -64,7 +64,9 @@ export const getPropertyById = async (id: string): Promise<Property | null> => {
  * @param limitCount - Maximum number of featured properties to return.
  * @returns An array of featured property documents.
  */
-export const getFeaturedProperties = async (limitCount: number = 6): Promise<Property[]> => {
+export const getFeaturedProperties = async (
+  limitCount: number = 6
+): Promise<Property[]> => {
   try {
     const q = query(
       collection(db, "properties"),
@@ -92,7 +94,9 @@ export const getFeaturedProperties = async (limitCount: number = 6): Promise<Pro
  * @param propertyData - An object containing the property data.
  * @returns The newly created document ID or null if the operation fails.
  */
-export const createProperty = async (propertyData: Omit<Property, "id">): Promise<string | null> => {
+export const createProperty = async (
+  propertyData: Omit<Property, "id">
+): Promise<string | null> => {
   try {
     const docRef = await addDoc(collection(db, "properties"), {
       ...propertyData,
@@ -192,15 +196,15 @@ export const searchProperties = async (filters: {
       const searchLower = filters.searchQuery.toLowerCase();
       properties = properties.filter(
         (property) =>
-          property.title.toLowerCase().includes(searchLower) ||
-          property.location.toLowerCase().includes(searchLower)
+          property?.title?.toLowerCase().includes(searchLower) ||
+          property?.location?.toLowerCase().includes(searchLower)
       );
     }
 
     if (filters.location) {
       const locationLower = filters.location.toLowerCase();
       properties = properties.filter((property) =>
-        property.location.toLowerCase().includes(locationLower)
+        property?.location?.toLowerCase().includes(locationLower)
       );
     }
 
@@ -209,4 +213,4 @@ export const searchProperties = async (filters: {
     console.error("Error searching properties:", error);
     return [];
   }
-}; 
+};

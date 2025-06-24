@@ -80,28 +80,26 @@ export default function Page() {
       const matchesSearch =
         property?.title?.toLowerCase().includes(searchQuery.toLowerCase()) ||
         property?.location?.toLowerCase().includes(searchQuery.toLowerCase());
-        property?.title?.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      property?.title?.toLowerCase().includes(searchQuery.toLowerCase()) ||
         property?.location?.toLowerCase().includes(searchQuery.toLowerCase());
       const matchesPrice =
         property?.price &&
         property?.price >= filters.minPrice &&
         property?.price <= filters.maxPrice;
-        property?.price &&
+      property?.price &&
         property?.price >= filters.minPrice &&
         property?.price <= filters.maxPrice;
       const matchesBedrooms =
         filters.bedrooms === 0 || (property?.bedrooms ?? 0) >= filters.bedrooms;
-        filters.bedrooms === 0 || (property?.bedrooms ?? 0) >= filters.bedrooms;
+      filters.bedrooms === 0 || (property?.bedrooms ?? 0) >= filters.bedrooms;
       const matchesType =
         filters.propertyType === "all" ||
         property.type === filters.propertyType;
       const matchesLocation =
-        !filters.location ||
-        property?.location
-          ?.toLowerCase()
-        property?.location
-          ?.toLowerCase()
-          .includes(filters.location.toLowerCase());
+        !filters.location || property?.location?.toLowerCase();
+      property?.location
+        ?.toLowerCase()
+        .includes(filters.location.toLowerCase());
 
       return (
         matchesSearch &&

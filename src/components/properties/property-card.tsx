@@ -58,7 +58,7 @@ export const PropertyCard = ({ property }: PropertyCardProps) => {
 
             <div className="flex items-center justify-between mb-3">
               <div className="text-2xl font-bold text-primary">
-                ${property.price.toLocaleString()}
+                ${property?.price?.toLocaleString() ?? 0}
               </div>
               <div className="text-sm text-muted-foreground">
                 {property.priceType}

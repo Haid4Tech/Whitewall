@@ -53,6 +53,7 @@ export interface IFieldItems {
   placeholder?: string;
   compulsory?: boolean;
   row?: number;
+  row?: number;
 }
 
 export interface User {

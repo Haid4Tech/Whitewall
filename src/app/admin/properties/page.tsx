@@ -41,6 +41,7 @@ export default function Page() {
     (p) => p.status === "Available"
   ).length;
   const soldProperties = properties.filter((p) => p.status === "Sold").length;
+  const soldProperties = properties.filter((p) => p.status === "Sold").length;
 
   const handleEditProperty = (property: Property) => {
     setEditingProperty(property);
@@ -193,17 +194,18 @@ export default function Page() {
   return (
     <div className="min-h-screen bg-gray-50">
       {/* Header */}
-      <div className="bg-white shadow-sm border-b">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex items-center justify-between h-16">
-            <Button
-              onClick={() => router.push("/admin/properties/add")}
-              className=""
-            >
-              <Plus className="h-4 w-4 mr-2" />
-              Add Property
-            </Button>
+      <div>
+        <div className="flex flex-row items-center justify-between">
+          <div>
+            <h2 className="text-3xl font-bold text-foreground">Properties</h2>
+            <p className="text-muted-foreground">
+              Manage your properties, view details, and edit listings.
+            </p>
           </div>
+          <Button className="">
+            <Plus className="h-4 w-4 mr-2" />
+            Add Property
+          </Button>
         </div>
       </div>
 
