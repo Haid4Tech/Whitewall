@@ -1,22 +1,18 @@
 "use client";
 
-import { useState, useMemo, useEffect } from "react";
+import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
-import { useMainContext } from "@/components/provider/main-provider";
-import { PropertiesHero } from "@/components/properties/property-hero";
-import { SearchFilters } from "@/components/properties/search-filters";
-import { PropertyCard } from "@/components/properties/property-card";
-import { PropertyModal } from "@/components/properties/property-modal";
 import { Property } from "@/common/types";
 
 import { AdminPropertyCard } from "@/components/admin/properties/admin-property-card";
 import { PropertyEditDialog } from "@/components/admin/properties/property-edit-modal";
-import { Building, Home, MapPin, Plus } from "lucide-react";
+import { ConfirmDialog } from "@/components/ui/confirm-dialog";
+import { Plus } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { SuccessToast } from "@/components/ui/success-toast";
+import { ErrorToast } from "@/components/ui/error-toast";
 
-import { initialProperties } from "@/common/properties";
-
-import { getProperties } from "@/firebase/properties";
+import { getProperties, deleteProperty } from "@/firebase/properties";
 import LoadingSpinner from "@/components/ui/loading-spinner";
 
 export default function Page() {
@@ -28,11 +24,23 @@ export default function Page() {
   const [error, setError] = useState<string | null>(null);
   const [editingProperty, setEditingProperty] = useState<Property | null>(null);
   const [isEditDialogOpen, setIsEditDialogOpen] = useState(false);
+  const [showSuccessToast, setShowSuccessToast] = useState(false);
+  const [showErrorToast, setShowErrorToast] = useState(false);
+  const [successMessage, setSuccessMessage] = useState("");
+  const [errorMessage, setErrorMessage] = useState("");
+  const [deletingPropertyId, setDeletingPropertyId] = useState<string | null>(
+    null
+  );
+  const [propertyToDelete, setPropertyToDelete] = useState<Property | null>(
+    null
+  );
+  const [isDeleteDialogOpen, setIsDeleteDialogOpen] = useState(false);
 
   const totalProperties = properties.length;
   const availableProperties = properties.filter(
     (p) => p.status === "Available"
   ).length;
+  const soldProperties = properties.filter((p) => p.status === "Sold").length;
   const soldProperties = properties.filter((p) => p.status === "Sold").length;
 
   const handleEditProperty = (property: Property) => {
@@ -41,27 +49,58 @@ export default function Page() {
   };
 
   const handleSaveProperty = (updatedProperty: Property) => {
-    /*  setProperties((prev) =>
+    // Update the property in the list
+    setProperties((prev) =>
       prev.map((p) => (p.id === updatedProperty.id ? updatedProperty : p))
-    ); */
-    // toast({
-    //   title: "Property Updated",
-    //   description: "Property details have been successfully updated.",
-    // });
+    );
+    setSuccessMessage(
+      `Property "${updatedProperty.title}" updated successfully`
+    );
+    setShowSuccessToast(true);
   };
 
   const handleViewProperty = (property: Property) => {
-    // toast({
-    //   title: "View Property",
-    //   description: `Viewing details for ${property.title}`,
-    // });
+    router.push(`/admin/properties/${property.id}`);
   };
 
-  const handleDeleteProperty = (property: Property) => {
-    // toast({
-    //   title: "Delete Property",
-    //   description: `Delete functionality for ${property.title}`,
-    // });
+  const handleDeleteProperty = async (property: Property) => {
+    setPropertyToDelete(property);
+    setIsDeleteDialogOpen(true);
+  };
+
+  const confirmDelete = async () => {
+    if (!propertyToDelete) return;
+
+    try {
+      setDeletingPropertyId(propertyToDelete.id);
+      const success = await deleteProperty(propertyToDelete.id);
+      if (success) {
+        // Remove the property from the local state
+        setProperties((prev) =>
+          prev.filter((p) => p.id !== propertyToDelete.id)
+        );
+        setSuccessMessage(
+          `Property "${propertyToDelete.title}" deleted successfully`
+        );
+        setShowSuccessToast(true);
+      } else {
+        setErrorMessage("Failed to delete property. Please try again.");
+        setShowErrorToast(true);
+      }
+    } catch (error) {
+      console.error("Error deleting property:", error);
+      setErrorMessage("Error deleting property. Please try again.");
+      setShowErrorToast(true);
+    } finally {
+      setDeletingPropertyId(null);
+      setPropertyToDelete(null);
+      setIsDeleteDialogOpen(false);
+    }
+  };
+
+  const cancelDelete = () => {
+    setPropertyToDelete(null);
+    setIsDeleteDialogOpen(false);
   };
 
   const [selectedProperty, setSelectedProperty] = useState<Property | null>(
@@ -237,12 +276,15 @@ export default function Page() {
         {/* Properties Grid */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
           {properties.map((property) => (
-            <AdminPropertyCard
-              property={property}
-              onEdit={() => handleEditProperty(property)}
-              onView={() => handleViewProperty(property)}
-              onDelete={() => handleDeleteProperty(property)}
-            />
+            <div key={property.id}>
+              <AdminPropertyCard
+                property={property}
+                onEdit={() => handleEditProperty(property)}
+                onView={() => handleViewProperty(property)}
+                onDelete={() => handleDeleteProperty(property)}
+                isDeleting={deletingPropertyId === property.id}
+              />
+            </div>
           ))}
         </div>
       </div>
@@ -255,10 +297,41 @@ export default function Page() {
             setIsEditDialogOpen(false);
             setEditingProperty(null);
           }}
-          property={initialProperties[0]}
+          property={editingProperty}
           onSave={handleSaveProperty}
         />
       )}
+
+      {/* Success Toast */}
+      <SuccessToast
+        isVisible={showSuccessToast}
+        onClose={() => setShowSuccessToast(false)}
+        message={successMessage}
+      />
+
+      {/* Error Toast */}
+      <ErrorToast
+        isVisible={showErrorToast}
+        onClose={() => setShowErrorToast(false)}
+        message={errorMessage}
+      />
+
+      {/* Delete Dialog */}
+      <ConfirmDialog
+        isOpen={isDeleteDialogOpen}
+        onClose={cancelDelete}
+        onConfirm={confirmDelete}
+        title="Delete Property"
+        description={
+          propertyToDelete
+            ? `Are you sure you want to delete "${propertyToDelete.title}"? This action cannot be undone.`
+            : ""
+        }
+        confirmText="Delete Property"
+        cancelText="Cancel"
+        variant="danger"
+        isLoading={deletingPropertyId === propertyToDelete?.id}
+      />
     </div>
   );
 }
