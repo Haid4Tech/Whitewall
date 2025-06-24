@@ -1,0 +1,66 @@
+import { Property } from "@/common/types";
+import { getPropertyById } from "@/firebase/properties";
+import { getAbsoluteUrl } from "@/lib/utils";
+import { Metadata } from "next";
+import PropertyDetailPage from "./property-page-client";
+
+interface Props {
+  params: {
+    id: string;
+  };
+}
+
+export async function generateMetadata({ params }: Props): Promise<Metadata> {
+  const param = await params;
+  const id = param.id;
+
+  const listing = await getPropertyById(id);
+
+  if (!listing) {
+    return {
+      title: "Listing Not Found",
+    };
+  }
+
+  const imageUrl = `${listing.images[0]}?auto=format&fit=crop&w=1200&h=630`;
+  const currentUrl = getAbsoluteUrl(`/properties/${listing.id}`);
+
+  return {
+    title: listing.title,
+    description: listing.description,
+    openGraph: {
+      title: listing.title,
+      description: listing.description,
+      type: "article",
+      url: currentUrl,
+      images: [
+        {
+          url: imageUrl,
+          width: 1200,
+          height: 630,
+          alt: listing.title,
+        },
+      ],
+      siteName: "WhiteWall Real Estate",
+    },
+    twitter: {
+      card: "summary_large_image",
+      title: listing.title,
+      description: listing.description,
+      images: [imageUrl],
+      site: "@whitewall",
+    },
+    alternates: {
+      canonical: currentUrl,
+    },
+  };
+}
+export default async function Page({ params }: { params: { id: string } }) {
+  const param = await params;
+  const id = param.id;
+
+  const propertyData = await getPropertyById(id);
+  const plainListing = JSON.parse(JSON.stringify(propertyData));
+
+  return <PropertyDetailPage property={plainListing} />;
+}

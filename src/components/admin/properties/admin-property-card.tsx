@@ -13,36 +13,18 @@ import { Badge } from "@/components/ui/badge";
 import { Card, CardContent } from "@/components/ui/card";
 
 import PropertiesDropDown from "./properties-dropdown";
+import { Property } from "@/common/types";
+import { formatTimestamp } from "@/lib/utils";
 
 interface PropertyCardProps {
-  id: string;
-  title: string;
-  price: number;
-  location: string;
-  bedrooms: number;
-  bathrooms: number;
-  area: number;
-  status: "Available" | "Rented" | "Maintenance";
-  imageUrl: string;
-  dateAdded: string;
-  monthlyRevenue?: number;
+  property: Property;
   onEdit?: () => void;
   onView?: () => void;
   onDelete?: () => void;
 }
 
 export const AdminPropertyCard = ({
-  id,
-  title,
-  price,
-  location,
-  bedrooms,
-  bathrooms,
-  area,
-  status,
-  imageUrl,
-  dateAdded,
-  monthlyRevenue,
+  property,
   onEdit,
   onView,
   onDelete,
@@ -73,8 +55,8 @@ export const AdminPropertyCard = ({
       <div className="relative">
         <div className="aspect-[4/3] overflow-hidden">
           <img
-            src={imageUrl}
-            alt={title}
+            src={property.images[0]}
+            alt={property.title}
             className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
           />
         </div>
@@ -101,7 +83,7 @@ export const AdminPropertyCard = ({
         <div className="absolute bottom-3 left-3">
           <div className="bg-white/95 backdrop-blur-sm rounded-lg px-3 py-2 shadow-sm">
             <div className="text-2xl font-bold text-gray-900">
-              {formatPrice(price)}
+              {formatPrice(property.price)}
             </div>
           </div>
         </div>
@@ -112,11 +94,11 @@ export const AdminPropertyCard = ({
           {/* Title and Location */}
           <div>
             <h3 className="text-xl font-semibold text-gray-900 transition-colors line-clamp-1">
-              {title}
+              {property.title}
             </h3>
             <div className="flex items-center text-gray-600 mt-1">
               <MapPin className="h-4 w-4 mr-1 flex-shrink-0" />
-              <span className="text-sm line-clamp-1">{location}</span>
+              <span className="text-sm line-clamp-1">{property.location}</span>
             </div>
           </div>
 
@@ -124,16 +106,16 @@ export const AdminPropertyCard = ({
           <div className="flex items-center gap-4 text-gray-600">
             <div className="flex items-center">
               <Bed className="h-4 w-4 mr-1" />
-              <span className="text-sm font-medium">{bedrooms}</span>
+              <span className="text-sm font-medium">{property.bedrooms}</span>
             </div>
             <div className="flex items-center">
               <Bath className="h-4 w-4 mr-1" />
-              <span className="text-sm font-medium">{bathrooms}</span>
+              <span className="text-sm font-medium">{property.bathrooms}</span>
             </div>
             <div className="flex items-center">
               <Maximize2 className="h-4 w-4 mr-1" />
               <span className="text-sm font-medium">
-                {area.toLocaleString()} ft²
+                {property.sqft.toLocaleString()} ft²
               </span>
             </div>
           </div>
@@ -141,7 +123,7 @@ export const AdminPropertyCard = ({
           {/* Date Added */}
           <div className="flex items-center text-gray-400 text-xs">
             <Calendar className={"mr-1"} size={13} />
-            Added {dateAdded}
+            Added {formatTimestamp(property.createdAt)}
           </div>
 
           {/* Action Buttons */}

@@ -6,14 +6,17 @@ import { SearchFilters } from "@/components/properties/search-filters";
 import { PropertyCard } from "@/components/properties/property-card";
 import { PropertyModal } from "@/components/properties/property-modal";
 import { Property } from "@/common/types";
-import { getProperties } from "@/firebase/properties";
-
-type PropertyWithId = Property & { id: string };
+import { getProperties, searchProperties } from "@/firebase/properties";
+import LoadingSpinner from "@/components/ui/loading-spinner";
+// import { LoadingSpinner } from "@/components/ui/loading-spinner";
 
 export default function Page() {
-  const [properties, setProperties] = useState<PropertyWithId[]>([]);
-  const [selectedProperty, setSelectedProperty] =
-    useState<PropertyWithId | null>(null);
+  const [properties, setProperties] = useState<Property[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
+  const [selectedProperty, setSelectedProperty] = useState<Property | null>(
+    null
+  );
   const [searchQuery, setSearchQuery] = useState("");
   const [filters, setFilters] = useState({
     minPrice: 0,
@@ -23,16 +26,9 @@ export default function Page() {
     location: "",
   });
 
-  useEffect(() => {
-    const getPropertiesData = async () => {
-      const response = await getProperties();
-      setProperties(response);
-    };
-
-    getPropertiesData();
-  }, []);
-
   const filteredProperties = useMemo(() => {
+    if (loading) return [];
+
     return properties.filter((property) => {
       const matchesSearch =
         property?.title?.toLowerCase().includes(searchQuery.toLowerCase()) ||
@@ -60,7 +56,35 @@ export default function Page() {
         matchesLocation
       );
     });
-  }, [searchQuery, filters]);
+  }, [properties, searchQuery, filters, loading]);
+
+  if (loading) {
+    return (
+      <div className="min-h-screen bg-background flex flex-col items-center justify-center">
+        <LoadingSpinner size="lg" />
+        <p className="mt-4 text-muted-foreground">Loading properties...</p>
+      </div>
+    );
+  }
+
+  if (error) {
+    return (
+      <div className="min-h-screen bg-background flex items-center justify-center">
+        <div className="text-center">
+          <h2 className="text-xl font-semibold text-foreground mb-2">
+            Error Loading Properties
+          </h2>
+          <p className="text-muted-foreground mb-4">{error}</p>
+          <button
+            onClick={() => window.location.reload()}
+            className="px-4 py-2 bg-primary text-primary-foreground rounded-md hover:bg-primary/90"
+          >
+            Try Again
+          </button>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="min-h-screen bg-background">
@@ -83,11 +107,7 @@ export default function Page() {
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
           {filteredProperties.map((property) => (
-            <PropertyCard
-              key={property.id}
-              property={property}
-              onClick={() => setSelectedProperty(property)}
-            />
+            <PropertyCard key={property.id} property={property} />
           ))}
         </div>
 
