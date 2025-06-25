@@ -23,108 +23,12 @@ import { ErrorToast } from "@/components/ui/error-toast";
 import { createProperty } from "@/firebase/properties";
 import { uploadImagesToSpaces } from "@/lib/spaces-upload";
 import DropdownSelect from "@/components/general/select-comp";
-
-// Abuja locations
-const ABUJA_LOCATIONS = [
-  "Maitama",
-  "Asokoro",
-  "Katampe",
-  "Katampe Extention",
-  "Wuse",
-  "Garki",
-  "Jabi",
-  "Utako",
-  "Central Business District",
-  "Gwarinpa",
-  "Kubwa",
-  "Lugbe",
-  "Karu",
-  "Nyanya",
-  "Mararaba",
-  "Keffi",
-  "Kuje",
-  "Abaji",
-  "Kwali",
-  "Karshi",
-  "Kurudu",
-  "Jikwoyi",
-  "Orozo",
-  "Karsana",
-  "Dakwo",
-  "Lokogoma",
-  "Galadimawa",
-  "Gudu",
-  "Durumi",
-  "Apo",
-  "Gwagwalada",
-  "Dutse",
-  "Bwari",
-  "Suleja",
-];
-
-const PROPERTY_TYPES = [
-  "house",
-  "apartment",
-  "villa",
-  "condo",
-  "penthouse",
-  "duplex",
-  "townhouse",
-  "studio",
-];
-
-const PRICE_TYPES = ["for sale", "per month", "per year", "per week"];
-
-// Common amenities list
-const COMMON_AMENITIES = [
-  "Swimming Pool",
-  "Gym/Fitness Center",
-  "Cinema/Home Theater",
-  "Garden/Park",
-  "Balcony/Terrace",
-  "Air Conditioning",
-  "Central Heating",
-  "Fireplace",
-  "Security System",
-  "CCTV",
-  "Parking Space",
-  "Garage",
-  "Elevator",
-  "Concierge",
-  "24/7 Security",
-  "Playground",
-  "Tennis Court",
-  "Basketball Court",
-  "Spa/Sauna",
-  "Jacuzzi",
-  "Kitchen Island",
-  "Walk-in Closet",
-  "Study/Office",
-  "Laundry Room",
-  "Storage Room",
-  "Wine Cellar",
-  "Home Office",
-  "Guest Room",
-  "Maid's Quarters",
-  "Solar Panels",
-  "Backup Generator",
-  "Water Tank",
-  "Internet/WiFi",
-  "Cable TV",
-  "Pet Friendly",
-  "Wheelchair Accessible",
-  "Furnished",
-  "Modern Appliances",
-  "Hardwood Floors",
-  "Marble Countertops",
-  "Granite Countertops",
-  "Stainless Steel Appliances",
-  "Built-in Wardrobes",
-  "Bay Windows",
-  "Skylights",
-  "High Ceilings",
-  "Open Floor Plan",
-];
+import {
+  ABUJA_LOCATIONS,
+  COMMON_AMENITIES,
+  PRICE_TYPES,
+  PROPERTY_TYPES,
+} from "@/lib/constants";
 
 interface FormData {
   title: string;
@@ -494,7 +398,7 @@ export default function AddPropertyPage() {
                   />
                 </div>
 
-                <div>
+                <div className="flex flex-col gap-3">
                   <Label htmlFor="bedrooms">Bedrooms *</Label>
                   <Input
                     id="bedrooms"
@@ -511,7 +415,7 @@ export default function AddPropertyPage() {
                   />
                 </div>
 
-                <div>
+                <div className="flex flex-col gap-3">
                   <Label htmlFor="bathrooms">Bathrooms *</Label>
                   <Input
                     id="bathrooms"

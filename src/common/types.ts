@@ -6,6 +6,8 @@ export interface INavItems {
   url: string;
 }
 
+export type ListingStatus = "Available" | "Sold";
+
 export interface Property {
   id: string;
   title: string;
@@ -19,7 +21,7 @@ export interface Property {
   sqft: number;
   type: string;
   images: string[];
-  status?: "Available" | "Sold";
+  status?: ListingStatus;
   featured: boolean;
   description: string;
   amenities: string[];

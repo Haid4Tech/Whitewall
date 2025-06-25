@@ -14,32 +14,19 @@ import { Card, CardContent } from "@/components/ui/card";
 import { SuccessToast } from "@/components/ui/success-toast";
 import { ErrorToast } from "@/components/ui/error-toast";
 import { updateProperty } from "@/firebase/properties";
-import { uploadImagesToSpaces, deleteImageFromSpaces } from "@/lib/spaces-upload";
+import {
+  uploadImagesToSpaces,
+  deleteImageFromSpaces,
+} from "@/lib/spaces-upload";
 import DropdownSelect from "@/components/general/select-comp";
 import { Upload, X, Plus, Loader2, Trash2, Link } from "lucide-react";
 import { generateSlug } from "@/lib/utils";
-
-// Constants
-const ABUJA_LOCATIONS = [
-  "Maitama", "Asokoro", "Katampe", "Wuse", "Garki", "Jabi", "Utako",
-  "Central Business District", "Gwarinpa", "Kubwa", "Lugbe", "Karu", "Nyanya", "Mararaba",
-  "Keffi", "Kuje", "Abaji", "Kwali", "Karshi", "Kurudu", "Jikwoyi", "Orozo", "Karsana",
-  "Dakwo", "Lokogoma", "Galadimawa", "Gudu", "Durumi", "Apo", "Gwagwalada", "Dutse", "Bwari", "Suleja",
-];
-
-const PROPERTY_TYPES = ["house", "apartment", "villa", "condo", "penthouse", "duplex", "townhouse", "studio"];
-const PRICE_TYPES = ["for sale", "per month", "per year", "per week"];
-
-const COMMON_AMENITIES = [
-  "Swimming Pool", "Gym/Fitness Center", "Cinema/Home Theater", "Garden/Park", "Balcony/Terrace",
-  "Air Conditioning", "Central Heating", "Fireplace", "Security System", "CCTV", "Parking Space",
-  "Garage", "Elevator", "Concierge", "24/7 Security", "Playground", "Tennis Court", "Basketball Court",
-  "Spa/Sauna", "Jacuzzi", "Kitchen Island", "Walk-in Closet", "Study/Office", "Laundry Room",
-  "Storage Room", "Wine Cellar", "Home Office", "Guest Room", "Maid's Quarters", "Solar Panels",
-  "Backup Generator", "Water Tank", "Internet/WiFi", "Cable TV", "Pet Friendly", "Wheelchair Accessible",
-  "Furnished", "Modern Appliances", "Hardwood Floors", "Marble Countertops", "Granite Countertops",
-  "Stainless Steel Appliances", "Built-in Wardrobes", "Bay Windows", "Skylights", "High Ceilings", "Open Floor Plan",
-];
+import {
+  ABUJA_LOCATIONS,
+  COMMON_AMENITIES,
+  PRICE_TYPES,
+  PROPERTY_TYPES,
+} from "@/lib/constants";
 
 interface FormData {
   title: string;
@@ -100,7 +87,9 @@ export const PropertyEditDialog = ({
 
   const [currentSlug, setCurrentSlug] = useState(property.slug || "");
   const [previewSlug, setPreviewSlug] = useState("");
-  const [existingImages, setExistingImages] = useState<string[]>(property.images || []);
+  const [existingImages, setExistingImages] = useState<string[]>(
+    property.images || []
+  );
   const [newImages, setNewImages] = useState<File[]>([]);
   const [newImageUrls, setNewImageUrls] = useState<string[]>([]);
   const [isUploading, setIsUploading] = useState(false);
@@ -153,7 +142,10 @@ export const PropertyEditDialog = ({
           !newImages.some((img) => img.name === file.name)
       );
 
-      if (newImageFiles.length + newImages.length + existingImages.length > 10) {
+      if (
+        newImageFiles.length + newImages.length + existingImages.length >
+        10
+      ) {
         setErrorMessage("Maximum 10 images allowed");
         setShowErrorToast(true);
         return;
@@ -250,9 +242,12 @@ export const PropertyEditDialog = ({
 
       // Upload new images if any
       if (newImages.length > 0) {
-        const uploadedUrls = await uploadImagesToSpaces(newImages, (progress) => {
-          setUploadProgress(progress);
-        });
+        const uploadedUrls = await uploadImagesToSpaces(
+          newImages,
+          (progress) => {
+            setUploadProgress(progress);
+          }
+        );
         finalImageUrls = [...existingImages, ...uploadedUrls];
       }
 
@@ -282,11 +277,11 @@ export const PropertyEditDialog = ({
           ...property,
           ...updatedPropertyData,
         });
-        
+
         // Reset new images after successful update
         setNewImages([]);
         setNewImageUrls([]);
-        
+
         // Close modal after a short delay
         setTimeout(() => {
           onClose();
@@ -308,19 +303,23 @@ export const PropertyEditDialog = ({
   const handleInputChange = (field: string, value: string) => {
     setFormData((prev) => ({ ...prev, [field]: value }));
   };
-
+  //max-w-[95vw]
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
-      <DialogContent className="max-w-4xl max-h-[90vh] overflow-y-auto p-0">
-        <DialogHeader className="p-6 pb-0">
-          <DialogTitle className="text-xl font-semibold">Edit Property</DialogTitle>
+      <DialogContent className="w-full sm:max-w-2xl max-w-screen sm:max-h-[90vh] max-h-screen overflow-y-auto p-0">
+        <DialogHeader className="p-4 sm:p-6 pb-0">
+          <DialogTitle className="text-lg sm:text-xl font-semibold">
+            Edit Property
+          </DialogTitle>
         </DialogHeader>
 
-        <form onSubmit={handleSubmit} className="p-6 space-y-6">
+        <form onSubmit={handleSubmit} className="p-4 sm:p-6 space-y-6">
           {/* Image Upload Section */}
           <Card>
-            <CardContent className="p-6">
-              <h2 className="text-lg font-semibold mb-4">Property Images</h2>
+            <CardContent className="p-4 sm:p-6">
+              <h2 className="text-base sm:text-lg font-semibold mb-4">
+                Property Images
+              </h2>
 
               {/* Existing Images */}
               {existingImages.length > 0 && (
@@ -365,7 +364,8 @@ export const PropertyEditDialog = ({
                     : `${newImages.length} new images selected`}
                 </p>
                 <p className="text-sm text-gray-500">
-                  Upload up to {10 - existingImages.length} more images (JPG, PNG, WebP)
+                  Upload up to {10 - existingImages.length} more images (JPG,
+                  PNG, WebP)
                 </p>
                 <input
                   ref={fileInputRef}
@@ -406,10 +406,12 @@ export const PropertyEditDialog = ({
 
           {/* Basic Information */}
           <Card>
-            <CardContent className="p-6">
-              <h2 className="text-lg font-semibold mb-4">Basic Information</h2>
+            <CardContent className="p-4 sm:p-6">
+              <h2 className="text-base sm:text-lg font-semibold mb-4">
+                Basic Information
+              </h2>
 
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-6">
                 <div className="flex flex-col gap-3">
                   <Label htmlFor="title">Property Title *</Label>
                   <Input
@@ -510,7 +512,7 @@ export const PropertyEditDialog = ({
                   />
                 </div>
 
-                <div>
+                <div className="flex flex-col gap-3">
                   <Label htmlFor="bedrooms">Bedrooms *</Label>
                   <Input
                     id="bedrooms"
@@ -527,7 +529,7 @@ export const PropertyEditDialog = ({
                   />
                 </div>
 
-                <div>
+                <div className="flex flex-col gap-3">
                   <Label htmlFor="bathrooms">Bathrooms *</Label>
                   <Input
                     id="bathrooms"
@@ -549,8 +551,10 @@ export const PropertyEditDialog = ({
 
           {/* Description */}
           <Card>
-            <CardContent className="p-6">
-              <h2 className="text-lg font-semibold mb-4">Description</h2>
+            <CardContent className="p-4 sm:p-6">
+              <h2 className="text-base sm:text-lg font-semibold mb-4">
+                Description
+              </h2>
               <Textarea
                 value={formData.description}
                 onChange={(e) =>
@@ -568,8 +572,8 @@ export const PropertyEditDialog = ({
 
           {/* Amenities */}
           <Card>
-            <CardContent className="p-6">
-              <h2 className="text-lg font-semibold mb-4">
+            <CardContent className="p-4 sm:p-6">
+              <h2 className="text-base sm:text-lg font-semibold mb-4">
                 Amenities & Features
               </h2>
 
@@ -582,7 +586,7 @@ export const PropertyEditDialog = ({
                       key={amenity}
                       type="button"
                       onClick={() => addCommonAmenity(amenity)}
-                      className="text-left p-2 rounded border border-gray-200 hover:border-blue-300 hover:bg-blue-50 transition-colors text-sm"
+                      className="text-left p-2 rounded border border-gray-200 hover:border-blue-300 hover:bg-blue-50 transition-colors text-xs overflow-clip"
                     >
                       {amenity}
                     </button>
@@ -610,7 +614,7 @@ export const PropertyEditDialog = ({
                         key={amenity}
                         type="button"
                         onClick={() => addCommonAmenity(amenity)}
-                        className="text-left p-2 rounded border border-gray-200 hover:border-blue-300 hover:bg-blue-50 transition-colors text-sm"
+                        className="text-left p-2 rounded border border-gray-200 hover:border-blue-300 hover:bg-blue-50 transition-colors text-xs overflow-clip"
                       >
                         {amenity}
                       </button>
@@ -668,7 +672,7 @@ export const PropertyEditDialog = ({
 
           {/* Featured Property */}
           <Card>
-            <CardContent className="p-6">
+            <CardContent className="p-4 sm:p-6">
               <div className="flex items-center justify-between">
                 <div>
                   <h2 className="text-lg font-semibold">Featured Property</h2>
@@ -693,7 +697,7 @@ export const PropertyEditDialog = ({
           </Card>
 
           {/* Submit Buttons */}
-          <div className="flex gap-4">
+          <div className="flex flex-col sm:flex-row gap-4">
             <Button
               type="button"
               variant="outline"

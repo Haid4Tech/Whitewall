@@ -19,11 +19,16 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { PropertyEditDialog } from "@/components/admin/properties/property-edit-modal";
 import { ConfirmDialog } from "@/components/ui/confirm-dialog";
-import { getPropertyBySlug, deleteProperty } from "@/firebase/properties";
-import { Property } from "@/common/types";
+import {
+  getPropertyBySlug,
+  deleteProperty,
+  updateProperty,
+} from "@/firebase/properties";
+import { ListingStatus, Property } from "@/common/types";
 import LoadingSpinner from "@/components/ui/loading-spinner";
 import { SuccessToast } from "@/components/ui/success-toast";
 import { ErrorToast } from "@/components/ui/error-toast";
+import { AvailabilityToggle } from "@/components/ui/segmented-toggle";
 
 export default function PropertyDetailPage() {
   const params = useParams();
@@ -41,19 +46,24 @@ export default function PropertyDetailPage() {
   const [isDeleteDialogOpen, setIsDeleteDialogOpen] = useState(false);
   const [isDeleting, setIsDeleting] = useState(false);
 
+  const [propertyStatus, setPropertyStatus] = useState(property?.status);
+
+  async function handlePropertyFetch() {
+    const fetchedProperty = await getPropertyBySlug(propertySlug);
+
+    if (fetchedProperty) {
+      setProperty(fetchedProperty);
+    } else {
+      setError("Property not found");
+    }
+  }
   // Fetch property details
   useEffect(() => {
     const fetchProperty = async () => {
       try {
         setLoading(true);
         setError(null);
-        const fetchedProperty = await getPropertyBySlug(propertySlug);
-
-        if (fetchedProperty) {
-          setProperty(fetchedProperty);
-        } else {
-          setError("Property not found");
-        }
+        await handlePropertyFetch();
       } catch (err) {
         console.error("Error fetching property:", err);
         setError("Failed to load property details. Please try again later.");
@@ -68,7 +78,17 @@ export default function PropertyDetailPage() {
   }, [propertySlug]);
 
   const handleEditProperty = () => {
-    setIsEditDialogOpen(true);
+    if (
+      typeof window !== "undefined" &&
+      window.matchMedia("(max-width: 640px)").matches
+    ) {
+      // On mobile, redirect to the edit page
+      router.push(`/admin/properties/${propertySlug}/edit`);
+    } else {
+      // On desktop/tablet, open modal
+
+      setIsEditDialogOpen(true);
+    }
   };
 
   const handleSaveProperty = (updatedProperty: Property) => {
@@ -80,6 +100,42 @@ export default function PropertyDetailPage() {
     if (!property) return;
     setIsDeleteDialogOpen(true);
   };
+
+  const onToggleAvailability = (available: boolean) => {
+    handleAvailabilityToggle(available);
+  };
+
+  async function handleAvailabilityToggle(available: boolean) {
+    try {
+      // Create updated property data
+      const updatedPropertyData = {
+        status: available
+          ? ("Available" as ListingStatus)
+          : ("Sold" as ListingStatus),
+      };
+
+      // Update in Firebase
+      const success = await updateProperty(property!.id, updatedPropertyData);
+
+      if (success) {
+        setShowSuccessToast(true);
+        // Call the onSave callback with updated data
+
+        await handlePropertyFetch();
+        setPropertyStatus(available ? "Available" : "Sold");
+      } else {
+        setErrorMessage("Failed to update property. Please try again.");
+        setShowErrorToast(true);
+      }
+    } catch (error) {
+      console.error("Error updating property:", error);
+      setErrorMessage("Error updating property. Please try again.");
+      setShowErrorToast(true);
+    } finally {
+      /*    setIsUploading(false);
+      setUploadProgress(0); */
+    }
+  }
 
   const confirmDelete = async () => {
     if (!property) return;
@@ -191,7 +247,7 @@ export default function PropertyDetailPage() {
                 <ArrowLeft className="h-4 w-4" />
                 Back
               </Button>
-              <h1 className="text-xl font-semibold text-gray-900">
+              <h1 className="hidden sm:block text-xl font-semibold text-gray-900">
                 Property Details
               </h1>
             </div>
@@ -454,7 +510,7 @@ export default function PropertyDetailPage() {
                 </CardTitle>
               </CardHeader>
               <CardContent>
-                <div className="space-y-3">
+                <div className="space-y-3 pb-3">
                   <Button
                     onClick={handleEditProperty}
                     className="w-full flex items-center gap-2"
@@ -478,6 +534,18 @@ export default function PropertyDetailPage() {
                     <Trash2 className="h-4 w-4" />
                     Delete Property
                   </Button>
+
+                  <AvailabilityToggle
+                    options={[
+                      { label: "Available", value: "available" },
+                      { label: "Sold", value: "sold" },
+                    ]}
+                    value={propertyStatus?.toLowerCase() ?? "available"}
+                    onChange={(val) =>
+                      onToggleAvailability(val === "available")
+                    }
+                    className="shadow-sm"
+                  />
                 </div>
               </CardContent>
             </Card>
