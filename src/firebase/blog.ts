@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import {
   addDoc,
   collection,
@@ -75,7 +76,7 @@ export const createBlog = async (blogData: any) => {
   }
 };
 
-const uploadImageToFirebase = async (file: File) => {
+export const uploadImageToFirebase = async (file: File) => {
   const storage = getStorage();
   const storageRef = ref(storage, `uploads/${file.name}`);
   await uploadBytes(storageRef, file);

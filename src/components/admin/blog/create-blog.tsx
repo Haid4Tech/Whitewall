@@ -53,6 +53,7 @@ const CreateBlogForm = () => {
         setTagInput(post.tags.join(", "));
       }
     } catch (error) {
+      console.error("Error loading blog post:", error);
       toast("Error", {
         description: "Failed to load blog post",
       });
@@ -91,6 +92,7 @@ const CreateBlogForm = () => {
       }
       router.push("/blog");
     } catch (error) {
+      console.error("Error loading blog post:", error);
       toast("Error", {
         description: `Failed to ${isEditing ? "update" : "create"} blog post`,
       });

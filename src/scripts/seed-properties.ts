@@ -1,5 +1,5 @@
-import { createProperty } from "../firebase/properties";
-import { properties } from "../common/data";
+// import { createProperty } from "../firebase/properties";
+// import { properties } from "../common/data";
 
 /**
  * Script to seed the Firebase Firestore database with properties data

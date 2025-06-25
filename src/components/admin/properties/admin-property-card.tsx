@@ -4,7 +4,6 @@ import {
   Bath,
   Maximize2,
   Calendar,
-  DollarSign,
   Edit,
   Eye,
   Loader2,

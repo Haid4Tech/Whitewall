@@ -40,6 +40,7 @@ const MainProvider: FC<IAppProvider> = ({ children }) => {
         }
       } catch (error) {
         setIsLoggedin(false);
+        console.error("Error checking authentication state:", error);
         throw new Error("Error logging in");
       }
     });

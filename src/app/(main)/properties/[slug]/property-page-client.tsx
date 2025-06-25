@@ -1,7 +1,8 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 "use client";
 
-import { useState, useEffect } from "react";
-import { useParams, useRouter } from "next/navigation";
+import { useState } from "react";
+import { useRouter } from "next/navigation";
 import {
   MapPin,
   Bed,
@@ -46,7 +47,7 @@ export default function PropertyDetailPage({
   const router = useRouter();
   //   const [property, setProperty] = useState<Property | null>(null);
   //   const [loading, setLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
+  const [error] = useState<string | null>(null);
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
   const [expandedImage, setExpandedImage] = useState<string | null>(null);
   const [isFavorite, setIsFavorite] = useState(false);
@@ -116,11 +117,11 @@ export default function PropertyDetailPage({
     if (!property) return;
 
     const url = encodeURIComponent(window.location.href);
-    const title = encodeURIComponent(property.title);
+    // const title = encodeURIComponent(property.title);
     const text = encodeURIComponent(
       `Check out this amazing ${property.type} in ${property.location}!`
     );
-    const image = encodeURIComponent(property.images[0]);
+    // const image = encodeURIComponent(property.images[0]);
 
     let shareUrl = "";
 
@@ -188,7 +189,8 @@ export default function PropertyDetailPage({
             {error || "Property not found"}
           </h2>
           <p className="text-slate-600 mb-8">
-            The property you're looking for doesn't exist or has been removed.
+            The property you&apos;re looking for doesn&apos;t exist or has been
+            removed.
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <Button

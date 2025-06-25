@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { useRouter } from "next/navigation";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
@@ -14,7 +14,7 @@ import { blogService } from "@/services/blog-services";
 
 interface BlogFormProps {
   postId?: string;
-  initialData?: BlogPost;
+  initialData?: BlogPost & { id: string };
 }
 
 const BlogForm: React.FC<BlogFormProps> = ({ postId, initialData }) => {
@@ -64,6 +64,7 @@ const BlogForm: React.FC<BlogFormProps> = ({ postId, initialData }) => {
 
       router.push("/blog");
     } catch (error) {
+      console.log("Error submitting blog post:", error);
       toast("Error", {
         description: `Failed to ${isEditing ? "update" : "create"} blog post`,
       });

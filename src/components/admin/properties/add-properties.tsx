@@ -6,7 +6,7 @@ import { Property } from "@/common/types";
 import { initialProperties } from "@/common/initial-values";
 import DropdownSelect from "@/components/general/select-comp";
 import { Button } from "@/components/ui/button";
-import UploadImage from "@/components/general/upload-image";
+// import UploadImage from "@/components/general/upload-image";
 
 const AddProperties = () => {
   const [formData, setFormData] = useState<Property>(initialProperties);

@@ -1,7 +1,6 @@
 import { useState } from "react";
 import AuthForm from "./auth-form";
 import { format } from "date-fns";
-import { Button } from "@/components/ui/button";
 import { useMainContext } from "@/components/provider/main-provider";
 
 const AuthScreen = () => {

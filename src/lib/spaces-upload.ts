@@ -1,18 +1,18 @@
-import {
-  S3Client,
-  PutObjectCommand,
-  DeleteObjectCommand,
-  ObjectCannedACL,
-} from "@aws-sdk/client-s3";
+// import {
+//   S3Client,
+//   PutObjectCommand,
+//   DeleteObjectCommand,
+//   ObjectCannedACL,
+// } from "@aws-sdk/client-s3";
 
 // Digital Ocean Spaces configuration
-const SPACES_ENDPOINT =
-  process.env.NEXT_PUBLIC_SPACES_ENDPOINT ||
-  "https://nyc3.digitaloceanspaces.com";
-const SPACES_BUCKET =
-  process.env.NEXT_PUBLIC_SPACES_BUCKET || "your-bucket-name";
-const SPACES_ACCESS_KEY = process.env.NEXT_PUBLIC_SPACES_ACCESS_KEY || "";
-const SPACES_SECRET_KEY = process.env.NEXT_PUBLIC_SPACES_SECRET_KEY || "";
+// const SPACES_ENDPOINT =
+//   process.env.NEXT_PUBLIC_SPACES_ENDPOINT ||
+//   "https://nyc3.digitaloceanspaces.com";
+// const SPACES_BUCKET =
+//   process.env.NEXT_PUBLIC_SPACES_BUCKET || "your-bucket-name";
+// const SPACES_ACCESS_KEY = process.env.NEXT_PUBLIC_SPACES_ACCESS_KEY || "";
+// const SPACES_SECRET_KEY = process.env.NEXT_PUBLIC_SPACES_SECRET_KEY || "";
 
 /**
  * Upload images using Next.js API route to avoid CORS issues

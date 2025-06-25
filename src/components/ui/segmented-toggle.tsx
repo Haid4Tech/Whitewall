@@ -23,7 +23,7 @@ export const SegmentedToggle: React.FC<SegmentedToggleProps> = ({
     const container = containerRef.current;
     if (btn && container) {
       const btnRect = btn.getBoundingClientRect();
-      const containerRect = container.getBoundingClientRect();
+      // const containerRect = container.getBoundingClientRect();
       setThumbStyle({
         width: btnRect.width,
         height: btnRect.height,
@@ -80,7 +80,7 @@ export const AvailabilityToggle: React.FC<SegmentedToggleProps> = ({
     const container = containerRef.current;
     if (btn && container) {
       const btnRect = btn.getBoundingClientRect();
-      const containerRect = container.getBoundingClientRect();
+      // const containerRect = container.getBoundingClientRect();
       setThumbStyle({
         width: btnRect.width,
         height: btnRect.height,

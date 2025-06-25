@@ -1,4 +1,4 @@
-import { INavItems, Property, BlogPost } from "./types";
+import { INavItems, BlogPost } from "./types";
 
 export const NavItems: Array<INavItems> = [
   {

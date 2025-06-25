@@ -1,4 +1,6 @@
-import { Property } from "@/common/types";
+/* eslint-disable @typescript-eslint/no-unused-expressions */
+
+// import { Property } from "@/common/types";
 import { getPropertyBySlug } from "@/firebase/properties";
 import { getAbsoluteUrl } from "@/lib/utils";
 import { Metadata } from "next";

@@ -1,7 +1,7 @@
 "use client";
 
 import { useRouter } from "next/navigation";
-import { Home, Building2, FileText, Users, BarChart3 } from "lucide-react";
+import { Building2, FileText, Users, BarChart3 } from "lucide-react";
 import { cn } from "@/lib/utils";
 
 interface SidebarProps {

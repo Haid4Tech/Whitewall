@@ -6,10 +6,10 @@ import { SearchFilters } from "@/components/properties/search-filters";
 import { PropertyCard } from "@/components/properties/property-card";
 import { PropertyModal } from "@/components/properties/property-modal";
 import { Property } from "@/common/types";
-import { getProperties, searchProperties } from "@/firebase/properties";
+import { getProperties } from "@/firebase/properties";
 import LoadingSpinner from "@/components/ui/loading-spinner";
-import { Button } from "@/components/ui/button";
-import { migratePropertiesToSlugs } from "@/scripts/migrate-to-slugs";
+// import { Button } from "@/components/ui/button";
+// import { migratePropertiesToSlugs } from "@/scripts/migrate-to-slugs";
 // import { LoadingSpinner } from "@/components/ui/loading-spinner";
 
 export default function Page() {

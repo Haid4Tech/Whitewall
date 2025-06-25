@@ -1,3 +1,5 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
+
 import {
   addDoc,
   collection,
@@ -183,7 +185,7 @@ export const updateProperty = async (
     const docRef = doc(db, "properties", id);
 
     // If title is being updated, regenerate the slug
-    let updatedData = { ...propertyData, updatedAt: Timestamp.now() };
+    const updatedData = { ...propertyData, updatedAt: Timestamp.now() };
 
     if (propertyData.title) {
       const baseSlug = generateSlug(propertyData.title);

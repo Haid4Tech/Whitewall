@@ -1,27 +1,33 @@
 "use client";
 
-import { useState, useMemo } from "react";
-import { useRouter } from "next/navigation";
-import { Search, Calendar, User, Clock } from "lucide-react";
-import { Input } from "@/components/ui/input";
-import { Button } from "@/components/ui/button";
-import { Badge } from "@/components/ui/badge";
+import { useState, useMemo, useEffect } from "react";
+// import { useRouter } from "next/navigation";
 import { BlogCard } from "@/components/blog/blog-card";
 import { blogPosts } from "@/common/data";
-import Image from "next/image";
+// import { Search, Calendar, User, Clock } from "lucide-react";
+// import { Input } from "@/components/ui/input";
+// import { Button } from "@/components/ui/button";
+// import { Badge } from "@/components/ui/badge";
+// import Image from "next/image";
 
 export const BlogList = () => {
-  const router = useRouter();
+  // const router = useRouter();
   const [searchQuery, setSearchQuery] = useState("");
   const [selectedCategory, setSelectedCategory] = useState("All");
 
-  const categories = [
-    "All",
-    "Market Analysis",
-    "Selling Tips",
-    "Investment",
-    "Luxury Market",
-  ];
+  useEffect(() => {
+    // Reset search and category when component mounts
+    setSearchQuery("");
+    setSelectedCategory("All");
+  }, []);
+
+  // const categories = [
+  //   "All",
+  //   "Market Analysis",
+  //   "Selling Tips",
+  //   "Investment",
+  //   "Luxury Market",
+  // ];
 
   const filteredPosts = useMemo(() => {
     return blogPosts.filter((post) => {
@@ -38,7 +44,7 @@ export const BlogList = () => {
     });
   }, [searchQuery, selectedCategory]);
 
-  const featuredPost = blogPosts[0];
+  // const featuredPost = blogPosts[0];
 
   return (
     <div className="min-h-screen bg-background">

@@ -2,7 +2,6 @@
 
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
-import { Eye, EyeOff, Mail, Lock, User } from "lucide-react";
 import InputWithLabel from "@/components/general/input-field";
 import { login } from "@/firebase/auth";
 
@@ -19,9 +18,11 @@ const AuthForm = ({ isLogin }: AuthFormProps) => {
   const [showPassword, setShowPassword] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [errors, setErrors] = useState<Record<string, string>>({});
+  console.log(errors);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    setShowPassword(false);
     setIsLoading(true);
     setErrors({});
 

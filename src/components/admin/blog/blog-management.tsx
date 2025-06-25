@@ -7,17 +7,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Input } from "@/components/ui/input";
-import {
-  Search,
-  Plus,
-  Eye,
-  Edit,
-  Trash2,
-  TrendingUp,
-  Users,
-  Calendar,
-  Tag,
-} from "lucide-react";
+import { Search, Plus, Eye, Edit, Trash2, Calendar } from "lucide-react";
 import { BlogEditor } from "./blog-editor";
 import { BlogAnalytics } from "./blog-analytics";
 import { BlogCategories } from "./blog-categories";

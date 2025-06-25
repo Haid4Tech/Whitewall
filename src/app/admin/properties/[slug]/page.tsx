@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 "use client";
 
 import { useState, useEffect } from "react";
@@ -29,6 +30,7 @@ import LoadingSpinner from "@/components/ui/loading-spinner";
 import { SuccessToast } from "@/components/ui/success-toast";
 import { ErrorToast } from "@/components/ui/error-toast";
 import { AvailabilityToggle } from "@/components/ui/segmented-toggle";
+import Image from "next/image";
 
 export default function PropertyDetailPage() {
   const params = useParams();
@@ -75,7 +77,7 @@ export default function PropertyDetailPage() {
     if (propertySlug) {
       fetchProperty();
     }
-  }, [propertySlug]);
+  }, [propertySlug, handlePropertyFetch]);
 
   const handleEditProperty = () => {
     if (
@@ -313,7 +315,9 @@ export default function PropertyDetailPage() {
                   <div className="space-y-4">
                     {/* Main Image */}
                     <div className="relative aspect-video bg-gray-100 rounded-lg overflow-hidden">
-                      <img
+                      <Image
+                        width={200}
+                        height={200}
                         src={property.images[currentImageIndex]}
                         alt={`${property.title} - Image ${
                           currentImageIndex + 1
@@ -335,7 +339,9 @@ export default function PropertyDetailPage() {
                                 : "border-gray-200 hover:border-gray-300"
                             }`}
                           >
-                            <img
+                            <Image
+                              width={200}
+                              height={200}
                               src={image}
                               alt={`Thumbnail ${index + 1}`}
                               className="w-full h-full object-cover"

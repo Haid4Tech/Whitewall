@@ -16,7 +16,7 @@ interface SuccessDialogProps {
 export function SuccessDialog({
   isOpen,
   onClose,
-  propertyId,
+  // propertyId,
   propertyTitle,
   onViewProperty,
 }: SuccessDialogProps) {
@@ -46,7 +46,7 @@ export function SuccessDialog({
         className="absolute inset-0 bg-black/50 backdrop-blur-sm animate-in fade-in duration-300"
         onClick={onClose}
       />
-      
+
       {/* Confetti Animation */}
       {showConfetti && (
         <div className="absolute inset-0 pointer-events-none">
@@ -59,16 +59,16 @@ export function SuccessDialog({
                 animationDelay: `${Math.random() * 3}s`,
                 animationDuration: `${3 + Math.random() * 2}s`,
                 backgroundColor: [
-                  '#3B82F6', // blue
-                  '#10B981', // green
-                  '#F59E0B', // yellow
-                  '#EF4444', // red
-                  '#8B5CF6', // purple
-                  '#06B6D4', // cyan
+                  "#3B82F6", // blue
+                  "#10B981", // green
+                  "#F59E0B", // yellow
+                  "#EF4444", // red
+                  "#8B5CF6", // purple
+                  "#06B6D4", // cyan
                 ][Math.floor(Math.random() * 6)],
                 width: `${8 + Math.random() * 8}px`,
                 height: `${8 + Math.random() * 8}px`,
-                borderRadius: '50%',
+                borderRadius: "50%",
               }}
             />
           ))}
@@ -83,23 +83,27 @@ export function SuccessDialog({
             <div className="relative z-10">
               <div
                 className={`inline-flex items-center justify-center w-20 h-20 bg-white rounded-full shadow-lg transform transition-all duration-700 ${
-                  showIcon ? 'scale-100 rotate-0' : 'scale-0 rotate-180'
-                } ${showIcon ? 'animate-pulse' : ''}`}
+                  showIcon ? "scale-100 rotate-0" : "scale-0 rotate-180"
+                } ${showIcon ? "animate-pulse" : ""}`}
               >
                 <CheckCircle className="w-12 h-12 text-green-600" />
               </div>
-              
+
               <h2
                 className={`mt-6 text-2xl font-bold text-white transition-all duration-700 delay-200 ${
-                  showContent ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'
+                  showContent
+                    ? "opacity-100 translate-y-0"
+                    : "opacity-0 translate-y-4"
                 }`}
               >
                 Property Added Successfully!
               </h2>
-              
+
               <p
                 className={`mt-2 text-green-100 transition-all duration-700 delay-300 ${
-                  showContent ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'
+                  showContent
+                    ? "opacity-100 translate-y-0"
+                    : "opacity-0 translate-y-4"
                 }`}
               >
                 Your property has been uploaded and is now live
@@ -127,10 +131,14 @@ export function SuccessDialog({
             {propertyTitle && (
               <div
                 className={`mb-4 transition-all duration-700 delay-400 ${
-                  showContent ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'
+                  showContent
+                    ? "opacity-100 translate-y-0"
+                    : "opacity-0 translate-y-4"
                 }`}
               >
-                <h3 className="font-semibold text-gray-900 mb-1">Property Details</h3>
+                <h3 className="font-semibold text-gray-900 mb-1">
+                  Property Details
+                </h3>
                 <p className="text-gray-600 text-sm">{propertyTitle}</p>
               </div>
             )}
@@ -138,7 +146,9 @@ export function SuccessDialog({
             {/* Action Buttons */}
             <div
               className={`space-y-3 transition-all duration-700 delay-500 ${
-                showContent ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'
+                showContent
+                  ? "opacity-100 translate-y-0"
+                  : "opacity-0 translate-y-4"
               }`}
             >
               {onViewProperty && (
@@ -152,7 +162,7 @@ export function SuccessDialog({
               )}
 
               <Button
-                onClick={() => window.open('/admin/properties', '_blank')}
+                onClick={() => window.open("/admin/properties", "_blank")}
                 variant="outline"
                 className="w-full hover:bg-gray-50 transform hover:scale-105 transition-transform"
               >
@@ -181,4 +191,4 @@ export function SuccessDialog({
       </Card>
     </div>
   );
-} 
+}

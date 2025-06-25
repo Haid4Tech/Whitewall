@@ -2,16 +2,7 @@
 
 import { useState, useRef, useCallback } from "react";
 import { useRouter } from "next/navigation";
-import {
-  ArrowLeft,
-  Upload,
-  X,
-  Image as ImageIcon,
-  Plus,
-  Trash2,
-  Loader2,
-  Check,
-} from "lucide-react";
+import { ArrowLeft, Upload, X, Plus, Loader2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -22,6 +13,7 @@ import { SuccessToast } from "@/components/ui/success-toast";
 import { ErrorToast } from "@/components/ui/error-toast";
 import { createProperty } from "@/firebase/properties";
 import { uploadImagesToSpaces } from "@/lib/spaces-upload";
+import Image from "next/image";
 import DropdownSelect from "@/components/general/select-comp";
 import {
   ABUJA_LOCATIONS,
@@ -68,7 +60,7 @@ export default function AddPropertyPage() {
   const [showAmenitiesDropdown, setShowAmenitiesDropdown] = useState(false);
   const [showSuccessToast, setShowSuccessToast] = useState(false);
   const [showErrorToast, setShowErrorToast] = useState(false);
-  const [errorMessage, setErrorMessage] = useState("");
+  const [, setErrorMessage] = useState("");
   const fileInputRef = useRef<HTMLInputElement>(null);
 
   const handleImageUpload = useCallback(
@@ -294,7 +286,9 @@ export default function AddPropertyPage() {
                   <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
                     {imageUrls.map((url, index) => (
                       <div key={index} className="relative group">
-                        <img
+                        <Image
+                          width={200}
+                          height={200}
                           src={url}
                           alt={`Preview ${index + 1}`}
                           className="w-full h-32 object-cover rounded-lg"

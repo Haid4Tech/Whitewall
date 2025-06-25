@@ -1,4 +1,5 @@
 "use client";
+
 import React, { useState, useEffect } from "react";
 import { useRouter, useParams } from "next/navigation";
 import { PropertyEditDialog } from "@/components/admin/properties/property-edit-modal";
@@ -28,8 +29,10 @@ export default function PropertyEditMobilePage() {
           setProperty(prop);
           setShowForm(true);
         }
-      } catch (e) {
+      } catch (error) {
         setError("Failed to load property");
+        console.error("Error fetching property:", error);
+        throw new Error("Failed to load property");
       } finally {
         setLoading(false);
       }
@@ -81,4 +84,4 @@ export default function PropertyEditMobilePage() {
       </div>
     </div>
   );
-} 
+}

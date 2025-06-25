@@ -1,3 +1,6 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
+"use client";
+
 import React, { useState, useRef, useCallback, useEffect } from "react";
 import {
   Dialog,
