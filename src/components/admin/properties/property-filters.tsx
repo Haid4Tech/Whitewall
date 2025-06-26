@@ -103,8 +103,8 @@ export const PropertyFilters: React.FC<PropertyFiltersProps> = ({
       <div>
         <div className=" flex flex-row gap-4 items-top justify-between">
           <div className="flex flex-col gap-2">
-            <div className="hidden sm:flex items-center gap-3">
-              <Filter className="h-5 w-5 text-muted-foreground" />
+            <div className="hidden sm:flex items-center gap-1">
+              <Filter className={"text-muted-foreground"} size={15} />
 
               <Label className="text-sm font-medium">Filters & Options</Label>
               {hasActiveFilters && (

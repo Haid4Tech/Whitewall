@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import AppLayout from "@/components/provider/layout";
+import SpeedTest from "@cloudflare/speedtest";
 import "./globals.css";
 
 const geistSans = Geist({
@@ -23,6 +24,10 @@ export default function RootLayout({
 }: {
   children: React.ReactNode;
 }) {
+  // test internet speed
+  new SpeedTest().onFinish = (results) =>
+    console.log("Internet connection ", results.getSummary());
+
   return (
     <html lang="en">
       <body
