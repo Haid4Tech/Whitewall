@@ -1,6 +1,6 @@
 import { Property } from "./types";
 
-export const initialProperties: Property = {
+export const initialProperties: Omit<Property, "id"> = {
   title: "",
   location: "",
   price: 0,

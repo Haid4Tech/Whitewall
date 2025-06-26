@@ -1,24 +1,19 @@
-/* eslint-disable @typescript-eslint/no-unused-expressions */
-
-// import { Property } from "@/common/types";
 import { getPropertyBySlug } from "@/firebase/properties";
 import { getAbsoluteUrl } from "@/lib/utils";
-import { Metadata } from "next";
+import type { Metadata } from "next";
 import PropertyDetailPage from "./property-page-client";
+import { notFound } from "next/navigation";
 
-interface Props {
-  params: {
-    slug: string;
-  };
-}
+type Props = {
+  params: Promise<{ slug: string }>;
+  searchParams: Promise<{ [key: string]: string | string[] | undefined }>;
+};
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
-  const param = await params;
-  const slug = param.slug;
+  const slug = (await params).slug;
 
+  // Fetch the property data based on the slug
   const listing = await getPropertyBySlug(slug);
-
-  console.log(listing);
 
   if (!listing) {
     return {
@@ -52,18 +47,29 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
       title: listing.title,
       description: listing.description,
       images: [imageUrl],
-      site: "@whitewall",
+      site: "@whitewall", // Ensure this is your actual Twitter handle
     },
     alternates: {
       canonical: currentUrl,
     },
   };
 }
-export default async function Page({ params }: { params: { slug: string } }) {
-  const param = await params;
-  const slug = param.slug;
 
-  const propertyData = await getPropertyBySlug(slug);
+export default async function Page({ params }: Props) {
+  const { slug } = await params;
+
+  let propertyData;
+  try {
+    propertyData = await getPropertyBySlug(slug);
+  } catch (e) {
+    console.error("Error fetching property:", e);
+    notFound();
+  }
+
+  if (!propertyData) {
+    notFound(); //
+  }
+
   const plainListing = JSON.parse(JSON.stringify(propertyData));
 
   return <PropertyDetailPage property={plainListing} />;

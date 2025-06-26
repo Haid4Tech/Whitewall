@@ -9,7 +9,8 @@ import { Button } from "@/components/ui/button";
 // import UploadImage from "@/components/general/upload-image";
 
 const AddProperties = () => {
-  const [formData, setFormData] = useState<Property>(initialProperties);
+  const [formData, setFormData] =
+    useState<Omit<Property, "id">>(initialProperties);
 
   const handleInputChange = (field: string, value: string) => {
     setFormData((prev) => ({ ...prev, [field]: value }));

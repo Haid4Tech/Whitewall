@@ -51,11 +51,11 @@ export const blogService = {
     return mockBlogPosts.find((post) => post.id === id) || null;
   },
 
-  createPost: async (data: BlogPost): Promise<BlogPost> => {
+  createPost: async (data: BlogPost): Promise<IBlogCard> => {
     await new Promise((resolve) => setTimeout(resolve, 1000));
-    const newPost: BlogPost = {
+    const newPost: IBlogCard = {
       ...data,
-
+      id: (Math.random() + Date.now()).toString(), // Generate a unique id
       publishDate: data.isPublished ? new Date() : new Date(),
       createdAt: new Date(),
       updatedAt: new Date(),

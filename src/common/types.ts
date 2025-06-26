@@ -22,6 +22,7 @@ export interface Property {
   type: string;
   images: string[];
   status?: ListingStatus;
+  liked?: boolean;
   featured: boolean;
   description: string;
   amenities: string[];
