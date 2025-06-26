@@ -1,15 +1,20 @@
 "use client";
 
 import { useState } from "react";
+import { usePathname } from "next/navigation";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import { NavItems } from "@/common/data";
 import Link from "next/link";
+import { cn } from "@/lib/utils";
 
 const Header = () => {
+  const pathname = usePathname();
   const [isMenuOpen, setIsMenuOpen] = useState<boolean>(false);
   const router = useRouter();
+
+  console.log(pathname);
 
   return (
     <header className="relative z-50 bg-white/95 shadow-sm">
@@ -33,7 +38,12 @@ const Header = () => {
               <Link
                 key={id}
                 href={url}
-                className="text-gray-700 hover:text-gray-900 transition-colors"
+                className={cn(
+                  pathname === url
+                    ? "text-primary-gold"
+                    : "text-gray-700 hover:text-primary-gold",
+                  "transition-colors"
+                )}
               >
                 {label}
               </Link>

@@ -51,6 +51,27 @@ export const PRICE_TYPES = ["for sale", "per month", "per year", "per week"];
 
 export const STATUS_OPTIONS = ["Available", "Sold"];
 
+export const FEATURED_PROP = [
+  {
+    id: "featured-all",
+    name: "featured",
+    checked: false,
+    label: "All Properties",
+  },
+  {
+    id: "featured-yes",
+    name: "featured",
+    checked: false,
+    label: "Featured Only",
+  },
+  {
+    id: "featured-no",
+    name: "featured",
+    checked: false,
+    label: "Not Featured",
+  },
+];
+
 // Common amenities list
 export const COMMON_AMENITIES = [
   "Swimming Pool",

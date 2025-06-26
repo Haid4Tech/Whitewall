@@ -6,6 +6,8 @@ import { Sidebar } from "@/components/admin/navigation/sidebar";
 import AdminNavBar from "@/components/admin/navigation/admin-navbar";
 import AuthScreen from "@/components/admin/auth/auth-screen";
 import AdminProvider from "@/components/provider/layout";
+import { Suspense } from "react";
+import Loading from "@/app/admin/loading";
 
 export default function DashboardLayoutWrapper({
   children,
@@ -36,9 +38,11 @@ function DashboardLayout({ children }: { children: React.ReactNode }) {
               activeSection={activeSection}
               onSectionChange={setActiveSection}
             />
-            <div className="min-h-screen bg-gradient-to-br from-gray-50 to-gray-100 p-5 w-full border-l border-t rounded-ss-lg border-gray-200">
-              {children}
-            </div>
+            <Suspense fallback={<Loading />}>
+              <div className="min-h-screen bg-gradient-to-br from-gray-50 to-gray-100 p-5 w-full border-l border-t rounded-ss-lg border-gray-200">
+                {children}
+              </div>
+            </Suspense>
           </div>
         )}
       </div>

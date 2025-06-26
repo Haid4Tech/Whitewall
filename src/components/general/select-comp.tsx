@@ -26,7 +26,7 @@ const DropdownSelect: FC<IDropdownSelect> = ({
   label,
 }) => {
   return (
-    <div className="grid w-full items-center gap-3">
+    <div className="grid w-full items-center gap-2">
       {label && <Label htmlFor="status">{label}</Label>}
       <Select
         value={value}

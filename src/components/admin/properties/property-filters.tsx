@@ -4,13 +4,8 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
+import DropdownSelect from "@/components/general/select-comp";
+import InputWithLabel from "@/components/general/input-field";
 import { Collapsible, CollapsibleContent } from "@/components/ui/collapsible";
 import { Filter, Search, X, SlidersHorizontal } from "lucide-react";
 import { SegmentedToggle } from "@/components/ui/segmented-toggle";
@@ -19,6 +14,7 @@ import {
   PRICE_TYPES,
   PROPERTY_TYPES,
   STATUS_OPTIONS,
+  FEATURED_PROP,
 } from "@/lib/constants";
 
 interface FilterState {
@@ -141,7 +137,6 @@ export const PropertyFilters: React.FC<PropertyFiltersProps> = ({
               ]}
               value={isGroupedByLocation ? "grouped" : "list"}
               onChange={(val) => onToggleGrouping(val === "grouped")}
-              className="shadow-sm"
             />
           </div>
         </div>
@@ -149,7 +144,7 @@ export const PropertyFilters: React.FC<PropertyFiltersProps> = ({
 
       <Collapsible open={isExpanded}>
         <CollapsibleContent>
-          <CardContent className="space-y-6">
+          <CardContent className="p-3 border border-gray-200 shadow-md rounded-lg space-y-6">
             {/* Search Bar */}
             <div className="relative">
               <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-muted-foreground" />
@@ -164,147 +159,112 @@ export const PropertyFilters: React.FC<PropertyFiltersProps> = ({
             {/* Basic Filters */}
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
               {/* Location */}
-              <div className="space-y-2">
-                <Label>Location</Label>
-                <Select
-                  value={filters.location}
-                  onValueChange={(value) => updateFilter("location", value)}
-                >
-                  <SelectTrigger>
-                    <SelectValue placeholder="All Locations" />
-                  </SelectTrigger>
-                  <SelectContent>
-                    <SelectItem value="zz">All Locations</SelectItem>
-                    {ABUJA_LOCATIONS.map((location) => (
-                      <SelectItem key={location} value={location}>
-                        {location}
-                      </SelectItem>
-                    ))}
-                  </SelectContent>
-                </Select>
-              </div>
+              <DropdownSelect
+                label="Location"
+                placeholder="Select Location"
+                name="location"
+                value={filters.location}
+                handleChange={(name, value) =>
+                  updateFilter(name as keyof FilterState, value)
+                }
+                items={ABUJA_LOCATIONS}
+              />
 
               {/* Property Type */}
-              <div className="space-y-2">
-                <Label>Property Type</Label>
-                <Select
-                  value={filters.propertyType}
-                  onValueChange={(value) => updateFilter("propertyType", value)}
-                >
-                  <SelectTrigger>
-                    <SelectValue placeholder="All Types" />
-                  </SelectTrigger>
-                  <SelectContent>
-                    <SelectItem value="aa">All Types</SelectItem>
-                    {PROPERTY_TYPES.map((type) => (
-                      <SelectItem key={type} value={type}>
-                        {type.charAt(0).toUpperCase() + type.slice(1)}
-                      </SelectItem>
-                    ))}
-                  </SelectContent>
-                </Select>
-              </div>
+              <DropdownSelect
+                label="Property Type"
+                placeholder="Select Property Type"
+                name="propertyType"
+                value={filters.propertyType}
+                handleChange={(name, value) =>
+                  updateFilter(name as keyof FilterState, value)
+                }
+                items={PROPERTY_TYPES}
+              />
 
               {/* Price Type */}
-              <div className="space-y-2">
-                <Label>Price Type</Label>
-                <Select
-                  value={filters.priceType}
-                  onValueChange={(value) => updateFilter("priceType", value)}
-                >
-                  <SelectTrigger>
-                    <SelectValue placeholder="All Price Types" />
-                  </SelectTrigger>
-                  <SelectContent>
-                    <SelectItem value="xx">All Price Types</SelectItem>
-                    {PRICE_TYPES.map((type) => (
-                      <SelectItem key={type} value={type}>
-                        {type.charAt(0).toUpperCase() + type.slice(1)}
-                      </SelectItem>
-                    ))}
-                  </SelectContent>
-                </Select>
-              </div>
+              <DropdownSelect
+                label="Price Type"
+                placeholder="Select Price Type"
+                name="priceType"
+                value={filters.priceType}
+                handleChange={(name, value) =>
+                  updateFilter(name as keyof FilterState, value)
+                }
+                items={PRICE_TYPES}
+              />
 
               {/* Status */}
-              <div className="space-y-2">
-                <Label>Status</Label>
-                <Select
-                  value={filters.status}
-                  onValueChange={(value) => updateFilter("status", value)}
-                >
-                  <SelectTrigger>
-                    <SelectValue placeholder="All Status" />
-                  </SelectTrigger>
-                  <SelectContent>
-                    <SelectItem value="yy">All Status</SelectItem>
-                    {STATUS_OPTIONS.map((status) => (
-                      <SelectItem key={status} value={status}>
-                        {status}
-                      </SelectItem>
-                    ))}
-                  </SelectContent>
-                </Select>
-              </div>
+              <DropdownSelect
+                label="Status"
+                placeholder="Select Status"
+                name="status"
+                value={filters.status}
+                handleChange={(name, value) =>
+                  updateFilter(name as keyof FilterState, value)
+                }
+                items={STATUS_OPTIONS}
+              />
             </div>
 
             {/* Price Range */}
             <div className="space-y-3">
               <Label>Price Range (₦)</Label>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                <div className="space-y-2">
-                  <Label className="text-sm text-muted-foreground">
-                    Minimum Price
-                  </Label>
-                  <Input
-                    type="number"
-                    placeholder="0"
-                    value={filters.minPrice}
-                    onChange={(e) => updateFilter("minPrice", e.target.value)}
-                  />
-                </div>
-                <div className="space-y-2">
-                  <Label className="text-sm text-muted-foreground">
-                    Maximum Price
-                  </Label>
-                  <Input
-                    type="number"
-                    placeholder="10000000"
-                    value={filters.maxPrice}
-                    onChange={(e) => updateFilter("maxPrice", e.target.value)}
-                  />
-                </div>
+                <InputWithLabel
+                  items={{
+                    htmlfor: "minPrice",
+                    label: "Minimum Price",
+                    name: "minPrice",
+                    type: "number",
+                    placeholder: "0",
+                  }}
+                  onChange={(e) => updateFilter("minPrice", e.target.value)}
+                />
+                <InputWithLabel
+                  items={{
+                    htmlfor: "maxPrice",
+                    label: "Maximum Price",
+                    name: "maxPrice",
+                    type: "number",
+                    placeholder: "0",
+                  }}
+                  onChange={(e) => updateFilter("maxPrice", e.target.value)}
+                />
               </div>
             </div>
 
             {/* Bedrooms & Bathrooms */}
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               {/* Bedrooms Range */}
+
               <div className="space-y-3">
                 <Label>Bedrooms</Label>
                 <div className="grid grid-cols-2 gap-4">
-                  <div className="space-y-2">
-                    <Label className="text-sm text-muted-foreground">Min</Label>
-                    <Input
-                      type="number"
-                      placeholder="0"
-                      value={filters.minBedrooms}
-                      onChange={(e) =>
-                        updateFilter("minBedrooms", e.target.value)
-                      }
-                    />
-                  </div>
-                  <div className="space-y-2">
-                    <Label className="text-sm text-muted-foreground">Max</Label>
-                    <Input
-                      type="number"
-                      placeholder="10"
-                      value={filters.maxBedrooms}
-                      onChange={(e) =>
-                        updateFilter("maxBedrooms", e.target.value)
-                      }
-                    />
-                  </div>
+                  <InputWithLabel
+                    items={{
+                      htmlfor: "minBedrooms",
+                      label: "Min",
+                      name: "minBedrooms",
+                      type: "number",
+                      placeholder: "0",
+                    }}
+                    onChange={(e) =>
+                      updateFilter("minBedrooms", e.target.value)
+                    }
+                  />
+                  <InputWithLabel
+                    items={{
+                      htmlfor: "maxBedrooms",
+                      label: "Max",
+                      name: "maxBedrooms",
+                      type: "number",
+                      placeholder: "0",
+                    }}
+                    onChange={(e) =>
+                      updateFilter("maxBedrooms", e.target.value)
+                    }
+                  />
                 </div>
               </div>
 
@@ -312,28 +272,30 @@ export const PropertyFilters: React.FC<PropertyFiltersProps> = ({
               <div className="space-y-3">
                 <Label>Bathrooms</Label>
                 <div className="grid grid-cols-2 gap-4">
-                  <div className="space-y-2">
-                    <Label className="text-sm text-muted-foreground">Min</Label>
-                    <Input
-                      type="number"
-                      placeholder="0"
-                      value={filters.minBathrooms}
-                      onChange={(e) =>
-                        updateFilter("minBathrooms", e.target.value)
-                      }
-                    />
-                  </div>
-                  <div className="flex flex-col gap-2">
-                    <Label className="text-sm text-muted-foreground">Max</Label>
-                    <Input
-                      type="number"
-                      placeholder="10"
-                      value={filters.maxBathrooms}
-                      onChange={(e) =>
-                        updateFilter("maxBathrooms", e.target.value)
-                      }
-                    />
-                  </div>
+                  <InputWithLabel
+                    items={{
+                      htmlfor: "minBathrooms",
+                      label: "Min",
+                      name: "minBathrooms",
+                      type: "number",
+                      placeholder: "0",
+                    }}
+                    onChange={(e) =>
+                      updateFilter("minBathrooms", e.target.value)
+                    }
+                  />
+                  <InputWithLabel
+                    items={{
+                      htmlfor: "maxBathrooms",
+                      label: "Max",
+                      name: "maxBathrooms",
+                      type: "number",
+                      placeholder: "0",
+                    }}
+                    onChange={(e) =>
+                      updateFilter("maxBathrooms", e.target.value)
+                    }
+                  />
                 </div>
               </div>
             </div>
@@ -342,28 +304,26 @@ export const PropertyFilters: React.FC<PropertyFiltersProps> = ({
             <div className="space-y-3">
               <Label>Square Feet</Label>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                <div className="space-y-2">
-                  <Label className="text-sm text-muted-foreground">
-                    Minimum Sqft
-                  </Label>
-                  <Input
-                    type="number"
-                    placeholder="0"
-                    value={filters.minSqft}
-                    onChange={(e) => updateFilter("minSqft", e.target.value)}
-                  />
-                </div>
-                <div className="space-y-2">
-                  <Label className="text-sm text-muted-foreground">
-                    Maximum Sqft
-                  </Label>
-                  <Input
-                    type="number"
-                    placeholder="10000"
-                    value={filters.maxSqft}
-                    onChange={(e) => updateFilter("maxSqft", e.target.value)}
-                  />
-                </div>
+                <InputWithLabel
+                  items={{
+                    htmlfor: "minSqft",
+                    label: "Minimum Sqft",
+                    name: "minSqft",
+                    type: "number",
+                    placeholder: "0",
+                  }}
+                  onChange={(e) => updateFilter("minSqft", e.target.value)}
+                />
+                <InputWithLabel
+                  items={{
+                    htmlfor: "maxSqft",
+                    label: "Maximum Sqft",
+                    name: "maxSqft",
+                    type: "number",
+                    placeholder: "0",
+                  }}
+                  onChange={(e) => updateFilter("maxSqft", e.target.value)}
+                />
               </div>
             </div>
 
@@ -371,7 +331,20 @@ export const PropertyFilters: React.FC<PropertyFiltersProps> = ({
             <div className="space-y-3">
               <Label>Featured Property</Label>
               <div className="flex items-center gap-4">
-                <div className="flex items-center gap-2">
+                {FEATURED_PROP.map((item, index) => (
+                  <div key={index} className="flex items-center gap-2">
+                    <input
+                      type="radio"
+                      id={item.id}
+                      name={item.name}
+                      checked={filters.featured === item.checked}
+                      onChange={() => updateFilter("featured", item.id)}
+                    />
+                    <Label htmlFor={item.id}>{item.label}</Label>
+                  </div>
+                ))}
+
+                {/* <div className="flex items-center gap-2">
                   <input
                     type="radio"
                     id="featured-all"
@@ -391,7 +364,7 @@ export const PropertyFilters: React.FC<PropertyFiltersProps> = ({
                   />
                   <Label htmlFor="featured-yes">Featured Only</Label>
                 </div>
-                <div className="flex items-center gap-2">
+                <div className="flex items-center gap-2 cursor-pointer transition-all ease-in-out duration-150">
                   <input
                     type="radio"
                     id="featured-no"
@@ -400,7 +373,7 @@ export const PropertyFilters: React.FC<PropertyFiltersProps> = ({
                     onChange={() => updateFilter("featured", false)}
                   />
                   <Label htmlFor="featured-no">Not Featured</Label>
-                </div>
+                </div> */}
               </div>
             </div>
 
@@ -413,7 +386,7 @@ export const PropertyFilters: React.FC<PropertyFiltersProps> = ({
                     key={amenity}
                     type="button"
                     onClick={() => handleAmenityToggle(amenity)}
-                    className={`text-left p-2 rounded border text-sm transition-colors ${
+                    className={`cursor-pointer text-left p-2 rounded border text-sm transition-colors ${
                       selectedAmenities.includes(amenity)
                         ? "border-blue-500 bg-blue-50 text-blue-700"
                         : "border-gray-200 hover:border-gray-300"
