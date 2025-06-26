@@ -26,9 +26,9 @@ export default function Page() {
   const filteredPosts = useMemo(() => {
     return blogPosts.filter((post) => {
       const matchesSearch =
-        post.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
-        post.excerpt.toLowerCase().includes(searchQuery.toLowerCase()) ||
-        post.tags.some((tag) =>
+        post?.title?.toLowerCase().includes(searchQuery.toLowerCase()) ||
+        post?.excerpt?.toLowerCase().includes(searchQuery.toLowerCase()) ||
+        post?.tags.some((tag) =>
           tag.toLowerCase().includes(searchQuery.toLowerCase())
         );
       const matchesCategory =
@@ -65,8 +65,8 @@ export default function Page() {
               <Image
                 width={200}
                 height={200}
-                src={featuredPost.image}
-                alt={featuredPost.title}
+                src={featuredPost?.image ?? ""}
+                alt={featuredPost?.title ?? ""}
                 className="w-full h-full object-cover"
               />
               <div className="absolute top-4 left-4">
@@ -90,7 +90,9 @@ export default function Page() {
                 </div>
                 <div className="flex items-center">
                   <Calendar className="h-4 w-4 mr-1" />
-                  {new Date(featuredPost.publishDate).toLocaleDateString()}
+                  {new Date(
+                    featuredPost?.publishDate ?? ""
+                  ).toLocaleDateString()}
                 </div>
                 <div className="flex items-center">
                   <Clock className="h-4 w-4 mr-1" />
@@ -149,7 +151,7 @@ export default function Page() {
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {filteredPosts.slice(1).map((post) => (
-            <BlogCard key={post.id} post={post} />
+            <BlogCard key={post?.id} post={post} />
           ))}
         </div>
 

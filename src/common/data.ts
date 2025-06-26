@@ -1,4 +1,4 @@
-import { INavItems, Property, BlogPost } from "./types";
+import { INavItems, BlogPost } from "./types";
 
 export const NavItems: Array<INavItems> = [
   {
@@ -23,202 +23,204 @@ export const NavItems: Array<INavItems> = [
   },
 ];
 
-export const properties: Property[] = [
-  {
-    id: "1",
-    title: "Modern Luxury Villa",
-    location: "Beverly Hills, CA",
-    price: 2500000,
-    priceType: "for sale",
-    bedrooms: 4,
-    bathrooms: 3,
-    sqft: 3200,
-    type: "villa",
-    image:
-      "https://images.unsplash.com/photo-1721322800607-8c38375eef04?w=800&h=600&fit=crop",
-    featured: true,
-    description:
-      "Stunning modern villa featuring open-plan living, premium finishes, and breathtaking city views. Located in one of the most prestigious neighborhoods with easy access to entertainment and shopping districts.",
-    amenities: [
-      "Swimming Pool",
-      "Garage",
-      "Garden",
-      "Security System",
-      "Air Conditioning",
-      "Fireplace",
-    ],
-  },
-  {
-    id: "2",
-    title: "Downtown Penthouse",
-    location: "Manhattan, NY",
-    price: 8500,
-    priceType: "per month",
-    bedrooms: 2,
-    bathrooms: 2,
-    sqft: 1800,
-    type: "apartment",
-    image:
-      "https://images.unsplash.com/photo-1487887235947-a955ef187fcc?w=800&h=600&fit=crop",
-    featured: false,
-    description:
-      "Luxurious penthouse apartment in the heart of Manhattan with panoramic city views, modern amenities, and premium finishes throughout. Perfect for urban professionals.",
-    amenities: [
-      "City Views",
-      "Gym",
-      "Concierge",
-      "Rooftop Terrace",
-      "Parking",
-      "Pet Friendly",
-    ],
-  },
-  {
-    id: "3",
-    title: "Suburban Family Home",
-    location: "Austin, TX",
-    price: 750000,
-    priceType: "for sale",
-    bedrooms: 5,
-    bathrooms: 4,
-    sqft: 4200,
-    type: "house",
-    image:
-      "https://images.unsplash.com/photo-1486312338219-ce68d2c6f44d?w=800&h=600&fit=crop",
-    featured: true,
-    description:
-      "Spacious family home in a quiet suburban neighborhood with excellent schools nearby. Features a large backyard, modern kitchen, and plenty of room for a growing family.",
-    amenities: [
-      "Large Backyard",
-      "2-Car Garage",
-      "Updated Kitchen",
-      "Master Suite",
-      "Home Office",
-      "Basement",
-    ],
-  },
-  {
-    id: "4",
-    title: "Beachfront Condo",
-    location: "Miami Beach, FL",
-    price: 4200,
-    priceType: "per month",
-    bedrooms: 3,
-    bathrooms: 2,
-    sqft: 2100,
-    type: "condo",
-    image:
-      "https://images.unsplash.com/photo-1461749280684-dccba630e2f6?w=800&h=600&fit=crop",
-    featured: false,
-    description:
-      "Beautiful beachfront condominium with direct ocean access and stunning sunset views. Fully furnished with modern amenities and resort-style facilities.",
-    amenities: [
-      "Ocean View",
-      "Beach Access",
-      "Pool",
-      "Fitness Center",
-      "Spa",
-      "Valet Parking",
-    ],
-  },
-  {
-    id: "5",
-    title: "Mountain Retreat",
-    location: "Aspen, CO",
-    price: 1800000,
-    priceType: "for sale",
-    bedrooms: 6,
-    bathrooms: 5,
-    sqft: 5500,
-    type: "house",
-    image:
-      "https://images.unsplash.com/photo-1488590528505-98d2b5aba04b?w=800&h=600&fit=crop",
-    featured: true,
-    description:
-      "Magnificent mountain retreat offering privacy and luxury in the Colorado Rockies. Perfect for those seeking a peaceful escape with world-class skiing nearby.",
-    amenities: [
-      "Mountain Views",
-      "Ski Access",
-      "Hot Tub",
-      "Fireplace",
-      "Wine Cellar",
-      "Guest House",
-    ],
-  },
-  {
-    id: "6",
-    title: "Urban Loft",
-    location: "Portland, OR",
-    price: 3200,
-    priceType: "per month",
-    bedrooms: 1,
-    bathrooms: 1,
-    sqft: 1200,
-    type: "apartment",
-    image:
-      "https://images.unsplash.com/photo-1649972904349-6e44c42644a7?w=800&h=600&fit=crop",
-    featured: false,
-    description:
-      "Stylish industrial loft in the trendy Pearl District with exposed brick walls, high ceilings, and modern amenities. Walking distance to restaurants and galleries.",
-    amenities: [
-      "Exposed Brick",
-      "High Ceilings",
-      "In-Unit Laundry",
-      "Walk-in Closet",
-      "Hardwood Floors",
-      "Bike Storage",
-    ],
-  },
-  {
-    id: "7",
-    title: "Countryside Estate",
-    location: "Napa Valley, CA",
-    price: 3200000,
-    priceType: "for sale",
-    bedrooms: 7,
-    bathrooms: 6,
-    sqft: 8200,
-    type: "villa",
-    image:
-      "https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?w=800&h=600&fit=crop",
-    featured: true,
-    description:
-      "Exquisite countryside estate nestled in the heart of wine country. Features vineyard views, luxury amenities, and entertaining spaces perfect for hosting.",
-    amenities: [
-      "Vineyard Views",
-      "Wine Cellar",
-      "Pool & Spa",
-      "Guest Wing",
-      "Chef's Kitchen",
-      "Tennis Court",
-    ],
-  },
-  {
-    id: "8",
-    title: "City Center Apartment",
-    location: "Chicago, IL",
-    price: 2800,
-    priceType: "per month",
-    bedrooms: 2,
-    bathrooms: 1,
-    sqft: 1400,
-    type: "apartment",
-    image:
-      "https://images.unsplash.com/photo-1487058792275-0ad4aaf24ca7?w=800&h=600&fit=crop",
-    featured: false,
-    description:
-      "Modern apartment in the heart of downtown Chicago with easy access to public transportation, shopping, and dining. Features updated amenities and city views.",
-    amenities: [
-      "City Views",
-      "Updated Kitchen",
-      "In-Unit Laundry",
-      "Doorman",
-      "Fitness Center",
-      "Storage Unit",
-    ],
-  },
-];
+// export const properties: Property[] = [
+//   {
+//     id: "1",
+//     title: "Modern Luxury Villa",
+//     location: "Beverly Hills, CA",
+//     price: 2500000,
+//     priceType: "for sale",
+//     bedrooms: 4,
+//     bathrooms: 3,
+//     sqft: 3200,
+//     type: "villa",
+//     image:
+//       "https://images.unsplash.com/photo-1721322800607-8c38375eef04?w=800&h=600&fit=crop",
+//     featured: true,
+//     description:
+//       "Stunning modern villa featuring open-plan living, premium finishes, and breathtaking city views. Located in one of the most prestigious neighborhoods with easy access to entertainment and shopping districts.",
+//     amenities: [
+//       "Swimming Pool",
+//       "Garage",
+//       "Garden",
+//       "Security System",
+//       "Air Conditioning",
+//       "Fireplace",
+//     ],
+//   },
+//   {
+//     id: "2",
+//     title: "Downtown Penthouse",
+//     location: "Manhattan, NY",
+//     price: 8500,
+//     priceType: "per month",
+//     bedrooms: 2,
+//     bathrooms: 2,
+//     sqft: 1800,
+//     type: "apartment",
+//     image:
+//       "https://images.unsplash.com/photo-1487887235947-a955ef187fcc?w=800&h=600&fit=crop",
+//     featured: false,
+//     description:
+//       "Luxurious penthouse apartment in the heart of Manhattan with panoramic city views, modern amenities, and premium finishes throughout. Perfect for urban professionals.",
+//     amenities: [
+//       "City Views",
+//       "Gym",
+//       "Concierge",
+//       "Rooftop Terrace",
+//       "Parking",
+//       "Pet Friendly",
+//     ],
+//   },
+//   {
+//     id: "3",
+//     title: "Suburban Family Home",
+//     location: "Austin, TX",
+//     price: 750000,
+//     priceType: "for sale",
+//     bedrooms: 5,
+//     bathrooms: 4,
+//     sqft: 4200,
+//     type: "house",
+//     image:
+//       "https://images.unsplash.com/photo-1486312338219-ce68d2c6f44d?w=800&h=600&fit=crop",
+//     featured: true,
+//     description:
+//       "Spacious family home in a quiet suburban neighborhood with excellent schools nearby. Features a large backyard, modern kitchen, and plenty of room for a growing family.",
+//     amenities: [
+//       "Large Backyard",
+//       "2-Car Garage",
+//       "Updated Kitchen",
+//       "Master Suite",
+//       "Home Office",
+//       "Basement",
+//     ],
+//   },
+//   {
+//     id: "4",
+//     title: "Beachfront Condo",
+//     location: "Miami Beach, FL",
+//     price: 4200,
+//     priceType: "per month",
+//     bedrooms: 3,
+//     bathrooms: 2,
+//     sqft: 2100,
+//     type: "condo",
+//     image:
+//       "https://images.unsplash.com/photo-1461749280684-dccba630e2f6?w=800&h=600&fit=crop",
+//     featured: false,
+//     description:
+//       "Beautiful beachfront condominium with direct ocean access and stunning sunset views. Fully furnished with modern amenities and resort-style facilities.",
+//     amenities: [
+//       "Ocean View",
+//       "Beach Access",
+//       "Pool",
+//       "Fitness Center",
+//       "Spa",
+//       "Valet Parking",
+//     ],
+//   },
+//   {
+//     id: "5",
+//     title: "Mountain Retreat",
+//     location: "Aspen, CO",
+//     price: 1800000,
+//     priceType: "for sale",
+//     bedrooms: 6,
+//     bathrooms: 5,
+//     sqft: 5500,
+//     type: "house",
+//     image:
+//       "https://images.unsplash.com/photo-1488590528505-98d2b5aba04b?w=800&h=600&fit=crop",
+//     featured: true,
+//     description:
+//       "Magnificent mountain retreat offering privacy and luxury in the Colorado Rockies. Perfect for those seeking a peaceful escape with world-class skiing nearby.",
+//     amenities: [
+//       "Mountain Views",
+//       "Ski Access",
+//       "Hot Tub",
+//       "Fireplace",
+//       "Wine Cellar",
+//       "Guest House",
+//     ],
+//   },
+//   {
+//     id: "6",
+//     title: "Urban Loft",
+//     location: "Portland, OR",
+//     price: 3200,
+//     priceType: "per month",
+//     bedrooms: 1,
+//     bathrooms: 1,
+//     sqft: 1200,
+//     type: "apartment",
+//     image:
+//       "https://images.unsplash.com/photo-1649972904349-6e44c42644a7?w=800&h=600&fit=crop",
+//     featured: false,
+//     description:
+//       "Stylish industrial loft in the trendy Pearl District with exposed brick walls, high ceilings, and modern amenities. Walking distance to restaurants and galleries.",
+//     amenities: [
+//       "Exposed Brick",
+//       "High Ceilings",
+//       "In-Unit Laundry",
+//       "Walk-in Closet",
+//       "Hardwood Floors",
+//       "Bike Storage",
+//     ],
+//   },
+//   {
+//     id: "7",
+//     title: "Countryside Estate",
+//     location: "Napa Valley, CA",
+//     price: 3200000,
+//     priceType: "for sale",
+//     bedrooms: 7,
+//     bathrooms: 6,
+//     sqft: 8200,
+//     type: "villa",
+//     image:
+//       "https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?w=800&h=600&fit=crop",
+//     featured: true,
+//     description:
+//       "Exquisite countryside estate nestled in the heart of wine country. Features vineyard views, luxury amenities, and entertaining spaces perfect for hosting.",
+//     amenities: [
+//       "Vineyard Views",
+//       "Wine Cellar",
+//       "Pool & Spa",
+//       "Guest Wing",
+//       "Chef's Kitchen",
+//       "Tennis Court",
+//     ],
+//   },
+//   {
+//     id: "8",
+//     title: "City Center Apartment",
+//     location: "Chicago, IL",
+//     price: 2800,
+//     priceType: "per month",
+//     bedrooms: 2,
+//     bathrooms: 1,
+//     sqft: 1400,
+//     type: "apartment",
+//     image:
+//       "https://images.unsplash.com/photo-1487058792275-0ad4aaf24ca7?w=800&h=600&fit=crop",
+//     featured: false,
+//     description:
+//       "Modern apartment in the heart of downtown Chicago with easy access to public transportation, shopping, and dining. Features updated amenities and city views.",
+//     amenities: [
+//       "City Views",
+//       "Updated Kitchen",
+//       "In-Unit Laundry",
+//       "Doorman",
+//       "Fitness Center",
+//       "Storage Unit",
+//     ],
+//   },
+// ];
 
-export const blogPosts: BlogPost[] = [
+type IBlogCard = BlogPost & { id: string };
+
+export const blogPosts: IBlogCard[] = [
   {
     id: "1",
     slug: "first-time-homebuyer-guide-2024",
@@ -246,7 +248,7 @@ export const blogPosts: BlogPost[] = [
     `,
     author: "Sarah Johnson",
     publishDate: "2024-01-15",
-    readTime: "8 min read",
+    readTime: 8,
     category: "Buying Guide",
     image:
       "https://images.unsplash.com/photo-1721322800607-8c38375eef04?w=800&h=600&fit=crop",
@@ -280,7 +282,7 @@ export const blogPosts: BlogPost[] = [
     `,
     author: "Michael Chen",
     publishDate: "2024-03-10",
-    readTime: "6 min read",
+    readTime: 6,
     category: "Market Analysis",
     image:
       "https://images.unsplash.com/photo-1649972904349-6e44c42644a7?w=800&h=600&fit=crop",
@@ -321,7 +323,7 @@ export const blogPosts: BlogPost[] = [
     `,
     author: "Emma Rodriguez",
     publishDate: "2024-02-28",
-    readTime: "5 min read",
+    readTime: 5,
     category: "Selling Tips",
     image:
       "https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?w=800&h=600&fit=crop",
@@ -362,7 +364,7 @@ export const blogPosts: BlogPost[] = [
     `,
     author: "David Kim",
     publishDate: "2024-01-20",
-    readTime: "10 min read",
+    readTime: 10,
     category: "Investment",
     image:
       "https://images.unsplash.com/photo-1488590528505-98d2b5aba04b?w=800&h=600&fit=crop",
@@ -404,7 +406,7 @@ export const blogPosts: BlogPost[] = [
     `,
     author: "Victoria Sterling",
     publishDate: "2024-03-05",
-    readTime: "7 min read",
+    readTime: 7,
     category: "Luxury Market",
     image:
       "https://images.unsplash.com/photo-1472396961693-142e6e269027?w=800&h=600&fit=crop",
