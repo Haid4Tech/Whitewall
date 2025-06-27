@@ -90,24 +90,6 @@ const AuthForm = ({ isLogin }: AuthFormProps) => {
         }
       />
 
-      {isLogin && (
-        <div className="flex items-center justify-between">
-          <label className="flex items-center">
-            <input
-              type="checkbox"
-              className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 focus:ring-2"
-            />
-            <span className="ml-2 text-sm text-gray-600">Remember me</span>
-          </label>
-          <button
-            type="button"
-            className="text-sm text-black hover:text-black/50 cursor-pointer transition-colors"
-          >
-            Forgot password?
-          </button>
-        </div>
-      )}
-
       <Button
         type="submit"
         disabled={isLoading}
