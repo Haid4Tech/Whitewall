@@ -11,7 +11,6 @@ import { getProperties } from "@/firebase/properties";
 import LoadingSpinner from "@/components/ui/loading-spinner";
 // import { Button } from "@/components/ui/button";
 // import { migratePropertiesToSlugs } from "@/scripts/migrate-to-slugs";
-// import { LoadingSpinner } from "@/components/ui/loading-spinner";
 
 export default function Page() {
   const [properties, setProperties] = useState<Property[]>([]);

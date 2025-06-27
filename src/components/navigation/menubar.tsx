@@ -14,8 +14,6 @@ const Header = () => {
   const [isMenuOpen, setIsMenuOpen] = useState<boolean>(false);
   const router = useRouter();
 
-  console.log(pathname);
-
   return (
     <header className="relative z-50 bg-white/95 shadow-sm">
       <div className="container mx-auto px-6 py-4">

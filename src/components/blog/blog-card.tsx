@@ -18,7 +18,7 @@ export const BlogCard = ({ post }: BlogCardProps) => {
         <Image
           width={200}
           height={200}
-          src={post?.image ?? ""}
+          src={post?.featuredImage ?? ""}
           alt={post?.title ?? ""}
           className="w-full h-48 object-cover transition-transform duration-300 group-hover:scale-110"
         />
@@ -41,11 +41,19 @@ export const BlogCard = ({ post }: BlogCardProps) => {
         <div className="flex items-center gap-4 text-xs text-muted-foreground mb-4">
           <div className="flex items-center">
             <User className="h-3 w-3 mr-1" />
-            {post.author}
+            {post.author?.name}
           </div>
           <div className="flex items-center">
             <Calendar className="h-3 w-3 mr-1" />
-            {new Date(post?.publishDate ?? "").toLocaleDateString()}
+            {post?.publishDate
+              ? // Handle Firestore Timestamp or string/Date
+                typeof post.publishDate === "object" &&
+                typeof (post.publishDate as any).toDate === "function"
+                ? (post.publishDate as any).toDate().toLocaleDateString()
+                : new Date(
+                    post.publishDate as string | number | Date
+                  ).toLocaleDateString()
+              : "No Date"}
           </div>
           <div className="flex items-center">
             <Clock className="h-3 w-3 mr-1" />

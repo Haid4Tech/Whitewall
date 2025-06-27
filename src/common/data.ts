@@ -246,11 +246,15 @@ export const blogPosts: IBlogCard[] = [
       <h3>Step 5: Start House Hunting</h3>
       <p>Make a list of must-haves versus nice-to-haves. Consider location, schools, commute times, and future resale value.</p>
     `,
-    author: "Sarah Johnson",
+    author: {
+      name: "Sarah Johnson",
+      image:
+        "https://images.unsplash.com/photo-1502323777036-f29e3972d82f?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MzF8fHByb2ZpbGV8ZW58MHx8MHx8fDA%3D",
+    },
     publishDate: "2024-01-15",
     readTime: 8,
     category: "Buying Guide",
-    image:
+    featuredImage:
       "https://images.unsplash.com/photo-1721322800607-8c38375eef04?w=800&h=600&fit=crop",
     tags: ["First Time Buyer", "Mortgage", "Home Buying", "Real Estate Tips"],
   },
@@ -280,11 +284,15 @@ export const blogPosts: IBlogCard[] = [
       <h3>Outlook for Buyers</h3>
       <p>This spring presents opportunities for buyers who have been waiting. More inventory and less competition mean better negotiating power.</p>
     `,
-    author: "Michael Chen",
+    author: {
+      name: "Michael Chen",
+      image:
+        "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?q=80&w=687&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+    },
     publishDate: "2024-03-10",
     readTime: 6,
     category: "Market Analysis",
-    image:
+    featuredImage:
       "https://images.unsplash.com/photo-1649972904349-6e44c42644a7?w=800&h=600&fit=crop",
     tags: [
       "Market Trends",
@@ -321,11 +329,15 @@ export const blogPosts: IBlogCard[] = [
       <h3>Add Fresh Touches</h3>
       <p>Fresh flowers, new towels, and subtle scents can make your home feel move-in ready.</p>
     `,
-    author: "Emma Rodriguez",
+    author: {
+      name: "Emma Rodriguez",
+      image:
+        "https://images.unsplash.com/photo-1506863530036-1efeddceb993?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MjR8fHByb2ZpbGV8ZW58MHx8MHx8fDA%3D",
+    },
     publishDate: "2024-02-28",
     readTime: 5,
     category: "Selling Tips",
-    image:
+    featuredImage:
       "https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?w=800&h=600&fit=crop",
     tags: [
       "Home Staging",
@@ -362,11 +374,15 @@ export const blogPosts: IBlogCard[] = [
       <h3>Tax Benefits</h3>
       <p>Real estate investors can take advantage of depreciation, mortgage interest deductions, and other tax benefits.</p>
     `,
-    author: "David Kim",
+    author: {
+      name: "David Kim",
+      image:
+        "https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTl8fHByb2ZpbGV8ZW58MHx8MHx8fDA%3D",
+    },
     publishDate: "2024-01-20",
     readTime: 10,
     category: "Investment",
-    image:
+    featuredImage:
       "https://images.unsplash.com/photo-1488590528505-98d2b5aba04b?w=800&h=600&fit=crop",
     tags: [
       "Real Estate Investment",
@@ -404,11 +420,15 @@ export const blogPosts: IBlogCard[] = [
       <h3>Marketing Luxury Properties</h3>
       <p>Successful luxury marketing requires professional photography, virtual tours, and targeted marketing to qualified buyers.</p>
     `,
-    author: "Victoria Sterling",
+    author: {
+      name: "Victoria Sterling",
+      image:
+        "https://images.unsplash.com/photo-1532074205216-d0e1f4b87368?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTV8fHByb2ZpbGV8ZW58MHx8MHx8fDA%3D",
+    },
     publishDate: "2024-03-05",
     readTime: 7,
     category: "Luxury Market",
-    image:
+    featuredImage:
       "https://images.unsplash.com/photo-1472396961693-142e6e269027?w=800&h=600&fit=crop",
     tags: [
       "Luxury Real Estate",

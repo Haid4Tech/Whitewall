@@ -50,7 +50,7 @@ export default function Page() {
         <Image
           width={400}
           height={400}
-          src={post?.image ?? ""}
+          src={post?.featuredImage ?? ""}
           alt={post?.title ?? "Blog image"}
           className="w-full h-full object-cover object-center"
         />
@@ -74,7 +74,7 @@ export default function Page() {
           <div className="flex flex-wrap items-center gap-6 text-muted-foreground mb-8 pb-8 border-b">
             <div className="flex items-center">
               <User className="h-5 w-5 mr-2" />
-              <span className="font-medium">{post?.author}</span>
+              <span className="font-medium">{post?.author?.name}</span>
             </div>
             <div className="flex items-center">
               <Calendar className="h-5 w-5 mr-2" />
@@ -95,7 +95,7 @@ export default function Page() {
           </div>
 
           {/* Article Excerpt */}
-          <div className="text-xl text-muted-foreground mb-8 p-6 bg-muted/30 rounded-lg border-l-4 border-primary">
+          <div className="text-lg text-muted-foreground mb-8 p-6 bg-muted/30 border-l-4 border-primary">
             {post?.excerpt}
           </div>
 

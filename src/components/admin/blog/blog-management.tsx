@@ -11,36 +11,20 @@ import { Search, Plus, Eye, Edit, Trash2, Calendar } from "lucide-react";
 import { BlogEditor } from "./blog-editor";
 import { BlogAnalytics } from "./blog-analytics";
 import { BlogCategories } from "./blog-categories";
+import { BlogPost } from "@/common/types";
 
-interface BlogPost {
-  id: string;
-  title: string;
-  excerpt: string;
-  author: string;
-  category: string;
-  status: "draft" | "published" | "scheduled";
-  publishDate: string;
-  views: number;
-  likes: number;
-  comments: number;
-  featuredImage: string;
-  tags: string[];
-  seoScore: number;
-}
-
-const mockBlogPosts: BlogPost[] = [
+const mockBlogPosts: (BlogPost & { id: string })[] = [
   {
     id: "1",
     title: "Top 10 Home Staging Tips That Sell Properties Fast",
     excerpt:
       "Discover proven staging techniques that help properties sell 30% faster and for higher prices.",
-    author: "Sarah Johnson",
+    author: { name: "Sarah Johnson" },
     category: "Home Staging",
     status: "published",
     publishDate: "2024-06-20",
     views: 2340,
     likes: 89,
-    comments: 23,
     featuredImage:
       "https://images.unsplash.com/photo-1721322800607-8c38375eef04",
     tags: ["staging", "selling", "tips"],
@@ -51,13 +35,12 @@ const mockBlogPosts: BlogPost[] = [
     title: "Market Trends: What Buyers Want in 2024",
     excerpt:
       "Analysis of current real estate market trends and buyer preferences for the year ahead.",
-    author: "Mike Chen",
+    author: { name: "Mike Chen" },
     category: "Market Analysis",
     status: "published",
     publishDate: "2024-06-18",
     views: 1876,
     likes: 67,
-    comments: 34,
     featuredImage:
       "https://images.unsplash.com/photo-1460574283810-2aab119d8511",
     tags: ["market", "trends", "2024"],
@@ -68,13 +51,12 @@ const mockBlogPosts: BlogPost[] = [
     title: "First-Time Homebuyer Guide: Everything You Need to Know",
     excerpt:
       "Complete guide for first-time buyers covering financing, inspections, and closing process.",
-    author: "Lisa Wang",
+    author: { name: "Lisa Wang" },
     category: "Buyer Guide",
     status: "draft",
     publishDate: "2024-06-25",
     views: 0,
     likes: 0,
-    comments: 0,
     featuredImage:
       "https://images.unsplash.com/photo-1487958449943-2429e8be8625",
     tags: ["first-time", "guide", "buying"],
@@ -98,8 +80,8 @@ export const BlogManagement = () => {
 
   const filteredPosts = posts.filter((post) => {
     const matchesSearch =
-      post.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      post.author.toLowerCase().includes(searchTerm.toLowerCase());
+      post?.title?.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      post?.author?.name?.toLowerCase().includes(searchTerm.toLowerCase());
     const matchesCategory =
       selectedCategory === "all" || post.category === selectedCategory;
     return matchesSearch && matchesCategory;
@@ -132,11 +114,13 @@ export const BlogManagement = () => {
           if (editingPost) {
             setPosts(
               posts.map((p) =>
-                p.id === editingPost.id ? { ...post, id: editingPost.id } : p
+                p.slug === editingPost.slug
+                  ? { ...post, id: editingPost.slug }
+                  : p
               )
             );
           } else {
-            setPosts([...posts, { ...post, id: Date.now().toString() }]);
+            setPosts([...posts, { ...post }]);
           }
           setShowEditor(false);
           setEditingPost(null);
@@ -220,7 +204,7 @@ export const BlogManagement = () => {
               <div className="space-y-4">
                 {filteredPosts.map((post) => (
                   <div
-                    key={post.id}
+                    key={post.slug}
                     className="flex items-center justify-between p-4 border border-gray-300 rounded-lg hover:bg-gray-50 transition-colors"
                   >
                     <div className="flex items-center space-x-4">
@@ -238,27 +222,33 @@ export const BlogManagement = () => {
                         </p>
                         <div className="flex items-center gap-4 mt-2">
                           <span className="text-sm text-gray-500">
-                            By {post.author}
+                            By {post.author?.image ?? ""}
                           </span>
-                          <Badge className={getStatusColor(post.status)}>
+                          <Badge className={getStatusColor(post?.status ?? "")}>
                             {post.status}
                           </Badge>
                           <span className="text-sm text-gray-500">
                             <Calendar className="inline h-3 w-3 mr-1" />
-                            {post.publishDate}
+                            {post?.publishDate
+                              ? typeof post.publishDate === "string"
+                                ? post.publishDate
+                                : post.publishDate instanceof Date
+                                ? post.publishDate.toLocaleDateString()
+                                : post.publishDate.toString()
+                              : ""}
                           </span>
                           <span
                             className={`text-sm font-medium ${getSeoScoreColor(
-                              post.seoScore
+                              post?.seoScore ?? 0
                             )}`}
                           >
                             SEO: {post.seoScore}%
                           </span>
                         </div>
                         <div className="flex gap-2 mt-2">
-                          {post.tags.map((tag) => (
+                          {post.tags.map((tag, index) => (
                             <Badge
-                              key={tag}
+                              key={index}
                               variant="outline"
                               className="text-xs"
                             >
@@ -281,12 +271,7 @@ export const BlogManagement = () => {
                         </div>
                         <div className="text-xs text-gray-500">Likes</div>
                       </div>
-                      <div className="text-center">
-                        <div className="text-lg font-semibold text-gray-900">
-                          {post.comments}
-                        </div>
-                        <div className="text-xs text-gray-500">Comments</div>
-                      </div>
+
                       <div className="flex gap-2">
                         <Button variant="outline" size="sm">
                           <Eye className="h-4 w-4" />

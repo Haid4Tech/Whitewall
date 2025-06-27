@@ -1,31 +1,14 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import React, { useState } from "react";
+import { useState, useEffect } from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
+import InputWithLabel from "@/components/general/input-field";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Badge } from "@/components/ui/badge";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Save, Eye, Image, Tag, Search, AlertCircle } from "lucide-react";
-
-interface BlogPost {
-  id?: string;
-  title: string;
-  excerpt: string;
-  author: string;
-  category: string;
-  status: "draft" | "published" | "scheduled";
-  publishDate: string;
-  views: number;
-  likes: number;
-  comments: number;
-  featuredImage: string;
-  tags: string[];
-  seoScore: number;
-  content?: string;
-  metaDescription?: string;
-  metaKeywords?: string;
-}
+import { BlogPost } from "@/common/types";
 
 interface BlogEditorProps {
   post?: BlogPost | null;
@@ -41,13 +24,15 @@ export const BlogEditor: React.FC<BlogEditorProps> = ({
   const [formData, setFormData] = useState<BlogPost>({
     title: post?.title || "",
     excerpt: post?.excerpt || "",
-    author: post?.author || "Admin User",
+    author: {
+      name: post?.author?.name || "Admin",
+      image: post?.author?.image || "",
+    },
     category: post?.category || "General",
     status: post?.status || "draft",
     publishDate: post?.publishDate || new Date().toISOString().split("T")[0],
     views: post?.views || 0,
     likes: post?.likes || 0,
-    comments: post?.comments || 0,
     featuredImage:
       post?.featuredImage ||
       "https://images.unsplash.com/photo-1721322800607-8c38375eef04",
@@ -71,11 +56,11 @@ export const BlogEditor: React.FC<BlogEditorProps> = ({
     ],
   });
 
-  React.useEffect(() => {
+  useEffect(() => {
     // Simulate SEO analysis
-    const titleLength = formData.title.length;
-    const metaDescLength = formData.metaDescription?.length || 0;
-    const contentLength = formData.content?.length || 0;
+    const titleLength = formData?.title?.length ?? 0;
+    const metaDescLength = formData?.metaDescription?.length ?? 0;
+    const contentLength = formData?.content?.length ?? 0;
 
     let score = 0;
     if (titleLength >= 30 && titleLength <= 60) score += 25;
@@ -107,6 +92,10 @@ export const BlogEditor: React.FC<BlogEditorProps> = ({
     }
   };
 
+  const handleInputChange = (field: string, value: string) => {
+    setFormData((prev) => ({ ...prev, [field]: value }));
+  };
+
   const handleRemoveTag = (tagToRemove: string) => {
     setFormData({
       ...formData,
@@ -128,7 +117,7 @@ export const BlogEditor: React.FC<BlogEditorProps> = ({
     <div className="max-w-6xl mx-auto space-y-6">
       <div className="flex justify-between items-center">
         <div>
-          <h1 className="text-3xl font-bold text-gray-900">
+          <h1 className={"text-2xl font-semibold text-gray-900"}>
             {post ? "Edit Post" : "Create New Post"}
           </h1>
           <p className="text-gray-600">
@@ -154,22 +143,17 @@ export const BlogEditor: React.FC<BlogEditorProps> = ({
               <CardTitle>Content</CardTitle>
             </CardHeader>
             <CardContent className="space-y-4">
-              <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">
-                  Post Title
-                </label>
-                <Input
-                  value={formData.title}
-                  onChange={(e) =>
-                    setFormData({ ...formData, title: e.target.value })
-                  }
-                  placeholder="Enter an engaging title..."
-                  className="text-lg"
-                />
-                <div className="text-xs text-gray-500 mt-1">
-                  {formData.title.length}/60 characters (optimal: 30-60)
-                </div>
-              </div>
+              <InputWithLabel
+                items={{
+                  htmlfor: "title",
+                  label: " Post Title",
+                  name: "title",
+                  type: "text",
+                  placeholder: "Enter Post Title",
+                }}
+                value={formData.title}
+                onChange={(e) => handleInputChange("title", e.target.value)}
+              />
 
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-2">
@@ -217,7 +201,9 @@ export const BlogEditor: React.FC<BlogEditorProps> = ({
                   <CardTitle className="flex items-center gap-2">
                     <Search className="h-5 w-5" />
                     SEO Settings
-                    <Badge className={getSeoScoreColor(formData.seoScore)}>
+                    <Badge
+                      className={getSeoScoreColor(formData?.seoScore ?? 0)}
+                    >
                       Score: {formData.seoScore}/100
                     </Badge>
                   </CardTitle>
@@ -341,7 +327,13 @@ export const BlogEditor: React.FC<BlogEditorProps> = ({
                 </label>
                 <Input
                   type="date"
-                  value={formData.publishDate}
+                  value={
+                    typeof formData.publishDate === "string"
+                      ? formData.publishDate
+                      : formData.publishDate instanceof Date
+                      ? formData.publishDate.toISOString().split("T")[0]
+                      : ""
+                  }
                   onChange={(e) =>
                     setFormData({ ...formData, publishDate: e.target.value })
                   }
@@ -418,9 +410,9 @@ export const BlogEditor: React.FC<BlogEditorProps> = ({
                 </Button>
               </div>
               <div className="flex flex-wrap gap-2">
-                {formData.tags.map((tag) => (
+                {formData.tags.map((tag, index) => (
                   <Badge
-                    key={tag}
+                    key={index}
                     variant="secondary"
                     className="cursor-pointer"
                     onClick={() => handleRemoveTag(tag)}

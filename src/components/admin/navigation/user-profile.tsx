@@ -34,20 +34,20 @@ const UserProfile: FC<IUserProfile> = ({
         initials={initials ?? "S.A"}
       />
       <div className={"flex flex-col"}>
-        <p className={"text-sm font-semibold uppercase"}>{fullName}</p>
+        <span className={"text-sm font-semibold uppercase"}>{fullName}</span>
 
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
-            <Button className="flex flex-row gap-1 h-3" variant="outline">
-              <p className={"ml-[-10px] text-[10px] font-light text-nowrap"}>
+            <Button className="flex flex-row gap-1 h-3" variant="ghost">
+              <span className={"ml-[-10px] text-[10px] font-light text-nowrap"}>
                 {role}
-              </p>
+              </span>
               <ChevronDown size={15} className={""} />
             </Button>
           </DropdownMenuTrigger>
           <DropdownMenuContent className="min-w-5">
             <DropdownMenuItem className="cursor-pointer" onClick={handleLogOut}>
-              <p className={"text-xs font-semibold"}>{"Log Out"}</p>
+              <span className={"text-xs font-semibold"}>{"Log Out"}</span>
             </DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>
