@@ -1,10 +1,8 @@
 import { useState } from "react";
 import AuthForm from "./auth-form";
 import { format } from "date-fns";
-import { useMainContext } from "@/components/provider/main-provider";
 
 const AuthScreen = () => {
-  const { isLogin } = useMainContext();
   const [date] = useState(new Date());
 
   return (
@@ -19,7 +17,7 @@ const AuthScreen = () => {
           </div>
 
           {/* Auth Form */}
-          <AuthForm isLogin={isLogin} />
+          <AuthForm isLogin />
         </div>
 
         {/* Footer */}

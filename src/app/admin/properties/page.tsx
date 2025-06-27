@@ -322,7 +322,7 @@ export default function Page() {
   }
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screen">
       {/* Header */}
       <div className="mb-6">
         <div className="flex flex-row items-center justify-between">
@@ -355,13 +355,22 @@ export default function Page() {
         {isGroupedByLocation && groupedProperties ? (
           // Grouped by location
           groupedProperties.map(([location, locationProperties]) => (
-            <Card key={location}>
+            <Card
+              key={location}
+              className="shadow-none pb-4 border-b-1 border-gray-300 rounded-none"
+            >
               <CardHeader>
-                <div className="flex items-center gap-2">
-                  <MapPin className="h-5 w-5 text-muted-foreground" />
-                  <CardTitle className="text-lg">{location}</CardTitle>
-                  <Badge variant="secondary">
-                    {locationProperties.length} properties
+                <div className="flex items-baseline gap-1">
+                  <div className="flex items-center gap-1">
+                    <MapPin className={"text-muted-foreground"} size={15} />
+                    <CardTitle className="text-lg">{location}</CardTitle>
+                  </div>
+                  <Badge
+                    className="text-primary-gold font-bold"
+                    variant="secondary"
+                  >
+                    {locationProperties.length}{" "}
+                    {locationProperties.length > 1 ? "properties" : "property"}
                   </Badge>
                 </div>
               </CardHeader>
