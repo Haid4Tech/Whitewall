@@ -24,7 +24,7 @@ const menuItems = [
 export const Sidebar = ({ activeSection, onSectionChange }: SidebarProps) => {
   const router = useRouter();
   return (
-    <div className="w-64 bg-card border-r border-transparent">
+    <div className="w-fit mx-3 bg-card border-r border-transparent">
       <div className="px-2 py-5">
         <nav className="space-y-2">
           {menuItems.map((item) => {
@@ -37,14 +37,14 @@ export const Sidebar = ({ activeSection, onSectionChange }: SidebarProps) => {
                   onSectionChange(item.id);
                 }}
                 className={cn(
-                  "text-sm cursor-pointer w-full flex items-center gap-3 p-3 rounded-lg text-left transition-colors",
+                  "text-sm cursor-pointer w-full flex items-center gap-3 py-3 px-5 rounded-lg text-left transition-colors",
                   activeSection === item.id
                     ? "bg-gray-50 text-primary-foreground"
                     : "text-muted-foreground hover:text-foreground hover:bg-gray-50"
                 )}
               >
                 <Icon size={15} />
-                {item.label}
+                <span className={"hidden md:block"}>{item.label}</span>
               </button>
             );
           })}
