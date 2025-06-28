@@ -133,7 +133,9 @@ export default function Page() {
           transition={{ duration: 0.6, delay: 0.2 }}
         >
           <h2 className="text-2xl font-bold text-foreground mb-2">
-            {filteredProperties.length} Properties Available
+            {filteredProperties.length}{" "}
+            {filteredProperties.length > 1 ? "Properties" : "Property"}{" "}
+            Available
           </h2>
           <p className="text-muted-foreground">
             Discover your perfect home from our curated selection

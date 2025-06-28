@@ -50,7 +50,7 @@ export const PropertyCard = ({ property }: PropertyCardProps) => {
               </Badge>
             </motion.div>
 
-            <motion.div
+            {/*    <motion.div
               whileHover={{ scale: 1.1 }}
               whileTap={{ scale: 0.9 }}
               transition={{ duration: 0.2 }}
@@ -62,7 +62,7 @@ export const PropertyCard = ({ property }: PropertyCardProps) => {
               >
                 <Heart className="h-4 w-4" />
               </Button>
-            </motion.div>
+            </motion.div> */}
 
             {property.featured && (
               <motion.div

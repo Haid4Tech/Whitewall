@@ -310,7 +310,7 @@ export default function PropertyDetailPage({
               </Button>
             </motion.div>
             <div className="flex items-center gap-2">
-              <motion.div whileHover={{ scale: 1.1 }} whileTap={{ scale: 0.9 }}>
+              {/* <motion.div whileHover={{ scale: 1.1 }} whileTap={{ scale: 0.9 }}>
                 <Button
                   variant="ghost"
                   size="icon"
@@ -323,7 +323,7 @@ export default function PropertyDetailPage({
                     }`}
                   />
                 </Button>
-              </motion.div>
+              </motion.div> */}
               <motion.div whileHover={{ scale: 1.1 }} whileTap={{ scale: 0.9 }}>
                 <Button
                   variant="ghost"
