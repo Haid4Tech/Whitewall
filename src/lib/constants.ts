@@ -19,6 +19,7 @@ export const ABUJA_LOCATIONS = [
   "Keffi",
   "Kuje",
   "Abaji",
+  "Guzape",
   "Kwali",
   "Karshi",
   "Kurudu",

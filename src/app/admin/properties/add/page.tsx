@@ -15,6 +15,7 @@ import { createProperty } from "@/firebase/properties";
 import { uploadImagesToSpaces } from "@/lib/spaces-upload";
 import Image from "next/image";
 import DropdownSelect from "@/components/general/select-comp";
+import { SearchableDropdown } from "@/components/general/select-comp";
 import {
   ABUJA_LOCATIONS,
   COMMON_AMENITIES,
@@ -23,42 +24,21 @@ import {
   CURRENCIES,
 } from "@/lib/constants";
 import { toast } from "sonner";
-
-interface FormData {
-  title: string;
-  location: string;
-  price: string;
-  currency: string;
-  priceType: string;
-  bedrooms: string;
-  bathrooms: string;
-  sqft: string;
-  type: string;
-  featured: boolean;
-  description: string;
-  amenities: string[];
-}
-
-// Helper to format number with commas
-function formatNumberWithCommas(value: string) {
-  if (!value) return "";
-  const num = Number(value.replace(/,/g, ""));
-  if (isNaN(num)) return value;
-  return num.toLocaleString();
-}
+import { formatNumberWithCommas } from "@/lib/utils";
+import { PropertyFormData } from "@/common/types";
 
 export default function AddPropertyPage() {
   const router = useRouter();
-  const [formData, setFormData] = useState<FormData>({
+  const [formData, setFormData] = useState<PropertyFormData>({
     title: "",
     location: "",
     price: "",
     currency: "NGN",
-    priceType: "for sale",
+    priceType: "For sale",
     bedrooms: "",
     bathrooms: "",
     sqft: "",
-    type: "house",
+    type: "House",
     featured: false,
     description: "",
     amenities: [],
@@ -200,11 +180,11 @@ export default function AddPropertyPage() {
             location: "",
             price: "",
             currency: "NGN",
-            priceType: "for sale",
+            priceType: "For sale",
             bedrooms: "",
             bathrooms: "",
             sqft: "",
-            type: "house",
+            type: "House",
             featured: false,
             description: "",
             amenities: [],
@@ -353,7 +333,7 @@ export default function AddPropertyPage() {
                   )}
                 />
 
-                <DropdownSelect
+                <SearchableDropdown
                   name={"location"}
                   label={"Location *"}
                   placeholder="Select Location"

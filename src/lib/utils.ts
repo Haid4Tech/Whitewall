@@ -83,3 +83,11 @@ export const formatPrice = (amount: number, currency: string) => {
     minimumFractionDigits: 0,
   }).format(amount);
 };
+
+// Helper to format number with commas
+export function formatNumberWithCommas(value: string) {
+  if (!value) return "";
+  const num = Number(value.replace(/,/g, ""));
+  if (isNaN(num)) return value;
+  return num.toLocaleString();
+}
