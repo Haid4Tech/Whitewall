@@ -134,7 +134,11 @@ export default function Page() {
       // Square feet range
       const minSqft = filters.minSqft ? parseInt(filters.minSqft) : 0;
       const maxSqft = filters.maxSqft ? parseInt(filters.maxSqft) : Infinity;
-      const matchesSqft = property.sqft >= minSqft && property.sqft <= maxSqft;
+
+      const matchesSqft =
+        typeof property.sqft === "number"
+          ? property.sqft >= minSqft && property.sqft <= maxSqft
+          : true;
 
       // Featured
       const matchesFeatured =
@@ -281,6 +285,9 @@ export default function Page() {
         setLoading(true);
         setError(null);
         const fetchedProperties = await getProperties();
+
+        console.log(fetchedProperties);
+
         setProperties(fetchedProperties);
       } catch (err) {
         console.error("Error fetching properties:", err);
@@ -360,7 +367,7 @@ export default function Page() {
               className="shadow-none pb-4 border-b-1 border-gray-300 rounded-none"
             >
               <CardHeader>
-                <div className="flex items-baseline gap-1">
+                <div className="flex items-center gap-1">
                   <div className="flex items-center gap-1">
                     <MapPin className={"text-muted-foreground"} size={15} />
                     <CardTitle className="text-lg">{location}</CardTitle>

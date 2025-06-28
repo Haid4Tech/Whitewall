@@ -30,6 +30,7 @@ import {
   PRICE_TYPES,
   PROPERTY_TYPES,
 } from "@/lib/constants";
+import { Property } from "@/common/types";
 
 interface FormData {
   title: string;
@@ -38,7 +39,7 @@ interface FormData {
   priceType: string;
   bedrooms: string;
   bathrooms: string;
-  sqft: string;
+  sqft?: string;
   type: string;
   featured: boolean;
   description: string;
@@ -48,23 +49,7 @@ interface FormData {
 interface PropertyEditDialogProps {
   isOpen: boolean;
   onClose: () => void;
-  property: {
-    id: string;
-    title: string;
-    price: number;
-    location: string;
-    bedrooms: number;
-    bathrooms: number;
-    sqft: number;
-    type: string;
-    priceType: string;
-    status?: string;
-    images: string[];
-    featured: boolean;
-    description: string;
-    amenities: string[];
-    slug?: string;
-  };
+  property: Property;
   onSave: (updatedProperty: any) => void;
 }
 
@@ -81,7 +66,7 @@ export const PropertyEditDialog = ({
     priceType: property.priceType,
     bedrooms: property.bedrooms.toString(),
     bathrooms: property.bathrooms.toString(),
-    sqft: property.sqft.toString(),
+    sqft: property.sqft != null ? property.sqft!.toString() : undefined,
     type: property.type,
     featured: property.featured,
     description: property.description,
@@ -113,7 +98,7 @@ export const PropertyEditDialog = ({
       priceType: property.priceType,
       bedrooms: property.bedrooms.toString(),
       bathrooms: property.bathrooms.toString(),
-      sqft: property.sqft.toString(),
+      sqft: property.sqft?.toString(),
       type: property.type,
       featured: property.featured,
       description: property.description,
@@ -262,7 +247,7 @@ export const PropertyEditDialog = ({
         priceType: formData.priceType,
         bedrooms: parseInt(formData.bedrooms),
         bathrooms: parseInt(formData.bathrooms),
-        sqft: parseInt(formData.sqft),
+        sqft: formData.sqft != null ? parseInt(formData.sqft) : undefined,
         type: formData.type,
         images: finalImageUrls,
         featured: formData.featured,

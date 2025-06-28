@@ -48,10 +48,10 @@ export function generateSlug(text: string): string {
   return text
     .toLowerCase()
     .trim()
-    .replace(/[^\w\s-]/g, '') // Remove special characters except spaces and hyphens
-    .replace(/\s+/g, '-') // Replace spaces with hyphens
-    .replace(/-+/g, '-') // Replace multiple hyphens with single hyphen
-    .replace(/^-+|-+$/g, ''); // Remove leading/trailing hyphens
+    .replace(/[^\w\s-]/g, "") // Remove special characters except spaces and hyphens
+    .replace(/\s+/g, "-") // Replace spaces with hyphens
+    .replace(/-+/g, "-") // Replace multiple hyphens with single hyphen
+    .replace(/^-+|-+$/g, ""); // Remove leading/trailing hyphens
 }
 
 /**
@@ -60,14 +60,26 @@ export function generateSlug(text: string): string {
  * @param existingSlugs - Array of existing slugs to check against
  * @returns A unique slug
  */
-export function generateUniqueSlug(baseSlug: string, existingSlugs: string[]): string {
+export function generateUniqueSlug(
+  baseSlug: string,
+  existingSlugs: string[]
+): string {
   let slug = baseSlug;
   let counter = 1;
-  
+
   while (existingSlugs.includes(slug)) {
     slug = `${baseSlug}-${counter}`;
     counter++;
   }
-  
+
   return slug;
 }
+
+export const formatPrice = (amount: number, currency: string) => {
+  const locale = currency == "NGN" ? "en-NG" : "en-US";
+  return new Intl.NumberFormat(locale, {
+    style: "currency",
+    currency,
+    minimumFractionDigits: 0,
+  }).format(amount);
+};

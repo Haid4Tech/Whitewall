@@ -6,6 +6,7 @@ import { Property } from "@/common/types";
 import Image from "next/image";
 import Link from "next/link";
 import { motion } from "framer-motion";
+import { formatPrice } from "@/lib/utils";
 
 interface PropertyCardProps {
   property: Property;
@@ -102,7 +103,7 @@ export const PropertyCard = ({ property }: PropertyCardProps) => {
                 whileHover={{ scale: 1.05 }}
                 transition={{ duration: 0.2 }}
               >
-                ₦{property?.price?.toLocaleString() ?? 0}
+                {formatPrice(property.price, property.currency)}
               </motion.div>
               <div className="text-sm text-muted-foreground">
                 {property.priceType}

@@ -14,11 +14,11 @@ export interface Property {
   slug?: string;
   location: string;
   price: number;
-  currency?: "USD" | "EUR" | "GBP" | "NGR";
+  currency: "USD" | "EUR" | "GBP" | "NGN";
   priceType: string;
   bedrooms: number;
   bathrooms: number;
-  sqft: number;
+  sqft?: number | undefined | null;
   type: string;
   images: string[];
   status?: ListingStatus;
