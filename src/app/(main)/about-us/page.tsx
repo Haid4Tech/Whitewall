@@ -75,7 +75,7 @@ export default function Page() {
       <div className={"px-10 flex flex-col md:flex-row gap-12"}>
         {/* <div className=""></div> */}
         <Image
-          src={"/wh_img6.jpg"}
+          src={"/angie.jpg"}
           alt={"House image"}
           width={350}
           height={400}
