@@ -77,7 +77,7 @@ export default function PropertyDetailPage() {
     if (propertySlug) {
       fetchProperty();
     }
-  }, [propertySlug, handlePropertyFetch]);
+  }, [propertySlug]);
 
   const handleEditProperty = () => {
     if (

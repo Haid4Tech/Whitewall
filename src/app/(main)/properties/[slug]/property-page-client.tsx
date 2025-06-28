@@ -740,7 +740,7 @@ export default function PropertyDetailPage({
                   transition={{ duration: 0.6, delay: 0.3 }}
                   whileHover={{ scale: 1.02 }}
                 >
-                  <Button className="w-full h-12 text-lg font-semibold bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700">
+                  <Button className="w-full h-12 text-lg font-semibold ">
                     <Calendar className="mr-2 h-5 w-5" />
                     Schedule Viewing
                   </Button>
