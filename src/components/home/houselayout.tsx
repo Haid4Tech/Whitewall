@@ -1,6 +1,12 @@
+"use client";
+
 import Image from "next/image";
+import { motion, useInView } from "framer-motion";
+import { useRef } from "react";
 
 const HouseLayout = () => {
+  const ref = useRef(null);
+  const isInView = useInView(ref, { once: true, margin: "-100px" });
   const amenities = [
     { icon: "🏠", label: "3 Bedrooms" },
     { icon: "🛁", label: "2 Bathrooms" },
@@ -9,39 +15,74 @@ const HouseLayout = () => {
   ];
 
   return (
-    <section id="layout" className="py-20 bg-white">
+    <section id="layout" className="py-20 bg-white" ref={ref}>
       <div className="container mx-auto px-6">
         <div className="grid lg:grid-cols-2 gap-16 items-center">
           {/* Left side - Content */}
-          <div className="space-y-8">
-            <h2 className="text-4xl font-bold text-gray-900 mb-16">
+          <motion.div
+            className="space-y-8"
+            initial={{ opacity: 0, x: -60 }}
+            animate={isInView ? { opacity: 1, x: 0 } : {}}
+            transition={{ duration: 0.7, delay: 0.1 }}
+          >
+            <motion.h2
+              className="text-4xl font-bold text-gray-900 mb-16"
+              initial={{ opacity: 0, y: 30 }}
+              animate={isInView ? { opacity: 1, y: 0 } : {}}
+              transition={{ duration: 0.7, delay: 0.2 }}
+            >
               House Layout
-            </h2>
+            </motion.h2>
 
             {/* Amenities grid */}
-            <div className="grid grid-cols-2 gap-4">
+            <motion.div
+              className="grid grid-cols-2 gap-4"
+              initial="hidden"
+              animate={isInView ? "visible" : "hidden"}
+              variants={{
+                hidden: {},
+                visible: {
+                  transition: {
+                    staggerChildren: 0.15,
+                  },
+                },
+              }}
+            >
               {amenities.map((amenity, index) => (
-                <div
+                <motion.div
                   key={index}
                   className="flex items-center space-x-3 p-4 bg-gray-50 rounded-lg hover:bg-gray-100 transition-colors"
+                  initial={{ opacity: 0, y: 30 }}
+                  animate={isInView ? { opacity: 1, y: 0 } : {}}
+                  transition={{ duration: 0.5, delay: 0.2 + index * 0.1 }}
                 >
                   <span className="text-2xl">{amenity.icon}</span>
                   <span className="font-medium text-gray-900">
                     {amenity.label}
                   </span>
-                </div>
+                </motion.div>
               ))}
-            </div>
+            </motion.div>
 
-            <p className="text-lg text-gray-600 leading-relaxed">
+            <motion.p
+              className="text-lg text-gray-600 leading-relaxed"
+              initial={{ opacity: 0, y: 30 }}
+              animate={isInView ? { opacity: 1, y: 0 } : {}}
+              transition={{ duration: 0.7, delay: 0.4 }}
+            >
               After browsing the pages of the house you can definitely know your
               approximate options. Access to the entire schedule, swimming pool,
               with recreation furniture, and close proximity to walk to the
               kitchen and other amenities.
-            </p>
+            </motion.p>
 
             {/* Interior image */}
-            <div className="mt-8">
+            <motion.div
+              className="mt-8"
+              initial={{ opacity: 0, scale: 0.9 }}
+              animate={isInView ? { opacity: 1, scale: 1 } : {}}
+              transition={{ duration: 0.7, delay: 0.5 }}
+            >
               <Image
                 priority
                 width={100}
@@ -50,11 +91,15 @@ const HouseLayout = () => {
                 alt="Modern interior"
                 className="w-full h-full object-cover rounded-2xl shadow-lg"
               />
-            </div>
-          </div>
+            </motion.div>
+          </motion.div>
 
           {/* Right side - Floor plan */}
-          <div className="">
+          <motion.div
+            initial={{ opacity: 0, x: 60 }}
+            animate={isInView ? { opacity: 1, x: 0 } : {}}
+            transition={{ duration: 0.7, delay: 0.2 }}
+          >
             <div>
               <Image
                 priority
@@ -76,7 +121,7 @@ const HouseLayout = () => {
             <div className="absolute bottom-32 left-16 bg-white px-3 py-1 rounded-full text-sm font-medium shadow-lg">
               Master Bedroom
             </div> */}
-          </div>
+          </motion.div>
         </div>
       </div>
     </section>
