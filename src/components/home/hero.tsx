@@ -88,7 +88,7 @@ const Hero = () => {
               <Image
                 width={200}
                 height={200}
-                src="/wh_img3.jpg"
+                src={"/wh_img3.jpg"}
                 alt="Luxury house near forest"
                 className="w-full h-[500px] object-cover rounded-2xl shadow-2xl"
               />
@@ -120,11 +120,11 @@ const Hero = () => {
               animate={isInView ? { opacity: 1, y: 0 } : {}}
               transition={{ duration: 0.7, delay: 1.0, type: "spring" }}
             >
-              <div className="flex items-center space-x-3">
+              <div className="flex items-center space-x-3 cursor-pointer">
                 <Image
                   width={100}
                   height={100}
-                  src={"/wh_img2.jpg"}
+                  src={"/angie.jpg"}
                   alt="Agent Tom Wilson"
                   className="w-12 h-12 rounded-full object-cover"
                 />
