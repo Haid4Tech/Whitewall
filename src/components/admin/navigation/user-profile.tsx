@@ -51,7 +51,7 @@ const UserProfile: FC<IUserProfile> = ({
         initials={initials ?? "S.A"}
       />
       <div className={"flex flex-col"}>
-        <p className={"text-sm font-semibold uppercase"}>{fullName}</p>
+        <span className={"text-sm font-semibold uppercase"}>{fullName}</span>
 
         <DropdownMenu>
           <DropdownMenuTrigger asChild>

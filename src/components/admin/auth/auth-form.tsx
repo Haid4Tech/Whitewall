@@ -17,14 +17,11 @@ const AuthForm = ({ isLogin }: AuthFormProps) => {
   });
   const [showPassword, setShowPassword] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
-  const [errors, setErrors] = useState<Record<string, string>>({});
-  console.log(errors);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setShowPassword(false);
     setIsLoading(true);
-    setErrors({});
 
     // Basic validation
     const newErrors: Record<string, string> = {};
@@ -42,7 +39,6 @@ const AuthForm = ({ isLogin }: AuthFormProps) => {
     }
 
     if (Object.keys(newErrors).length > 0) {
-      setErrors(newErrors);
       setIsLoading(false);
       return;
     }

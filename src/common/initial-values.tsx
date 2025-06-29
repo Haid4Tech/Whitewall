@@ -19,3 +19,28 @@ export const initialProperties: Omit<Property, "id"> = {
   updatedAt: undefined,
   createdAt: undefined,
 };
+
+export const initialBlogData = {
+  slug: "",
+  title: "",
+  excerpt: "",
+  content: "",
+  author: {
+    name: "string",
+    image: "string",
+  },
+  readTime: 0,
+  category: "",
+  featuredImage: "",
+  isPublished: false,
+  status: undefined,
+  tags: [],
+  views: 0,
+  likes: 0,
+  seoScore: 0,
+  metaDescription: "",
+  metaKeywords: [],
+  createdAt: null,
+  publishDate: null,
+  updatedAt: null,
+};

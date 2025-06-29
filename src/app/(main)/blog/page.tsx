@@ -9,11 +9,30 @@ import { Badge } from "@/components/ui/badge";
 import { BlogCard } from "@/components/blog/blog-card";
 import { blogPosts } from "@/common/data";
 import Image from "next/image";
+import LoadingSpinner from "@/components/ui/loading-spinner";
 
 export default function Page() {
   const router = useRouter();
+  const [loadingStates, setLoadingStates] = useState({
+    pageLoad: false,
+  });
   const [searchQuery, setSearchQuery] = useState("");
   const [selectedCategory, setSelectedCategory] = useState("All");
+
+  if (!blogPosts) {
+    setLoadingStates({
+      pageLoad: true,
+    });
+  }
+
+  if (loadingStates.pageLoad) {
+    return (
+      <div className="w-full min-h-screen bg-background flex flex-col items-center justify-center">
+        <LoadingSpinner size="lg" />
+        <p className="mt-4 text-muted-foreground">Loading blog...</p>
+      </div>
+    );
+  }
 
   const categories = [
     "All",
@@ -65,7 +84,7 @@ export default function Page() {
               <Image
                 width={200}
                 height={200}
-                src={featuredPost?.image ?? ""}
+                src={featuredPost?.featuredImage ?? ""}
                 alt={featuredPost?.title ?? ""}
                 className="w-full h-full object-cover"
               />
@@ -86,13 +105,22 @@ export default function Page() {
               <div className="flex items-center gap-4 text-sm text-muted-foreground mb-6">
                 <div className="flex items-center">
                   <User className="h-4 w-4 mr-1" />
-                  {featuredPost.author}
+                  {featuredPost.author?.name}
                 </div>
                 <div className="flex items-center">
                   <Calendar className="h-4 w-4 mr-1" />
-                  {new Date(
-                    featuredPost?.publishDate ?? ""
-                  ).toLocaleDateString()}
+                  {featuredPost?.publishDate
+                    ? // Handle Firestore Timestamp or string/Date
+                      typeof featuredPost.publishDate === "object" &&
+                      typeof (featuredPost.publishDate as any).toDate ===
+                        "function"
+                      ? (featuredPost.publishDate as any)
+                          .toDate()
+                          .toLocaleDateString()
+                      : new Date(
+                          featuredPost.publishDate as string | number | Date
+                        ).toLocaleDateString()
+                    : "No Date"}
                 </div>
                 <div className="flex items-center">
                   <Clock className="h-4 w-4 mr-1" />
@@ -151,7 +179,7 @@ export default function Page() {
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {filteredPosts.slice(1).map((post) => (
-            <BlogCard key={post?.id} post={post} />
+            <BlogCard key={post?.slug} post={post} />
           ))}
         </div>
 

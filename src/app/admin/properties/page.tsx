@@ -3,7 +3,6 @@
 import { useState, useEffect, useMemo } from "react";
 import { useRouter } from "next/navigation";
 import { Property } from "@/common/types";
-
 import { AdminPropertyCard } from "@/components/admin/properties/admin-property-card";
 import { PropertyEditDialog } from "@/components/admin/properties/property-edit-modal";
 import { PropertyFilters } from "@/components/admin/properties/property-filters";
@@ -17,27 +16,13 @@ import { Badge } from "@/components/ui/badge";
 
 import { getProperties, deleteProperty } from "@/firebase/properties";
 import LoadingSpinner from "@/components/ui/loading-spinner";
-
-interface FilterState {
-  searchQuery: string;
-  location: string;
-  propertyType: string;
-  priceType: string;
-  status: string;
-  minPrice: string;
-  maxPrice: string;
-  minBedrooms: string;
-  maxBedrooms: string;
-  minBathrooms: string;
-  maxBathrooms: string;
-  minSqft: string;
-  maxSqft: string;
-  featured: boolean | null;
-  amenities: string[];
-}
+import { FilterState } from "@/common/types";
 
 export default function Page() {
   const router = useRouter();
+  const [clickedState, setClickedState] = useState({
+    clickedAddProperty: false,
+  });
   const [properties, setProperties] = useState<Property[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -341,10 +326,22 @@ export default function Page() {
           </div>
           <Button
             className="ml-auto"
-            onClick={() => router.push(`/admin/properties/add`)}
+            onClick={() => {
+              setClickedState({ clickedAddProperty: true });
+              router.push(`/admin/properties/add`);
+            }}
           >
-            <Plus size={15} />
-            Add Property
+            {clickedState.clickedAddProperty ? (
+              <>
+                <LoadingSpinner size="sm" />
+                Redirecting...
+              </>
+            ) : (
+              <>
+                <Plus className={"mr-1"} size={15} />
+                Add Property
+              </>
+            )}
           </Button>
         </div>
       </div>

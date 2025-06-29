@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
@@ -10,32 +10,40 @@ import { Button } from "@/components/ui/button";
 import LoadingSpinner from "@/components/ui/loading-spinner";
 import { toast } from "sonner";
 import { BlogPost } from "@/common/types";
-import { blogService } from "@/services/blog-services";
+import { initialBlogData } from "@/common/initial-values";
+import { getBlogDocumentById } from "@/firebase/blog";
 
 interface BlogFormProps {
   postId?: string;
-  initialData?: BlogPost & { id: string };
+  blogformType: "create" | "edit";
 }
 
-const BlogForm: React.FC<BlogFormProps> = ({ postId, initialData }) => {
+const BlogForm: React.FC<BlogFormProps> = ({ postId, blogformType }) => {
   const router = useRouter();
   const isEditing = Boolean(postId);
-
   const [submitting, setSubmitting] = useState(false);
-  const [formData, setFormData] = useState<BlogPost>({
-    title: "",
-    slug: "",
-    content: "",
-    excerpt: "",
-    author: "",
-    category: "",
-    isPublished: false,
-    image: "",
-    tags: [],
-    ...(initialData || {}),
-  });
+  const [formData, setFormData] = useState<BlogPost>(initialBlogData);
 
-  const [tagInput, setTagInput] = useState(initialData?.tags?.join(", ") || "");
+  useEffect(() => {
+    if (blogformType === "create") return;
+
+    if (blogformType === "edit") {
+      if (postId) {
+        (async () => {
+          const post = await getBlogDocumentById(postId);
+
+          console.log("Blog Post", post);
+          if (post) {
+            setFormData({ ...post, id: postId });
+          }
+        })();
+      }
+    }
+  }, []);
+
+  const [tagInput, setTagInput] = useState(
+    initialBlogData?.tags?.join(", ") || ""
+  );
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -44,32 +52,6 @@ const BlogForm: React.FC<BlogFormProps> = ({ postId, initialData }) => {
         description: "Please fill in all required fields",
       });
       return;
-    }
-
-    try {
-      setSubmitting(true);
-      const tags = tagInput
-        .split(",")
-        .map((tag) => tag.trim())
-        .filter((tag) => tag);
-      const dataToSubmit = { ...formData, tags };
-
-      if (isEditing && postId) {
-        await blogService.updatePost(postId, dataToSubmit);
-        toast("Success", { description: "Blog post updated successfully" });
-      } else {
-        await blogService.createPost(dataToSubmit);
-        toast("Success", { description: "Blog post created successfully" });
-      }
-
-      router.push("/blog");
-    } catch (error) {
-      console.log("Error submitting blog post:", error);
-      toast("Error", {
-        description: `Failed to ${isEditing ? "update" : "create"} blog post`,
-      });
-    } finally {
-      setSubmitting(false);
     }
   };
 
@@ -95,9 +77,12 @@ const BlogForm: React.FC<BlogFormProps> = ({ postId, initialData }) => {
           <Label htmlFor="author">Author *</Label>
           <Input
             id="author"
-            value={formData.author}
+            value={formData?.author?.name}
             onChange={(e) =>
-              setFormData({ ...formData, author: e.target.value })
+              setFormData({
+                ...formData,
+                author: { ...formData.author, name: e.target.value },
+              })
             }
             placeholder="Author name"
             required
@@ -137,9 +122,9 @@ const BlogForm: React.FC<BlogFormProps> = ({ postId, initialData }) => {
           <Label htmlFor="featuredImage">Featured Image URL</Label>
           <Input
             id="featuredImage"
-            value={formData.image}
+            value={formData?.featuredImage}
             onChange={(e) =>
-              setFormData({ ...formData, image: e.target.value })
+              setFormData({ ...formData, featuredImage: e.target.value })
             }
             placeholder="https://example.com/image.jpg"
           />

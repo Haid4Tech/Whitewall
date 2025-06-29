@@ -8,7 +8,6 @@ import { Textarea } from "@/components/ui/textarea";
 import { Switch } from "@/components/ui/switch";
 import { Label } from "@/components/ui/label";
 import LoadingSpinner from "@/components/ui/loading-spinner";
-import { blogService } from "@/services/blog-services";
 import { BlogPost } from "@/common/types";
 import { toast } from "sonner";
 
@@ -23,9 +22,12 @@ const CreateBlogForm = () => {
     title: "",
     content: "",
     excerpt: "",
-    author: "",
+    author: {
+      name: "",
+      image: "",
+    },
     isPublished: false,
-    image: "",
+    featuredImage: "",
     tags: [],
   });
   const [tagInput, setTagInput] = useState("");
@@ -39,13 +41,16 @@ const CreateBlogForm = () => {
   const loadPost = async (postId: string) => {
     try {
       setLoading(true);
-      const post = await blogService.getPostById(postId);
+
       if (post) {
         setFormData({
           title: post?.title,
           content: post?.content ?? "",
           excerpt: post.excerpt,
-          author: post?.author ?? "",
+          author: {
+            name: post?.author?.name ?? "",
+            image: post?.author?.image ?? "",
+          },
           isPublished: post.isPublished,
           image: post?.image ?? "",
           tags: post.tags,
@@ -112,10 +117,10 @@ const CreateBlogForm = () => {
   return (
     <div className="w-full mx-auto">
       <div className="mb-6">
-        <h1 className="text-3xl font-bold text-gray-900">
+        <h1 className={"text-2xl font-semibold text-gray-900"}>
           {isEditing ? "Edit Blog Post" : "Create New Blog Post"}
         </h1>
-        <p className="text-gray-600 mt-2">
+        <p className="text-gray-600">
           {isEditing
             ? "Update your blog post"
             : "Share your insights and expertise"}
@@ -143,9 +148,12 @@ const CreateBlogForm = () => {
             <Label htmlFor="author">Author *</Label>
             <Input
               id="author"
-              value={formData.author}
+              value={formData.author?.name}
               onChange={(e) =>
-                setFormData({ ...formData, author: e.target.value })
+                setFormData({
+                  ...formData,
+                  author: { ...formData.author, name: e.target.value },
+                })
               }
               placeholder="Author name"
               required
