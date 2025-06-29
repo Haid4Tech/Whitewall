@@ -7,11 +7,11 @@ import Image from "next/image";
 
 type IBlogCard = BlogPost & { id: string };
 
-interface BlogCardProps {
+interface AdminBlogCardProps {
   post: IBlogCard;
 }
 
-export const BlogCard = ({ post }: BlogCardProps) => {
+export const AdminBlogCard = ({ post }: AdminBlogCardProps) => {
   return (
     <Card className="group cursor-pointer overflow-hidden hover-scale transition-all duration-300 hover:shadow-lg animate-fade-in">
       <div className="relative overflow-hidden">

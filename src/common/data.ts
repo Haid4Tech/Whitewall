@@ -438,3 +438,54 @@ export const blogPosts: IBlogCard[] = [
     ],
   },
 ];
+
+// export const mockBlogPosts: (BlogPost & { id: string })[] = [
+//   {
+//     id: "1",
+//     title: "Top 10 Home Staging Tips That Sell Properties Fast",
+//     excerpt:
+//       "Discover proven staging techniques that help properties sell 30% faster and for higher prices.",
+//     author: { name: "Sarah Johnson" },
+//     category: "Home Staging",
+//     status: "published",
+//     publishDate: "2024-06-20",
+//     views: 2340,
+//     likes: 89,
+//     featuredImage:
+//       "https://images.unsplash.com/photo-1721322800607-8c38375eef04",
+//     tags: ["staging", "selling", "tips"],
+//     seoScore: 95,
+//   },
+//   {
+//     id: "2",
+//     title: "Market Trends: What Buyers Want in 2024",
+//     excerpt:
+//       "Analysis of current real estate market trends and buyer preferences for the year ahead.",
+//     author: { name: "Mike Chen" },
+//     category: "Market Analysis",
+//     status: "published",
+//     publishDate: "2024-06-18",
+//     views: 1876,
+//     likes: 67,
+//     featuredImage:
+//       "https://images.unsplash.com/photo-1460574283810-2aab119d8511",
+//     tags: ["market", "trends", "2024"],
+//     seoScore: 88,
+//   },
+//   {
+//     id: "3",
+//     title: "First-Time Homebuyer Guide: Everything You Need to Know",
+//     excerpt:
+//       "Complete guide for first-time buyers covering financing, inspections, and closing process.",
+//     author: { name: "Lisa Wang" },
+//     category: "Buyer Guide",
+//     status: "draft",
+//     publishDate: "2024-06-25",
+//     views: 0,
+//     likes: 0,
+//     featuredImage:
+//       "https://images.unsplash.com/photo-1487958449943-2429e8be8625",
+//     tags: ["first-time", "guide", "buying"],
+//     seoScore: 72,
+//   },
+// ];

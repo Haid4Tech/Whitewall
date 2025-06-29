@@ -216,286 +216,263 @@ export default function AddPropertyPage() {
       {/* Header */}
       <div className="bg-white shadow-sm border-b">
         <div className="mx-auto sm:px-6 lg:px-8">
-          <div className="flex items-center justify-between h-16">
-            <div className="flex items-center gap-5 w-full">
-              <Button
-                variant="secondary"
-                onClick={() => router.back()}
-                className="flex items-center gap-2 hover:shadow-md"
-              >
-                <ArrowLeft size={15} />
-                Back
-              </Button>
-              <h1 className="text-base md:text-xl font-semibold text-gray-900">
-                Add New Property
-              </h1>
-            </div>
+          <div className="flex flex-row h-16 items-center gap-5 w-full">
+            <Button
+              variant="secondary"
+              onClick={() => router.back()}
+              className="flex items-center gap-2 hover:shadow-md"
+            >
+              <ArrowLeft size={15} />
+              Back
+            </Button>
+            <p className="mx-auto text-base md:text-xl font-semibold text-gray-900">
+              Add New Property
+            </p>
           </div>
         </div>
       </div>
 
-      <div className="w-full mx-auto px-4 py-8">
-      <div className="mx-auto py-8">
-        <form onSubmit={handleSubmit} className="space-y-8">
-          {/* Image Upload Section */}
-          <Card>
-            <CardContent className="p-6">
-              <h2 className="text-lg font-semibold mb-4">Property Images</h2>
+      <div className="w-full mx-auto py-4 md:py-8">
+        <div className="mx-auto">
+          <form onSubmit={handleSubmit} className="space-y-8">
+            {/* Image Upload Section */}
+            <Card>
+              <CardContent className="p-6">
+                <h2 className="text-lg font-semibold mb-4">Property Images</h2>
 
-              {/* Drag & Drop Area */}
-              <div
-                className={`border-2 border-dashed rounded-lg p-8 text-center transition-colors cursor-pointer ${
-                  images.length === 0
-                    ? "border-gray-300 bg-gray-50 hover:border-gray-400"
-                    : "border-green-300 bg-green-50"
-                }`}
-                onDragOver={handleDragOver}
-                onDrop={handleDrop}
-                onClick={() => fileInputRef.current?.click()}
-              >
-                <Upload className="h-12 w-12 mx-auto text-gray-400 mb-4" />
-                <p className="text-lg font-medium text-gray-700 mb-2">
-                  {images.length === 0
-                    ? "Drop images here or click to upload"
-                    : `${images.length} images uploaded`}
-                </p>
-                <p className="text-sm text-gray-500">
-                  Upload up to 10 images (JPG, PNG, WebP)
-                </p>
-                <input
-                  ref={fileInputRef}
-                  type="file"
-                  multiple
-                  accept="image/*"
-                  onChange={(e) => handleImageUpload(e.target.files)}
-                  className="hidden"
-                />
-              </div>
-
-              {/* Image Previews */}
-              {images.length > 0 && (
-                <div className="mt-6">
-                  <h3 className="text-md font-medium mb-3">Uploaded Images</h3>
-                  <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
-                    {imageUrls.map((url, index) => (
-                      <div key={index} className="relative group">
-                        <Image
-                          width={200}
-                          height={200}
-                          src={url}
-                          alt={`Preview ${index + 1}`}
-                          className="w-full h-32 object-cover rounded-lg"
-                        />
-                        <button
-                          type="button"
-                          onClick={() => removeImage(index)}
-                          className="absolute top-2 right-2 bg-red-500 text-white rounded-full p-1 opacity-0 group-hover:opacity-100 transition-opacity"
-                        >
-                          <X className="h-4 w-4" />
-                        </button>
-                      </div>
-                    ))}
-                  </div>
-                </div>
-              )}
-            </CardContent>
-          </Card>
-
-          {/* Basic Information */}
-          <Card>
-            <CardContent className="p-6">
-              <h2 className="text-lg font-semibold mb-4">Basic Information</h2>
-
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                <div className="flex flex-col gap-3">
-                  <Label htmlFor="title">Property Title *</Label>
-                  <Input
-                    id="title"
-                    value={formData.title}
-                    onChange={(e) =>
-                      setFormData((prev) => ({
-                        ...prev,
-                        title: e.target.value,
-                      }))
-                    }
-                    placeholder="e.g., Modern 3-Bedroom Villa"
-                    required
+                {/* Drag & Drop Area */}
+                <div
+                  className={`border-2 border-dashed rounded-lg p-8 text-center transition-colors cursor-pointer ${
+                    images.length === 0
+                      ? "border-gray-300 bg-gray-50 hover:border-gray-400"
+                      : "border-green-300 bg-green-50"
+                  }`}
+                  onDragOver={handleDragOver}
+                  onDrop={handleDrop}
+                  onClick={() => fileInputRef.current?.click()}
+                >
+                  <Upload className="h-12 w-12 mx-auto text-gray-400 mb-4" />
+                  <p className="text-lg font-medium text-gray-700 mb-2">
+                    {images.length === 0
+                      ? "Drop images here or click to upload"
+                      : `${images.length} images uploaded`}
+                  </p>
+                  <p className="text-sm text-gray-500">
+                    Upload up to 10 images (JPG, PNG, WebP)
+                  </p>
+                  <input
+                    ref={fileInputRef}
+                    type="file"
+                    multiple
+                    accept="image/*"
+                    onChange={(e) => handleImageUpload(e.target.files)}
+                    className="hidden"
                   />
                 </div>
 
-                <DropdownSelect
-                  name={"type"}
-                  label={"Property Type *"}
-                  placeholder="Select Type"
-                  value={formData.type}
-                  handleChange={handleInputChange}
-                  items={PROPERTY_TYPES.map(
-                    (type) => type.charAt(0).toUpperCase() + type.slice(1)
-                  )}
-                />
-
-                <SearchableDropdown
-                  name={"location"}
-                  label={"Location *"}
-                  placeholder="Select Location"
-                  value={formData.location}
-                  handleChange={handleInputChange}
-                  items={ABUJA_LOCATIONS}
-                />
-
-                <div className="flex flex-col gap-3">
-                  <Label htmlFor="price">Price *</Label>
-                  <div className="flex gap-2">
-                    <Input
-                      id="price"
-                      type="text"
-                      value={formatNumberWithCommas(formData.price)}
-                      onChange={(e) => {
-                        const raw = e.target.value.replace(/,/g, "");
-                        if (/^\d*$/.test(raw)) {
-                          setFormData((prev) => ({
-                            ...prev,
-                            price: raw,
-                          }));
-                        }
-                      }}
-                      placeholder="Enter price"
-                      required
-                      className="flex-1"
-                    />
-                    <div className="w-24">
-                      <DropdownSelect
-                        name="currency"
-                        label=""
-                        placeholder="Currency"
-                        value={formData.currency}
-                        handleChange={handleInputChange}
-                        items={CURRENCIES}
-                      />
+                {/* Image Previews */}
+                {images.length > 0 && (
+                  <div className="mt-6">
+                    <h3 className="text-md font-medium mb-3">
+                      Uploaded Images
+                    </h3>
+                    <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+                      {imageUrls.map((url, index) => (
+                        <div key={index} className="relative group">
+                          <Image
+                            width={200}
+                            height={200}
+                            src={url}
+                            alt={`Preview ${index + 1}`}
+                            className="w-full h-32 object-cover rounded-lg"
+                          />
+                          <button
+                            type="button"
+                            onClick={() => removeImage(index)}
+                            className="absolute top-2 right-2 bg-red-500 text-white rounded-full p-1 opacity-0 group-hover:opacity-100 transition-opacity"
+                          >
+                            <X className="h-4 w-4" />
+                          </button>
+                        </div>
+                      ))}
                     </div>
                   </div>
-                </div>
-
-                <DropdownSelect
-                  name={"priceType"}
-                  label={"Price Type *"}
-                  placeholder="Select price type"
-                  value={formData.priceType}
-                  handleChange={handleInputChange}
-                  items={PRICE_TYPES.map(
-                    (type) => type.charAt(0).toUpperCase() + type.slice(1)
-                  )}
-                />
-
-                <div className="flex flex-col gap-3">
-                  <Label htmlFor="sqft">Square Feet</Label>
-                  <Input
-                    id="sqft"
-                    type="number"
-                    value={formData.sqft}
-                    onChange={(e) =>
-                      setFormData((prev) => ({ ...prev, sqft: e.target.value }))
-                    }
-                    placeholder="e.g., 2500"
-                  />
-                </div>
-
-                <div className="flex flex-col gap-3">
-                  <Label htmlFor="bedrooms">Bedrooms *</Label>
-                  <Input
-                    id="bedrooms"
-                    type="number"
-                    value={formData.bedrooms}
-                    onChange={(e) =>
-                      setFormData((prev) => ({
-                        ...prev,
-                        bedrooms: e.target.value,
-                      }))
-                    }
-                    placeholder="e.g., 3"
-                    required
-                  />
-                </div>
-
-                <div className="flex flex-col gap-3">
-                  <Label htmlFor="bathrooms">Bathrooms *</Label>
-                  <Input
-                    id="bathrooms"
-                    type="number"
-                    value={formData.bathrooms}
-                    onChange={(e) =>
-                      setFormData((prev) => ({
-                        ...prev,
-                        bathrooms: e.target.value,
-                      }))
-                    }
-                    placeholder="e.g., 2"
-                    required
-                  />
-                </div>
-              </div>
-            </CardContent>
-          </Card>
-
-          {/* Description */}
-          <Card>
-            <CardContent className="p-6">
-              <h2 className="text-lg font-semibold mb-4">Description</h2>
-              <Textarea
-                value={formData.description}
-                onChange={(e) =>
-                  setFormData((prev) => ({
-                    ...prev,
-                    description: e.target.value,
-                  }))
-                }
-                placeholder="Describe the property, its features, and what makes it special..."
-                rows={6}
-                required
-              />
-            </CardContent>
-          </Card>
-
-          {/* Amenities */}
-          <Card>
-            <CardContent className="p-6">
-              <h2 className="text-lg font-semibold mb-4">
-                Amenities & Features
-              </h2>
-
-              {/* Common Amenities Section */}
-              <div className="mb-6">
-                <h3 className="text-md font-medium mb-3">Common Amenities</h3>
-                <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-2">
-                  {filteredCommonAmenities.slice(0, 20).map((amenity) => (
-                    <button
-                      key={amenity}
-                      type="button"
-                      onClick={() => addCommonAmenity(amenity)}
-                      className="text-left p-2 rounded border border-gray-200 hover:border-blue-300 hover:bg-blue-50 transition-colors text-sm"
-                    >
-                      {amenity}
-                    </button>
-                  ))}
-                </div>
-                {filteredCommonAmenities.length > 20 && (
-                  <div className="mt-3">
-                    <button
-                      type="button"
-                      onClick={() =>
-                        setShowAmenitiesDropdown(!showAmenitiesDropdown)
-                      }
-                      className="text-blue-600 hover:text-blue-800 text-sm font-medium"
-                    >
-                      {showAmenitiesDropdown
-                        ? "Show Less"
-                        : `Show ${filteredCommonAmenities.length - 20} More`}
-                    </button>
-                  </div>
                 )}
-                {showAmenitiesDropdown && (
-                  <div className="mt-3 grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-2">
-                    {filteredCommonAmenities.slice(20).map((amenity) => (
+              </CardContent>
+            </Card>
+
+            {/* Basic Information */}
+            <Card>
+              <CardContent className="p-6">
+                <h2 className="text-lg font-semibold mb-4">
+                  Basic Information
+                </h2>
+
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                  <div className="flex flex-col gap-3">
+                    <Label htmlFor="title">Property Title *</Label>
+                    <Input
+                      id="title"
+                      value={formData.title}
+                      onChange={(e) =>
+                        setFormData((prev) => ({
+                          ...prev,
+                          title: e.target.value,
+                        }))
+                      }
+                      placeholder="e.g., Modern 3-Bedroom Villa"
+                      required
+                    />
+                  </div>
+
+                  <DropdownSelect
+                    name={"type"}
+                    label={"Property Type *"}
+                    placeholder="Select Type"
+                    value={formData.type}
+                    handleChange={handleInputChange}
+                    items={PROPERTY_TYPES.map(
+                      (type) => type.charAt(0).toUpperCase() + type.slice(1)
+                    )}
+                  />
+
+                  <SearchableDropdown
+                    name={"location"}
+                    label={"Location *"}
+                    placeholder="Select Location"
+                    value={formData.location}
+                    handleChange={handleInputChange}
+                    items={ABUJA_LOCATIONS}
+                  />
+
+                  <div className="flex flex-col gap-3">
+                    <Label htmlFor="price">Price *</Label>
+                    <div className="flex gap-2">
+                      <Input
+                        id="price"
+                        type="text"
+                        value={formatNumberWithCommas(formData.price)}
+                        onChange={(e) => {
+                          const raw = e.target.value.replace(/,/g, "");
+                          if (/^\d*$/.test(raw)) {
+                            setFormData((prev) => ({
+                              ...prev,
+                              price: raw,
+                            }));
+                          }
+                        }}
+                        placeholder="Enter price"
+                        required
+                        className="flex-1"
+                      />
+                      <div className="w-24">
+                        <DropdownSelect
+                          name="currency"
+                          label=""
+                          placeholder="Currency"
+                          value={formData.currency}
+                          handleChange={handleInputChange}
+                          items={CURRENCIES}
+                        />
+                      </div>
+                    </div>
+                  </div>
+
+                  <DropdownSelect
+                    name={"priceType"}
+                    label={"Price Type *"}
+                    placeholder="Select price type"
+                    value={formData.priceType}
+                    handleChange={handleInputChange}
+                    items={PRICE_TYPES.map(
+                      (type) => type.charAt(0).toUpperCase() + type.slice(1)
+                    )}
+                  />
+
+                  <div className="flex flex-col gap-3">
+                    <Label htmlFor="sqft">Square Feet</Label>
+                    <Input
+                      id="sqft"
+                      type="number"
+                      value={formData.sqft}
+                      onChange={(e) =>
+                        setFormData((prev) => ({
+                          ...prev,
+                          sqft: e.target.value,
+                        }))
+                      }
+                      placeholder="e.g., 2500"
+                    />
+                  </div>
+
+                  <div className="flex flex-col gap-3">
+                    <Label htmlFor="bedrooms">Bedrooms *</Label>
+                    <Input
+                      id="bedrooms"
+                      type="number"
+                      value={formData.bedrooms}
+                      onChange={(e) =>
+                        setFormData((prev) => ({
+                          ...prev,
+                          bedrooms: e.target.value,
+                        }))
+                      }
+                      placeholder="e.g., 3"
+                      required
+                    />
+                  </div>
+
+                  <div className="flex flex-col gap-3">
+                    <Label htmlFor="bathrooms">Bathrooms *</Label>
+                    <Input
+                      id="bathrooms"
+                      type="number"
+                      value={formData.bathrooms}
+                      onChange={(e) =>
+                        setFormData((prev) => ({
+                          ...prev,
+                          bathrooms: e.target.value,
+                        }))
+                      }
+                      placeholder="e.g., 2"
+                      required
+                    />
+                  </div>
+                </div>
+              </CardContent>
+            </Card>
+
+            {/* Description */}
+            <Card>
+              <CardContent className="p-6">
+                <h2 className="text-lg font-semibold mb-4">Description</h2>
+                <Textarea
+                  value={formData.description}
+                  onChange={(e) =>
+                    setFormData((prev) => ({
+                      ...prev,
+                      description: e.target.value,
+                    }))
+                  }
+                  placeholder="Describe the property, its features, and what makes it special..."
+                  rows={6}
+                  required
+                />
+              </CardContent>
+            </Card>
+
+            {/* Amenities */}
+            <Card>
+              <CardContent className="p-6">
+                <h2 className="text-lg font-semibold mb-4">
+                  Amenities & Features
+                </h2>
+
+                {/* Common Amenities Section */}
+                <div className="mb-6">
+                  <h3 className="text-md font-medium mb-3">Common Amenities</h3>
+                  <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-2">
+                    {filteredCommonAmenities.slice(0, 20).map((amenity) => (
                       <button
                         key={amenity}
                         type="button"
@@ -506,107 +483,142 @@ export default function AddPropertyPage() {
                       </button>
                     ))}
                   </div>
-                )}
-              </div>
-
-              {/* Custom Amenities Section */}
-              <div className="mb-4">
-                <h3 className="text-md font-medium mb-3">Add Custom Amenity</h3>
-                <div className="flex gap-2">
-                  <Input
-                    value={newAmenity}
-                    onChange={(e) => setNewAmenity(e.target.value)}
-                    placeholder="Add a custom amenity (e.g., Rooftop Garden)"
-                    onKeyPress={(e) =>
-                      e.key === "Enter" && (e.preventDefault(), addAmenity())
-                    }
-                  />
-                  <Button type="button" onClick={addAmenity} variant="outline">
-                    <Plus className="h-4 w-4" />
-                  </Button>
-                </div>
-              </div>
-
-              {/* Selected Amenities */}
-              {formData.amenities.length > 0 && (
-                <div>
-                  <h3 className="text-md font-medium mb-3">
-                    Selected Amenities ({formData.amenities.length})
-                  </h3>
-                  <div className="flex flex-wrap gap-2">
-                    {formData.amenities.map((amenity, index) => (
-                      <Badge
-                        key={index}
-                        variant="secondary"
-                        className="flex items-center gap-1"
+                  {filteredCommonAmenities.length > 20 && (
+                    <div className="mt-3">
+                      <button
+                        type="button"
+                        onClick={() =>
+                          setShowAmenitiesDropdown(!showAmenitiesDropdown)
+                        }
+                        className="text-blue-600 hover:text-blue-800 text-sm font-medium"
                       >
-                        {amenity}
+                        {showAmenitiesDropdown
+                          ? "Show Less"
+                          : `Show ${filteredCommonAmenities.length - 20} More`}
+                      </button>
+                    </div>
+                  )}
+                  {showAmenitiesDropdown && (
+                    <div className="mt-3 grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-2">
+                      {filteredCommonAmenities.slice(20).map((amenity) => (
                         <button
+                          key={amenity}
                           type="button"
-                          onClick={() => removeAmenity(amenity)}
-                          className="ml-1 hover:text-red-500"
+                          onClick={() => addCommonAmenity(amenity)}
+                          className="text-left p-2 rounded border border-gray-200 hover:border-blue-300 hover:bg-blue-50 transition-colors text-sm"
                         >
-                          <X className="h-3 w-3" />
+                          {amenity}
                         </button>
-                      </Badge>
-                    ))}
+                      ))}
+                    </div>
+                  )}
+                </div>
+
+                {/* Custom Amenities Section */}
+                <div className="mb-4">
+                  <h3 className="text-md font-medium mb-3">
+                    Add Custom Amenity
+                  </h3>
+                  <div className="flex gap-2">
+                    <Input
+                      value={newAmenity}
+                      onChange={(e) => setNewAmenity(e.target.value)}
+                      placeholder="Add a custom amenity (e.g., Rooftop Garden)"
+                      onKeyPress={(e) =>
+                        e.key === "Enter" && (e.preventDefault(), addAmenity())
+                      }
+                    />
+                    <Button
+                      type="button"
+                      onClick={addAmenity}
+                      variant="outline"
+                    >
+                      <Plus className="h-4 w-4" />
+                    </Button>
                   </div>
                 </div>
-              )}
-            </CardContent>
-          </Card>
 
-          {/* Featured Property */}
-          <Card>
-            <CardContent className="p-6">
-              <div className="flex items-center justify-between">
-                <div>
-                  <h2 className="text-lg font-semibold">Featured Property</h2>
-                  <p className="text-sm text-gray-600">
-                    Featured properties appear prominently in search results
-                  </p>
+                {/* Selected Amenities */}
+                {formData.amenities.length > 0 && (
+                  <div>
+                    <h3 className="text-md font-medium mb-3">
+                      Selected Amenities ({formData.amenities.length})
+                    </h3>
+                    <div className="flex flex-wrap gap-2">
+                      {formData.amenities.map((amenity, index) => (
+                        <Badge
+                          key={index}
+                          variant="secondary"
+                          className="flex items-center gap-1"
+                        >
+                          {amenity}
+                          <button
+                            type="button"
+                            onClick={() => removeAmenity(amenity)}
+                            className="ml-1 hover:text-red-500"
+                          >
+                            <X className="h-3 w-3" />
+                          </button>
+                        </Badge>
+                      ))}
+                    </div>
+                  </div>
+                )}
+              </CardContent>
+            </Card>
+
+            {/* Featured Property */}
+            <Card>
+              <CardContent className="p-6">
+                <div className="flex items-center justify-between">
+                  <div>
+                    <h2 className="text-lg font-semibold">Featured Property</h2>
+                    <p className="text-sm text-gray-600">
+                      Featured properties appear prominently in search results
+                    </p>
+                  </div>
+                  <input
+                    type="checkbox"
+                    id="featured"
+                    checked={formData.featured}
+                    onChange={(e) =>
+                      setFormData((prev) => ({
+                        ...prev,
+                        featured: e.target.checked,
+                      }))
+                    }
+                    className="w-4 h-4 text-blue-600 border-gray-300 rounded focus:ring-blue-500"
+                  />
                 </div>
-                <input
-                  type="checkbox"
-                  id="featured"
-                  checked={formData.featured}
-                  onChange={(e) =>
-                    setFormData((prev) => ({
-                      ...prev,
-                      featured: e.target.checked,
-                    }))
-                  }
-                  className="w-4 h-4 text-blue-600 border-gray-300 rounded focus:ring-blue-500"
-                />
-              </div>
-            </CardContent>
-          </Card>
+              </CardContent>
+            </Card>
 
-          {/* Submit Button */}
-          <div className="flex gap-4">
-            <Button
-              type="button"
-              variant="outline"
-              onClick={() => router.back()}
-              className="flex-1"
-              disabled={isUploading}
-            >
-              Cancel
-            </Button>
-            <Button type="submit" className="flex-1" disabled={isUploading}>
-              {isUploading ? (
-                <>
-                  <Loader2 className="h-4 w-4 mr-2 animate-spin" />
-                  {uploadProgress > 0
-                    ? `Uploading... ${uploadProgress}%`
-                    : "Adding Property..."}
-                </>
-              ) : (
-                "Add Property"
-              )}
-            </Button>
-          </div>
-        </form>
+            {/* Submit Button */}
+            <div className="flex gap-4">
+              <Button
+                type="button"
+                variant="outline"
+                onClick={() => router.back()}
+                className="flex-1"
+                disabled={isUploading}
+              >
+                Cancel
+              </Button>
+              <Button type="submit" className="flex-1" disabled={isUploading}>
+                {isUploading ? (
+                  <>
+                    <Loader2 className="h-4 w-4 mr-2 animate-spin" />
+                    {uploadProgress > 0
+                      ? `Uploading... ${uploadProgress}%`
+                      : "Adding Property..."}
+                  </>
+                ) : (
+                  "Add Property"
+                )}
+              </Button>
+            </div>
+          </form>
+        </div>
       </div>
     </div>
   );

@@ -327,6 +327,7 @@ export default function Page() {
             </p>
           </div>
           <Button
+            className="ml-auto"
             onClick={() => {
               setClickedState({ clickedAddProperty: true });
               router.push(`/admin/properties/add`);

@@ -92,3 +92,18 @@ export interface FilterState {
   featured: boolean | null;
   amenities: string[];
 }
+
+export interface PropertyFormData {
+  title: string;
+  location: string;
+  price: string;
+  currency: string;
+  priceType: string;
+  bedrooms: string;
+  bathrooms: string;
+  sqft: string;
+  type: string;
+  featured: boolean;
+  description: string;
+  amenities: string[];
+}

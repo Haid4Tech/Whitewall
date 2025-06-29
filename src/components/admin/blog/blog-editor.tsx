@@ -40,7 +40,6 @@ export const BlogEditor: React.FC<BlogEditorProps> = ({
     seoScore: post?.seoScore || 0,
     content: post?.content || "",
     metaDescription: post?.metaDescription || "",
-    metaKeywords: post?.metaKeywords || "",
   });
 
   const [newTag, setNewTag] = useState("");
@@ -230,7 +229,7 @@ export const BlogEditor: React.FC<BlogEditorProps> = ({
                     </div>
                   </div>
 
-                  <div>
+                  {/* <div>
                     <label className="block text-sm font-medium text-gray-700 mb-2">
                       Focus Keywords
                     </label>
@@ -244,7 +243,7 @@ export const BlogEditor: React.FC<BlogEditorProps> = ({
                       }
                       placeholder="real estate, home buying, property investment..."
                     />
-                  </div>
+                  </div> */}
 
                   <div>
                     <h4 className="font-medium text-gray-900 mb-2">
