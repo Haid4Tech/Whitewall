@@ -58,7 +58,7 @@ const UserProfile: FC<IUserProfile> = ({
             <Button className="h-fit flex flex-row gap-1 h-5" variant="ghost">
               <p className={"ml-[-10px] text-[10px] font-light text-nowrap"}>
                 {role}
-              </span>
+              </p>
               <ChevronDown size={15} className={""} />
             </Button>
           </DropdownMenuTrigger>

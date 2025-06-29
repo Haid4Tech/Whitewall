@@ -8,7 +8,6 @@ import { Textarea } from "@/components/ui/textarea";
 import { Switch } from "@/components/ui/switch";
 import { Label } from "@/components/ui/label";
 import LoadingSpinner from "@/components/ui/loading-spinner";
-import { blogService } from "@/services/blog-services";
 import { BlogPost } from "@/common/types";
 import { toast } from "sonner";
 
@@ -28,7 +27,7 @@ const CreateBlogForm = () => {
       image: "",
     },
     isPublished: false,
-    image: "",
+    featuredImage: "",
     tags: [],
   });
   const [tagInput, setTagInput] = useState("");
@@ -42,7 +41,7 @@ const CreateBlogForm = () => {
   const loadPost = async (postId: string) => {
     try {
       setLoading(true);
-      const post = await blogService.getPostById(postId);
+
       if (post) {
         setFormData({
           title: post?.title,

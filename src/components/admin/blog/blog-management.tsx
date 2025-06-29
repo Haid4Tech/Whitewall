@@ -2,10 +2,11 @@
 
 import React, { useState } from "react";
 import { cn } from "@/lib/utils";
-import Image from "next/image";
+import { useRouter } from "next/navigation";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Button } from "@/components/ui/button";
+import LoadingSpinner from "@/components/ui/loading-spinner";
 
 import { Input } from "@/components/ui/input";
 import { Search, Plus, Eye, Edit, Trash2, Calendar } from "lucide-react";
@@ -26,6 +27,13 @@ enum tabsEnum {
 type BlogProps = BlogPost & { id: string };
 
 export const BlogManagement = () => {
+  const router = useRouter();
+  const [loadingStates, setLoadingStates] = useState<{
+    createBlog: boolean;
+  }>({
+    createBlog: false,
+  });
+
   const [posts, setPosts] = useState<BlogProps[]>(blogPosts);
   const [searchTerm, setSearchTerm] = useState("");
   const [selectedCategory, setSelectedCategory] = useState("all");
@@ -97,10 +105,19 @@ export const BlogManagement = () => {
           </p>
         </div>
         <Button
-          onClick={() => setShowEditor(true)}
+          onClick={() => {
+            setLoadingStates({
+              createBlog: true,
+            });
+            router.push("/admin/blogs/create");
+          }}
           className="flex items-center gap-2 ml-auto"
         >
-          <Plus className="h-4 w-4" />
+          {loadingStates.createBlog ? (
+            <LoadingSpinner size="sm" />
+          ) : (
+            <Plus size={15} />
+          )}
           New Post
         </Button>
       </div>
