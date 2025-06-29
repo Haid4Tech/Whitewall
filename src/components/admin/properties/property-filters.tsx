@@ -118,7 +118,7 @@ export const PropertyFilters: React.FC<PropertyFiltersProps> = ({
             <Button
               variant="outline"
               onClick={() => setIsExpanded(!isExpanded)}
-              className="mb-4 hover-scale w-max"
+              className="mb-4 w-max"
             >
               <SlidersHorizontal className="mr-2 h-4 w-4" />
               {isExpanded ? "Hide Filters" : "Show Filters"}

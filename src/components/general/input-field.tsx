@@ -13,7 +13,7 @@ const InputWithLabel: FC<InputWithLabelProps> = ({ items, ...rest }) => {
   return (
     <div className={"grid w-full items-center gap-2"}>
       <div className="flex flex-row gap-2 items-center">
-        <Label className={"capitalize text-sm"} htmlFor={items.htmlfor}>
+        <Label className={"capitalize"} htmlFor={items.htmlfor}>
           {items.label}
         </Label>
         {items.compulsory && <p className="text-danger">*</p>}

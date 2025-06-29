@@ -215,7 +215,7 @@ export default function AddPropertyPage() {
     <div className="min-h-screen bg-gradient-to-br from-slate-50 to-slate-100">
       {/* Header */}
       <div className="bg-white shadow-sm border-b">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="mx-auto sm:px-6 lg:px-8">
           <div className="flex items-center justify-between h-16">
             <div className="flex items-center gap-4">
               <Button
@@ -223,10 +223,10 @@ export default function AddPropertyPage() {
                 onClick={() => router.back()}
                 className="flex items-center gap-2"
               >
-                <ArrowLeft className="h-4 w-4" />
+                <ArrowLeft size={15} />
                 Back
               </Button>
-              <h1 className="text-xl font-semibold text-gray-900">
+              <h1 className="text-base md:text-xl font-semibold text-gray-900">
                 Add New Property
               </h1>
             </div>
@@ -234,7 +234,7 @@ export default function AddPropertyPage() {
         </div>
       </div>
 
-      <div className="max-w-4xl mx-auto px-4 py-8">
+      <div className="mx-auto py-8">
         <form onSubmit={handleSubmit} className="space-y-8">
           {/* Image Upload Section */}
           <Card>

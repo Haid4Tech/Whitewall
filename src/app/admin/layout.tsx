@@ -15,7 +15,7 @@ export default function DashboardLayout({
     <AppLayout>
       <DashboardLayoutWrapper>
         <Suspense fallback={<Loading />}>
-          <main className="min-h-screen bg-background px-4">{children}</main>
+          <main className="min-h-screen bg-background md:px-4">{children}</main>
         </Suspense>
       </DashboardLayoutWrapper>
       <Toaster position="top-right" richColors />

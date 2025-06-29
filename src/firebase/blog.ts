@@ -17,10 +17,9 @@ import { db } from "../config/firebase";
  */
 export const getBlogs = async () => {
   try {
-    const queryBlogSnapshot = await getDocs(collection(db, "blog"));
+    const queryBlogSnapshot = await getDocs(collection(db, "blogs"));
 
     // Map Firestore documents to an array
-
     const blogs = queryBlogSnapshot.docs.map((doc) => ({
       id: doc.id,
       ...doc.data(),
@@ -40,7 +39,7 @@ export const getBlogs = async () => {
  */
 export const getBlogDocumentById = async (blogId: string) => {
   try {
-    const blogRef = doc(db, "blog", blogId);
+    const blogRef = doc(db, "blogs", blogId);
     const blogSnapshot = await getDoc(blogRef);
 
     if (blogSnapshot.exists()) {
@@ -62,7 +61,7 @@ export const getBlogDocumentById = async (blogId: string) => {
  */
 export const createBlog = async (blogData: any) => {
   try {
-    const docRef = await addDoc(collection(db, "blog"), {
+    const docRef = await addDoc(collection(db, "blogs"), {
       ...blogData,
       createdAt: Timestamp.now(),
       updatedAt: Timestamp.now(),

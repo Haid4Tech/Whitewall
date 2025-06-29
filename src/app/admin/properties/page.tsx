@@ -304,7 +304,7 @@ export default function Page() {
     return (
       <div className="min-h-screen bg-background flex flex-col items-center justify-center">
         <LoadingSpinner size="lg" />
-        <p className="mt-4 text-muted-foreground">Loading properties...</p>
+        <p className="mt-4 text-sm md:text-base">Loading properties...</p>
       </div>
     );
   }
@@ -332,15 +332,20 @@ export default function Page() {
     <div className="min-h-screen">
       {/* Header */}
       <div className="mb-6">
-        <div className="flex flex-row items-center justify-between">
+        <div className="flex flex-col flex-col-reverse md:flex-row md:items-center justify-between">
           <div>
-            <h2 className="text-3xl font-bold text-foreground">Properties</h2>
-            <p className="text-muted-foreground">
+            <h2 className="text-lg md:text-3xl font-bold text-foreground">
+              Properties
+            </h2>
+            <p className="text-xs md:text-base text-muted-foreground">
               Manage your properties, view details, and edit listings.
             </p>
           </div>
-          <Button onClick={() => router.push(`/admin/properties/add`)}>
-            <Plus className="h-4 w-4 mr-2" />
+          <Button
+            className="ml-auto"
+            onClick={() => router.push(`/admin/properties/add`)}
+          >
+            <Plus size={15} />
             Add Property
           </Button>
         </div>
@@ -358,7 +363,7 @@ export default function Page() {
       />
 
       {/* Properties Display */}
-      <div className="space-y-6">
+      <div>
         {isGroupedByLocation && groupedProperties ? (
           // Grouped by location
           groupedProperties.map(([location, locationProperties]) => (
@@ -370,7 +375,9 @@ export default function Page() {
                 <div className="flex items-center gap-1">
                   <div className="flex items-center gap-1">
                     <MapPin className={"text-muted-foreground"} size={15} />
-                    <CardTitle className="text-lg">{location}</CardTitle>
+                    <CardTitle className="text-base md:text-lg">
+                      {location}
+                    </CardTitle>
                   </div>
                   <Badge
                     className="text-primary-gold font-bold"
@@ -423,14 +430,14 @@ export default function Page() {
               <h3 className="text-lg font-semibold text-foreground mb-2">
                 No properties found
               </h3>
-              <p className="text-muted-foreground text-center mb-4">
+              <p className="text-xs md:text-base text-center mb-4">
                 {totalProperties === 0
                   ? "You haven't added any properties yet."
                   : "No properties match your current filters."}
               </p>
               {totalProperties === 0 ? (
                 <Button onClick={() => router.push(`/admin/properties/add`)}>
-                  <Plus className="h-4 w-4 mr-2" />
+                  <Plus size={15} />
                   Add Your First Property
                 </Button>
               ) : (

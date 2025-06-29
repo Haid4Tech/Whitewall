@@ -44,12 +44,15 @@ const DropdownSelect: FC<IDropdownSelect> = ({
         onValueChange={(value) => handleChange(name, value)}
       >
         <SelectTrigger className="w-full">
-          <SelectValue placeholder={placeholder} />
+          <SelectValue
+            className="placeholder:text-xs md:placeholder:text-sm"
+            placeholder={placeholder}
+          />
         </SelectTrigger>
         <SelectContent>
           {items.map((item, index) => (
             <SelectItem
-              className="cursor-pointer w-full"
+              className="text-xs md:text-sm cursor-pointer w-full"
               key={index}
               value={item}
             >
@@ -84,7 +87,10 @@ const SearchableDropdown: FC<ISearchableDropdown> = ({
 
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
-      if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
+      if (
+        dropdownRef.current &&
+        !dropdownRef.current.contains(event.target as Node)
+      ) {
         setIsOpen(false);
         setSearchTerm("");
       }
@@ -137,11 +143,15 @@ const SearchableDropdown: FC<ISearchableDropdown> = ({
               onClick={() => setIsOpen(!isOpen)}
               className="p-1 hover:bg-gray-100 rounded"
             >
-              <ChevronDown className={`h-4 w-4 text-gray-400 transition-transform ${isOpen ? 'rotate-180' : ''}`} />
+              <ChevronDown
+                className={`h-4 w-4 text-gray-400 transition-transform ${
+                  isOpen ? "rotate-180" : ""
+                }`}
+              />
             </button>
           </div>
         </div>
-        
+
         {isOpen && (
           <div className="absolute z-50 w-full mt-1 bg-white border border-gray-200 rounded-md shadow-lg max-h-60 overflow-y-auto">
             {filteredItems.length > 0 ? (
