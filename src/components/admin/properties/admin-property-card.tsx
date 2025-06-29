@@ -8,6 +8,7 @@ import {
   Eye,
   Loader2,
 } from "lucide-react";
+import Image from "next/image";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent } from "@/components/ui/card";
@@ -69,7 +70,9 @@ export const AdminPropertyCard = ({
 
       <div className="relative">
         <div className="aspect-[4/3] overflow-hidden">
-          <img
+          <Image
+            width={200}
+            height={200}
             src={property.images[0]}
             alt={property.title}
             className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"

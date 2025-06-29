@@ -12,7 +12,6 @@ import {
   Calendar,
   Star,
   ArrowLeft,
-  Heart,
   Share2,
   Phone,
   Mail,
@@ -51,7 +50,6 @@ export default function PropertyDetailPage({
   const [error] = useState<string | null>(null);
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
   const [expandedImage, setExpandedImage] = useState<string | null>(null);
-  const [isFavorite, setIsFavorite] = useState(false);
   const [isSharing, setIsSharing] = useState(false);
   const [showShareOptions, setShowShareOptions] = useState(false);
 
