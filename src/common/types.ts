@@ -71,7 +71,10 @@ export interface IFieldItems {
 }
 
 export interface User {
-  name: string;
+  firstName: string;
+  lastName: string;
+  email: string;
+  profile: string;
   uid: string;
 }
 
