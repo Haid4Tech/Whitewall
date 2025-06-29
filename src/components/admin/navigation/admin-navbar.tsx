@@ -1,4 +1,7 @@
+"use client";
+
 import { FC } from "react";
+import { useMainContext } from "@/components/provider/main-provider";
 import Link from "next/link";
 import UserProfile from "./user-profile";
 import Image from "next/image";
@@ -8,8 +11,7 @@ interface IAdminNavBar {
 }
 
 const AdminNavBar: FC<IAdminNavBar> = ({ pageTitle }) => {
-  const firstInitials = "Angie";
-  const lastInitials = "Angie";
+  const { user } = useMainContext();
 
   return (
     <div className="flex items-center justify-between gap-4 w-full px-4 py-3 bg-white">
@@ -31,10 +33,10 @@ const AdminNavBar: FC<IAdminNavBar> = ({ pageTitle }) => {
       </div>
 
       <UserProfile
-        fullName={"USERNAME"}
+        fullName={`${user?.firstName ?? "USER"}`}
         role={"Admin"}
-        profileImage={undefined}
-        initials={`${firstInitials}.${lastInitials}`}
+        profileImage={user?.profile}
+        initials={`${user?.firstName}.${user?.lastName}`}
       />
     </div>
   );

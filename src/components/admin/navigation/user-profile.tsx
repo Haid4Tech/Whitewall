@@ -1,9 +1,11 @@
 "use client";
 
-import { FC } from "react";
+import { FC, useState } from "react";
+import { useRouter } from "next/navigation";
 import { ChevronDown } from "lucide-react";
 import AvatarProfile from "@/components/general/avatar-profile";
 // import { toast } from "sonner";
+import { logoutUser } from "@/firebase/auth";
 import { Button } from "@/components/ui/button";
 import {
   DropdownMenu,
@@ -11,6 +13,7 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import LoadingSpinner from "@/components/ui/loading-spinner";
 
 interface IUserProfile {
   fullName: string;
@@ -25,7 +28,21 @@ const UserProfile: FC<IUserProfile> = ({
   profileImage,
   initials,
 }) => {
-  const handleLogOut = () => {};
+  const router = useRouter();
+  const [isLoading, setIsLoading] = useState<boolean>(false);
+
+  const handleLogOut = async () => {
+    setIsLoading(true);
+    try {
+      await logoutUser();
+      router.push("/admin");
+      setIsLoading(false);
+    } catch (error) {
+      setIsLoading(false);
+      console.log("Error loging out ", error as string);
+    }
+  };
+
   return (
     <div className={"flex flex-row items-center w-fit gap-2 pr-3"}>
       <AvatarProfile
@@ -38,16 +55,20 @@ const UserProfile: FC<IUserProfile> = ({
 
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
-            <Button className="flex flex-row gap-1 h-3" variant="outline">
+            <Button className="h-fit flex flex-row gap-1 h-5" variant="ghost">
               <p className={"ml-[-10px] text-[10px] font-light text-nowrap"}>
                 {role}
               </p>
               <ChevronDown size={15} className={""} />
             </Button>
           </DropdownMenuTrigger>
-          <DropdownMenuContent className="min-w-5">
+          <DropdownMenuContent className="min-w-5 bg-white">
             <DropdownMenuItem className="cursor-pointer" onClick={handleLogOut}>
-              <p className={"text-xs font-semibold"}>{"Log Out"}</p>
+              {isLoading ? (
+                <LoadingSpinner size="sm" />
+              ) : (
+                <p className={"text-xs font-semibold"}>{"Log Out"}</p>
+              )}
             </DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>

@@ -1,3 +1,5 @@
+"use client";
+
 import { useState } from "react";
 import AuthForm from "./auth-form";
 import { format } from "date-fns";

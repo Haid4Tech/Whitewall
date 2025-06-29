@@ -286,8 +286,6 @@ export default function Page() {
         setError(null);
         const fetchedProperties = await getProperties();
 
-        console.log(fetchedProperties);
-
         setProperties(fetchedProperties);
       } catch (err) {
         console.error("Error fetching properties:", err);

@@ -12,12 +12,16 @@ import {
 } from "react";
 import { auth } from "@/config/firebase";
 import { User } from "@/common/types";
+import { userById } from "@/firebase/user";
 
 // Define context type
 type MainContextType = {
   isLogin: boolean;
+  setIsLoggedin: Dispatch<SetStateAction<boolean>>;
   user: User | null;
   setUser: Dispatch<SetStateAction<User | null>>;
+  isLoading: boolean;
+  setIsLoading: Dispatch<SetStateAction<boolean>>;
 };
 
 const MainContext = createContext<MainContextType | undefined>(undefined);
@@ -28,13 +32,16 @@ interface IAppProvider {
 
 const MainProvider: FC<IAppProvider> = ({ children }) => {
   const [user, setUser] = useState<User | null>(null);
+  const [isLoading, setIsLoading] = useState<boolean>(true);
   const [isLogin, setIsLoggedin] = useState<boolean>(false);
 
   useEffect(() => {
     auth.onAuthStateChanged(async (user) => {
       try {
         if (user) {
+          const me = await userById(user.uid);
           setIsLoggedin(true);
+          setUser(me);
         } else {
           setIsLoggedin(false);
         }
@@ -52,6 +59,9 @@ const MainProvider: FC<IAppProvider> = ({ children }) => {
         user,
         setUser,
         isLogin,
+        setIsLoggedin,
+        isLoading,
+        setIsLoading,
       }}
     >
       {children}
