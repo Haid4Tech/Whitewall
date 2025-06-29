@@ -53,8 +53,7 @@ export const SegmentedToggle: React.FC<SegmentedToggleProps> = ({
             }}
             type="button"
             onClick={() => onChange(option.value)}
-            className={`cursor-pointer z-10 flex-1 py-1 px-5 rounded-full text-sm transition-colors duration-200 focus:outline-none
-              ${isActive ? "text-black" : "text-black hover:text-gray-500"}
+            className={`cursor-pointer z-10 flex-1 py-1 px-5 rounded-full text-xs md:text-sm transition-colors duration-200 focus:outline-none text-black hover:text-gray-500"
             `}
           >
             {option.label}
@@ -100,7 +99,6 @@ export const AvailabilityToggle: React.FC<SegmentedToggleProps> = ({
         style={thumbStyle}
       />
       {options.map((option, idx) => {
-        const isActive = value === option.value;
         return (
           <button
             key={option.value}
@@ -110,8 +108,7 @@ export const AvailabilityToggle: React.FC<SegmentedToggleProps> = ({
             }}
             type="button"
             onClick={() => onChange(option.value)}
-            className={`z-10  flex-1 px-5 rounded-full text-sm transition-colors duration-200 focus:outline-none
-              text-black hover:text-purple-200
+            className={`z-10  flex-1 px-5 rounded-full text-xs md:text-sm transition-colors duration-200 focus:outline-none hover:text-purple-200
             `}
           >
             {option.label}

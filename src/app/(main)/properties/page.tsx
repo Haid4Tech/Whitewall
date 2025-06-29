@@ -2,6 +2,7 @@
 "use client";
 
 import { useState, useMemo, useEffect } from "react";
+import { motion } from "framer-motion";
 import { PropertiesHero } from "@/components/properties/property-hero";
 import { SearchFilters } from "@/components/properties/search-filters";
 import { PropertyCard } from "@/components/properties/property-card";
@@ -22,38 +23,11 @@ export default function Page() {
   const [searchQuery, setSearchQuery] = useState("");
   const [filters, setFilters] = useState({
     minPrice: 0,
-    maxPrice: 10000000,
+    maxPrice: 1000000000,
     bedrooms: 0,
     propertyType: "all",
     location: "",
   });
-
-  useEffect(() => {
-    const getPropertiesData = async () => {
-      const response = await getProperties();
-      setProperties(response);
-    };
-
-    getPropertiesData();
-  }, []);
-
-  useEffect(() => {
-    const getPropertiesData = async () => {
-      const response = await getProperties();
-      setProperties(response);
-    };
-
-    getPropertiesData();
-  }, []);
-
-  useEffect(() => {
-    const getPropertiesData = async () => {
-      const response = await getProperties();
-      setProperties(response);
-    };
-
-    getPropertiesData();
-  }, []);
 
   // Fetch properties on component mount
   useEffect(() => {
@@ -82,26 +56,20 @@ export default function Page() {
       const matchesSearch =
         property?.title?.toLowerCase().includes(searchQuery.toLowerCase()) ||
         property?.location?.toLowerCase().includes(searchQuery.toLowerCase());
-      property?.title?.toLowerCase().includes(searchQuery.toLowerCase()) ||
-        property?.location?.toLowerCase().includes(searchQuery.toLowerCase());
       const matchesPrice =
         property?.price &&
         property?.price >= filters.minPrice &&
         property?.price <= filters.maxPrice;
-      property?.price &&
-        property?.price >= filters.minPrice &&
-        property?.price <= filters.maxPrice;
       const matchesBedrooms =
         filters.bedrooms === 0 || (property?.bedrooms ?? 0) >= filters.bedrooms;
-      filters.bedrooms === 0 || (property?.bedrooms ?? 0) >= filters.bedrooms;
       const matchesType =
         filters.propertyType === "all" ||
         property.type === filters.propertyType;
       const matchesLocation =
-        !filters.location || property?.location?.toLowerCase();
-      property?.location
-        ?.toLowerCase()
-        .includes(filters.location.toLowerCase());
+        !filters.location ||
+        property?.location
+          ?.toLowerCase()
+          .includes(filters.location.toLowerCase());
 
       return (
         matchesSearch &&
@@ -149,32 +117,72 @@ export default function Page() {
       />
 
       <div className="container mx-auto px-4 py-8">
-        <SearchFilters filters={filters} setFilters={setFilters} />
+        <motion.div
+          initial={{ y: 30, opacity: 0 }}
+          animate={{ y: 0, opacity: 1 }}
+          transition={{ duration: 0.6, delay: 0.1 }}
+        >
+          <SearchFilters filters={filters} setFilters={setFilters} />
+        </motion.div>
 
-        <div className="mb-6">
+        <motion.div
+          className="mb-6"
+          initial={{ y: 30, opacity: 0 }}
+          animate={{ y: 0, opacity: 1 }}
+          transition={{ duration: 0.6, delay: 0.2 }}
+        >
           <h2 className="text-2xl font-bold text-foreground mb-2">
-            {filteredProperties.length} Properties Available
+            {filteredProperties.length}{" "}
+            {filteredProperties.length > 1 ? "Properties" : "Property"}{" "}
+            Available
           </h2>
           <p className="text-muted-foreground">
             Discover your perfect home from our curated selection
           </p>
-        </div>
+        </motion.div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-          {filteredProperties.map((property) => (
-            <PropertyCard key={property.id} property={property} />
+        <motion.div
+          className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6"
+          initial="hidden"
+          animate="visible"
+          variants={{
+            hidden: {},
+            visible: {
+              transition: {
+                staggerChildren: 0.1,
+                delayChildren: 0.3,
+              },
+            },
+          }}
+        >
+          {filteredProperties.map((property, index) => (
+            <motion.div
+              key={property.id}
+              variants={{
+                hidden: { y: 50, opacity: 0, scale: 0.9 },
+                visible: { y: 0, opacity: 1, scale: 1 },
+              }}
+              transition={{ duration: 0.6, type: "spring" }}
+            >
+              <PropertyCard property={property} />
+            </motion.div>
           ))}
-        </div>
+        </motion.div>
 
         {filteredProperties.length === 0 && (
-          <div className="text-center py-16">
+          <motion.div
+            className="text-center py-16"
+            initial={{ y: 30, opacity: 0 }}
+            animate={{ y: 0, opacity: 1 }}
+            transition={{ duration: 0.6, delay: 0.4 }}
+          >
             <h3 className="text-xl font-semibold text-foreground mb-2">
               No properties found
             </h3>
             <p className="text-muted-foreground">
               Try adjusting your search criteria
             </p>
-          </div>
+          </motion.div>
         )}
       </div>
 

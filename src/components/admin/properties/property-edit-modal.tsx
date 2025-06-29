@@ -21,50 +21,24 @@ import {
   uploadImagesToSpaces,
   deleteImageFromSpaces,
 } from "@/lib/spaces-upload";
-import DropdownSelect from "@/components/general/select-comp";
+import DropdownSelect, {
+  SearchableDropdown,
+} from "@/components/general/select-comp";
 import { Upload, X, Plus, Loader2, Trash2, Link } from "lucide-react";
-import { generateSlug } from "@/lib/utils";
+import { formatNumberWithCommas, generateSlug } from "@/lib/utils";
 import {
   ABUJA_LOCATIONS,
   COMMON_AMENITIES,
+  CURRENCIES,
   PRICE_TYPES,
   PROPERTY_TYPES,
 } from "@/lib/constants";
-
-interface FormData {
-  title: string;
-  location: string;
-  price: string;
-  priceType: string;
-  bedrooms: string;
-  bathrooms: string;
-  sqft: string;
-  type: string;
-  featured: boolean;
-  description: string;
-  amenities: string[];
-}
+import { Property, PropertyFormData } from "@/common/types";
 
 interface PropertyEditDialogProps {
   isOpen: boolean;
   onClose: () => void;
-  property: {
-    id: string;
-    title: string;
-    price: number;
-    location: string;
-    bedrooms: number;
-    bathrooms: number;
-    sqft: number;
-    type: string;
-    priceType: string;
-    status?: string;
-    images: string[];
-    featured: boolean;
-    description: string;
-    amenities: string[];
-    slug?: string;
-  };
+  property: Property;
   onSave: (updatedProperty: any) => void;
 }
 
@@ -74,14 +48,15 @@ export const PropertyEditDialog = ({
   property,
   onSave,
 }: PropertyEditDialogProps) => {
-  const [formData, setFormData] = useState<FormData>({
+  const [formData, setFormData] = useState<PropertyFormData>({
     title: property.title,
     location: property.location,
     price: property.price.toString(),
     priceType: property.priceType,
     bedrooms: property.bedrooms.toString(),
+    currency: property.currency,
     bathrooms: property.bathrooms.toString(),
-    sqft: property.sqft.toString(),
+    sqft: property.sqft != null ? property.sqft!.toString() : "",
     type: property.type,
     featured: property.featured,
     description: property.description,
@@ -113,7 +88,8 @@ export const PropertyEditDialog = ({
       priceType: property.priceType,
       bedrooms: property.bedrooms.toString(),
       bathrooms: property.bathrooms.toString(),
-      sqft: property.sqft.toString(),
+      sqft: property.sqft?.toString() ?? "",
+      currency: property.currency,
       type: property.type,
       featured: property.featured,
       description: property.description,
@@ -262,7 +238,7 @@ export const PropertyEditDialog = ({
         priceType: formData.priceType,
         bedrooms: parseInt(formData.bedrooms),
         bathrooms: parseInt(formData.bathrooms),
-        sqft: parseInt(formData.sqft),
+        sqft: formData.sqft == "" ? null : parseInt(formData.sqft),
         type: formData.type,
         images: finalImageUrls,
         featured: formData.featured,
@@ -464,10 +440,10 @@ export const PropertyEditDialog = ({
                   )}
                 />
 
-                <DropdownSelect
+                <SearchableDropdown
                   name={"location"}
                   label={"Location *"}
-                  placeholder="Select location"
+                  placeholder="Select Location"
                   value={formData.location}
                   handleChange={handleInputChange}
                   items={ABUJA_LOCATIONS}
@@ -475,19 +451,35 @@ export const PropertyEditDialog = ({
 
                 <div className="flex flex-col gap-3">
                   <Label htmlFor="price">Price *</Label>
-                  <Input
-                    id="price"
-                    type="number"
-                    value={formData.price}
-                    onChange={(e) =>
-                      setFormData((prev) => ({
-                        ...prev,
-                        price: e.target.value,
-                      }))
-                    }
-                    placeholder="Enter price"
-                    required
-                  />
+                  <div className="flex gap-2">
+                    <Input
+                      id="price"
+                      type="text"
+                      value={formatNumberWithCommas(formData.price)}
+                      onChange={(e) => {
+                        const raw = e.target.value.replace(/,/g, "");
+                        if (/^\d*$/.test(raw)) {
+                          setFormData((prev) => ({
+                            ...prev,
+                            price: raw,
+                          }));
+                        }
+                      }}
+                      placeholder="Enter price"
+                      required
+                      className="flex-1"
+                    />
+                    <div className="w-24">
+                      <DropdownSelect
+                        name="currency"
+                        label=""
+                        placeholder="Currency"
+                        value={formData.currency}
+                        handleChange={handleInputChange}
+                        items={CURRENCIES}
+                      />
+                    </div>
+                  </div>
                 </div>
 
                 <DropdownSelect
@@ -502,7 +494,7 @@ export const PropertyEditDialog = ({
                 />
 
                 <div className="flex flex-col gap-3">
-                  <Label htmlFor="sqft">Square Feet *</Label>
+                  <Label htmlFor="sqft">Square Feet</Label>
                   <Input
                     id="sqft"
                     type="number"
@@ -511,7 +503,6 @@ export const PropertyEditDialog = ({
                       setFormData((prev) => ({ ...prev, sqft: e.target.value }))
                     }
                     placeholder="e.g., 2500"
-                    required
                   />
                 </div>
 

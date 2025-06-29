@@ -15,38 +15,30 @@ import { createProperty } from "@/firebase/properties";
 import { uploadImagesToSpaces } from "@/lib/spaces-upload";
 import Image from "next/image";
 import DropdownSelect from "@/components/general/select-comp";
+import { SearchableDropdown } from "@/components/general/select-comp";
 import {
   ABUJA_LOCATIONS,
   COMMON_AMENITIES,
   PRICE_TYPES,
   PROPERTY_TYPES,
+  CURRENCIES,
 } from "@/lib/constants";
-
-interface FormData {
-  title: string;
-  location: string;
-  price: string;
-  priceType: string;
-  bedrooms: string;
-  bathrooms: string;
-  sqft: string;
-  type: string;
-  featured: boolean;
-  description: string;
-  amenities: string[];
-}
+import { toast } from "sonner";
+import { formatNumberWithCommas } from "@/lib/utils";
+import { PropertyFormData } from "@/common/types";
 
 export default function AddPropertyPage() {
   const router = useRouter();
-  const [formData, setFormData] = useState<FormData>({
+  const [formData, setFormData] = useState<PropertyFormData>({
     title: "",
     location: "",
     price: "",
-    priceType: "for sale",
+    currency: "NGN",
+    priceType: "For sale",
     bedrooms: "",
     bathrooms: "",
     sqft: "",
-    type: "house",
+    type: "House",
     featured: false,
     description: "",
     amenities: [],
@@ -58,9 +50,6 @@ export default function AddPropertyPage() {
   const [uploadProgress, setUploadProgress] = useState(0);
   const [newAmenity, setNewAmenity] = useState("");
   const [showAmenitiesDropdown, setShowAmenitiesDropdown] = useState(false);
-  const [showSuccessToast, setShowSuccessToast] = useState(false);
-  const [showErrorToast, setShowErrorToast] = useState(false);
-  const [, setErrorMessage] = useState("");
   const fileInputRef = useRef<HTMLInputElement>(null);
 
   const handleImageUpload = useCallback(
@@ -74,8 +63,8 @@ export default function AddPropertyPage() {
       );
 
       if (newImages.length + images.length > 10) {
-        setErrorMessage("Maximum 10 images allowed");
-        setShowErrorToast(true);
+        toast.error("Maximum 10 images allowed");
+
         return;
       }
 
@@ -146,8 +135,8 @@ export default function AddPropertyPage() {
     e.preventDefault();
 
     if (images.length === 0) {
-      setErrorMessage("Please upload at least one image");
-      setShowErrorToast(true);
+      toast.error("Please upload at least one image");
+
       return;
     }
 
@@ -165,10 +154,11 @@ export default function AddPropertyPage() {
         title: formData.title,
         location: formData.location,
         price: parseInt(formData.price),
+        currency: formData.currency as "USD" | "EUR" | "GBP" | "NGN",
         priceType: formData.priceType,
         bedrooms: parseInt(formData.bedrooms),
         bathrooms: parseInt(formData.bathrooms),
-        sqft: parseInt(formData.sqft),
+        sqft: formData.sqft == "" ? null : parseInt(formData.sqft),
         type: formData.type,
         images: uploadedUrls,
         featured: formData.featured,
@@ -180,18 +170,21 @@ export default function AddPropertyPage() {
       const propertyId = await createProperty(propertyData);
 
       if (propertyId) {
-        setShowSuccessToast(true);
+        // setShowSuccessToast(true);
+
+        toast.success(`"${formData.title}" has been added successfully!`);
         // Reset form after successful upload
         setTimeout(() => {
           setFormData({
             title: "",
             location: "",
             price: "",
-            priceType: "for sale",
+            currency: "NGN",
+            priceType: "For sale",
             bedrooms: "",
             bathrooms: "",
             sqft: "",
-            type: "house",
+            type: "House",
             featured: false,
             description: "",
             amenities: [],
@@ -202,13 +195,12 @@ export default function AddPropertyPage() {
           setShowAmenitiesDropdown(false);
         }, 1000);
       } else {
-        setErrorMessage("Failed to add property. Please try again.");
-        setShowErrorToast(true);
+        toast.error("Failed to add property. Please try again.");
       }
     } catch (error) {
       console.error("Error adding property:", error);
-      setErrorMessage("Error adding property. Please try again.");
-      setShowErrorToast(true);
+
+      toast.error("Error adding property. Please try again.");
     } finally {
       setIsUploading(false);
       setUploadProgress(0);
@@ -223,7 +215,7 @@ export default function AddPropertyPage() {
     <div className="min-h-screen bg-gradient-to-br from-slate-50 to-slate-100">
       {/* Header */}
       <div className="bg-white shadow-sm border-b">
-        <div className="w-full px-4">
+        <div className="mx-auto sm:px-6 lg:px-8">
           <div className="flex items-center justify-between h-16">
             <div className="flex items-center gap-5 w-full">
               <Button
@@ -231,10 +223,10 @@ export default function AddPropertyPage() {
                 onClick={() => router.back()}
                 className="flex items-center gap-2 hover:shadow-md"
               >
-                <ArrowLeft className="h-4 w-4" />
+                <ArrowLeft size={15} />
                 Back
               </Button>
-              <h1 className="mx-auto text-xl font-semibold text-gray-900">
+              <h1 className="text-base md:text-xl font-semibold text-gray-900">
                 Add New Property
               </h1>
             </div>
@@ -243,6 +235,7 @@ export default function AddPropertyPage() {
       </div>
 
       <div className="w-full mx-auto px-4 py-8">
+      <div className="mx-auto py-8">
         <form onSubmit={handleSubmit} className="space-y-8">
           {/* Image Upload Section */}
           <Card>
@@ -333,7 +326,7 @@ export default function AddPropertyPage() {
                 <DropdownSelect
                   name={"type"}
                   label={"Property Type *"}
-                  placeholder="Select Status"
+                  placeholder="Select Type"
                   value={formData.type}
                   handleChange={handleInputChange}
                   items={PROPERTY_TYPES.map(
@@ -341,10 +334,10 @@ export default function AddPropertyPage() {
                   )}
                 />
 
-                <DropdownSelect
+                <SearchableDropdown
                   name={"location"}
                   label={"Location *"}
-                  placeholder="Select Status"
+                  placeholder="Select Location"
                   value={formData.location}
                   handleChange={handleInputChange}
                   items={ABUJA_LOCATIONS}
@@ -352,19 +345,35 @@ export default function AddPropertyPage() {
 
                 <div className="flex flex-col gap-3">
                   <Label htmlFor="price">Price *</Label>
-                  <Input
-                    id="price"
-                    type="number"
-                    value={formData.price}
-                    onChange={(e) =>
-                      setFormData((prev) => ({
-                        ...prev,
-                        price: e.target.value,
-                      }))
-                    }
-                    placeholder="Enter price"
-                    required
-                  />
+                  <div className="flex gap-2">
+                    <Input
+                      id="price"
+                      type="text"
+                      value={formatNumberWithCommas(formData.price)}
+                      onChange={(e) => {
+                        const raw = e.target.value.replace(/,/g, "");
+                        if (/^\d*$/.test(raw)) {
+                          setFormData((prev) => ({
+                            ...prev,
+                            price: raw,
+                          }));
+                        }
+                      }}
+                      placeholder="Enter price"
+                      required
+                      className="flex-1"
+                    />
+                    <div className="w-24">
+                      <DropdownSelect
+                        name="currency"
+                        label=""
+                        placeholder="Currency"
+                        value={formData.currency}
+                        handleChange={handleInputChange}
+                        items={CURRENCIES}
+                      />
+                    </div>
+                  </div>
                 </div>
 
                 <DropdownSelect
@@ -379,7 +388,7 @@ export default function AddPropertyPage() {
                 />
 
                 <div className="flex flex-col gap-3">
-                  <Label htmlFor="sqft">Square Feet *</Label>
+                  <Label htmlFor="sqft">Square Feet</Label>
                   <Input
                     id="sqft"
                     type="number"
@@ -388,7 +397,6 @@ export default function AddPropertyPage() {
                       setFormData((prev) => ({ ...prev, sqft: e.target.value }))
                     }
                     placeholder="e.g., 2500"
-                    required
                   />
                 </div>
 
@@ -600,20 +608,6 @@ export default function AddPropertyPage() {
           </div>
         </form>
       </div>
-
-      {/* Success Toast */}
-      <SuccessToast
-        isVisible={showSuccessToast}
-        onClose={() => setShowSuccessToast(false)}
-        message={`"${formData.title}" has been added successfully!`}
-      />
-
-      {/* Error Toast */}
-      <ErrorToast
-        isVisible={showErrorToast}
-        onClose={() => setShowErrorToast(false)}
-        message="Failed to add property. Please try again."
-      />
     </div>
   );
 }

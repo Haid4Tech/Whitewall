@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { motion, AnimatePresence } from "framer-motion";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import {
@@ -45,117 +46,185 @@ export const SearchFilters = ({ filters, setFilters }: SearchFiltersProps) => {
 
   return (
     <div className="mb-8">
-      <Button
-        variant="outline"
-        onClick={() => setShowFilters(!showFilters)}
-        className="mb-4 hover-scale"
+      <motion.div
+        whileHover={{ scale: 1.02 }}
+        whileTap={{ scale: 0.98 }}
       >
-        <SlidersHorizontal className="mr-2 h-4 w-4" />
-        {showFilters ? "Hide Filters" : "Show Filters"}
-      </Button>
+        <Button
+          variant="outline"
+          onClick={() => setShowFilters(!showFilters)}
+          className="mb-4 hover-scale"
+        >
+          <SlidersHorizontal className="mr-2 h-4 w-4" />
+          {showFilters ? "Hide Filters" : "Show Filters"}
+        </Button>
+      </motion.div>
 
-      {showFilters && (
-        <Card className="animate-fade-in">
-          <CardContent className="p-6">
-            <div className="flex justify-between items-center mb-4">
-              <h3 className="text-lg font-semibold">Filter Properties</h3>
-              <Button variant="ghost" size="sm" onClick={clearFilters}>
-                <X className="mr-2 h-4 w-4" />
-                Clear All
-              </Button>
-            </div>
-
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-4">
-              <div>
-                <label className="block text-sm font-medium mb-2">
-                  Min Price
-                </label>
-                <Input
-                  type="number"
-                  placeholder="Min Price"
-                  value={filters.minPrice}
-                  onChange={(e) =>
-                    updateFilter("minPrice", parseInt(e.target.value) || 0)
-                  }
-                />
-              </div>
-
-              <div>
-                <label className="block text-sm font-medium mb-2">
-                  Max Price
-                </label>
-                <Input
-                  type="number"
-                  placeholder="Max Price"
-                  value={filters.maxPrice === 10000000 ? "" : filters.maxPrice}
-                  onChange={(e) =>
-                    updateFilter(
-                      "maxPrice",
-                      parseInt(e.target.value) || 10000000
-                    )
-                  }
-                />
-              </div>
-
-              <div>
-                <label className="block text-sm font-medium mb-2">
-                  Bedrooms
-                </label>
-                <Select
-                  value={filters.bedrooms.toString()}
-                  onValueChange={(value) =>
-                    updateFilter("bedrooms", parseInt(value))
-                  }
+      <AnimatePresence>
+        {showFilters && (
+          <motion.div
+            initial={{ height: 0, opacity: 0 }}
+            animate={{ height: "auto", opacity: 1 }}
+            exit={{ height: 0, opacity: 0 }}
+            transition={{ duration: 0.3, ease: "easeInOut" }}
+            style={{ overflow: "hidden" }}
+          >
+            <Card>
+              <CardContent className="p-6">
+                <motion.div 
+                  className="flex justify-between items-center mb-4"
+                  initial={{ y: -20, opacity: 0 }}
+                  animate={{ y: 0, opacity: 1 }}
+                  transition={{ duration: 0.4, delay: 0.1 }}
                 >
-                  <SelectTrigger>
-                    <SelectValue placeholder="Any" />
-                  </SelectTrigger>
-                  <SelectContent>
-                    <SelectItem value="0">Any</SelectItem>
-                    <SelectItem value="1">1+</SelectItem>
-                    <SelectItem value="2">2+</SelectItem>
-                    <SelectItem value="3">3+</SelectItem>
-                    <SelectItem value="4">4+</SelectItem>
-                    <SelectItem value="5">5+</SelectItem>
-                  </SelectContent>
-                </Select>
-              </div>
+                  <h3 className="text-lg font-semibold">Filter Properties</h3>
+                  <motion.div
+                    whileHover={{ scale: 1.05 }}
+                    whileTap={{ scale: 0.95 }}
+                  >
+                    <Button variant="ghost" size="sm" onClick={clearFilters}>
+                      <X className="mr-2 h-4 w-4" />
+                      Clear All
+                    </Button>
+                  </motion.div>
+                </motion.div>
 
-              <div>
-                <label className="block text-sm font-medium mb-2">
-                  Property Type
-                </label>
-                <Select
-                  value={filters.propertyType}
-                  onValueChange={(value) => updateFilter("propertyType", value)}
+                <motion.div 
+                  className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-4"
+                  initial="hidden"
+                  animate="visible"
+                  variants={{
+                    hidden: {},
+                    visible: {
+                      transition: {
+                        staggerChildren: 0.1,
+                        delayChildren: 0.2,
+                      },
+                    },
+                  }}
                 >
-                  <SelectTrigger>
-                    <SelectValue />
-                  </SelectTrigger>
-                  <SelectContent>
-                    <SelectItem value="all">All Types</SelectItem>
-                    <SelectItem value="house">House</SelectItem>
-                    <SelectItem value="apartment">Apartment</SelectItem>
-                    <SelectItem value="villa">Villa</SelectItem>
-                    <SelectItem value="condo">Condo</SelectItem>
-                  </SelectContent>
-                </Select>
-              </div>
+                  <motion.div
+                    variants={{
+                      hidden: { y: 20, opacity: 0 },
+                      visible: { y: 0, opacity: 1 },
+                    }}
+                    whileHover={{ y: -2 }}
+                  >
+                    <label className="block text-sm font-medium mb-2">
+                      Min Price
+                    </label>
+                    <Input
+                      type="number"
+                      placeholder="Min Price"
+                      value={filters.minPrice}
+                      onChange={(e) =>
+                        updateFilter("minPrice", parseInt(e.target.value) || 0)
+                      }
+                    />
+                  </motion.div>
 
-              <div>
-                <label className="block text-sm font-medium mb-2">
-                  Location
-                </label>
-                <Input
-                  placeholder="Enter location"
-                  value={filters.location}
-                  onChange={(e) => updateFilter("location", e.target.value)}
-                />
-              </div>
-            </div>
-          </CardContent>
-        </Card>
-      )}
+                  <motion.div
+                    variants={{
+                      hidden: { y: 20, opacity: 0 },
+                      visible: { y: 0, opacity: 1 },
+                    }}
+                    whileHover={{ y: -2 }}
+                  >
+                    <label className="block text-sm font-medium mb-2">
+                      Max Price
+                    </label>
+                    <Input
+                      type="number"
+                      placeholder="Max Price"
+                      value={filters.maxPrice === 10000000 ? "" : filters.maxPrice}
+                      onChange={(e) =>
+                        updateFilter(
+                          "maxPrice",
+                          parseInt(e.target.value) || 10000000
+                        )
+                      }
+                    />
+                  </motion.div>
+
+                  <motion.div
+                    variants={{
+                      hidden: { y: 20, opacity: 0 },
+                      visible: { y: 0, opacity: 1 },
+                    }}
+                    whileHover={{ y: -2 }}
+                  >
+                    <label className="block text-sm font-medium mb-2">
+                      Bedrooms
+                    </label>
+                    <Select
+                      value={filters.bedrooms.toString()}
+                      onValueChange={(value) =>
+                        updateFilter("bedrooms", parseInt(value))
+                      }
+                    >
+                      <SelectTrigger>
+                        <SelectValue placeholder="Any" />
+                      </SelectTrigger>
+                      <SelectContent>
+                        <SelectItem value="0">Any</SelectItem>
+                        <SelectItem value="1">1+</SelectItem>
+                        <SelectItem value="2">2+</SelectItem>
+                        <SelectItem value="3">3+</SelectItem>
+                        <SelectItem value="4">4+</SelectItem>
+                        <SelectItem value="5">5+</SelectItem>
+                      </SelectContent>
+                    </Select>
+                  </motion.div>
+
+                  <motion.div
+                    variants={{
+                      hidden: { y: 20, opacity: 0 },
+                      visible: { y: 0, opacity: 1 },
+                    }}
+                    whileHover={{ y: -2 }}
+                  >
+                    <label className="block text-sm font-medium mb-2">
+                      Property Type
+                    </label>
+                    <Select
+                      value={filters.propertyType}
+                      onValueChange={(value) => updateFilter("propertyType", value)}
+                    >
+                      <SelectTrigger>
+                        <SelectValue />
+                      </SelectTrigger>
+                      <SelectContent>
+                        <SelectItem value="all">All Types</SelectItem>
+                        <SelectItem value="house">House</SelectItem>
+                        <SelectItem value="apartment">Apartment</SelectItem>
+                        <SelectItem value="villa">Villa</SelectItem>
+                        <SelectItem value="condo">Condo</SelectItem>
+                      </SelectContent>
+                    </Select>
+                  </motion.div>
+
+                  <motion.div
+                    variants={{
+                      hidden: { y: 20, opacity: 0 },
+                      visible: { y: 0, opacity: 1 },
+                    }}
+                    whileHover={{ y: -2 }}
+                  >
+                    <label className="block text-sm font-medium mb-2">
+                      Location
+                    </label>
+                    <Input
+                      placeholder="Enter location"
+                      value={filters.location}
+                      onChange={(e) => updateFilter("location", e.target.value)}
+                    />
+                  </motion.div>
+                </motion.div>
+              </CardContent>
+            </Card>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </div>
   );
 };

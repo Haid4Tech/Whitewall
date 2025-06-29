@@ -1,7 +1,13 @@
+"use client";
+
 import Image from "next/image";
 import { Cctv, HousePlug } from "lucide-react";
+import { motion, useInView } from "framer-motion";
+import { useRef } from "react";
 
 const Features = () => {
+  const ref = useRef(null);
+  const isInView = useInView(ref, { once: true, margin: "-100px" });
   const features = [
     {
       icon: <HousePlug size={30} />,
@@ -28,12 +34,24 @@ const Features = () => {
   ];
 
   return (
-    <section className="mx-5 rounded-2xl py-10 md:p-5 md:p-10 bg-primary-black">
+    <section
+      ref={ref}
+      className="mx-5 rounded-2xl py-10 md:p-5 md:p-10 bg-primary-black"
+    >
       <div className="container mx-auto px-6">
         <div className="grid lg:grid-cols-5 gap-20 items-center">
           {/* Left side - Image */}
-          <div className="md:col-span-2 flex flex-col gap-5 relative">
-            <div>
+          <motion.div
+            className="md:col-span-2 flex flex-col gap-5 relative"
+            initial={{ opacity: 0, x: -60 }}
+            animate={isInView ? { opacity: 1, x: 0 } : {}}
+            transition={{ duration: 0.7, delay: 0.1 }}
+          >
+            <motion.div
+              initial={{ opacity: 0, y: 30 }}
+              animate={isInView ? { opacity: 1, y: 0 } : {}}
+              transition={{ duration: 0.7, delay: 0.2 }}
+            >
               <h2 className="text-4xl font-bold text-gray-200 mb-4">
                 Features
               </h2>
@@ -41,23 +59,49 @@ const Features = () => {
                 Luxury house near the forest with all the amenities, refined
                 design, forest views and quiet charm.
               </p>
-            </div>
-            <Image
-              width={200}
-              height={200}
-              src={"/stairs.jpg"}
-              alt={"Dinning room"}
-              className={"w-full h-50 object-cover rounded-2xl"}
-            />
-          </div>
+            </motion.div>
+            <motion.div
+              initial={{ opacity: 0, scale: 0.9 }}
+              animate={isInView ? { opacity: 1, scale: 1 } : {}}
+              transition={{ duration: 0.7, delay: 0.3 }}
+            >
+              <Image
+                width={200}
+                height={200}
+                src={"/stairs.jpg"}
+                alt={"Dinning room"}
+                className={"w-full h-50 object-cover rounded-2xl"}
+              />
+            </motion.div>
+          </motion.div>
 
           {/* Right side - Features */}
-          <div className="md:col-span-3 space-y-8 w-full">
-            <div className="flex flex-row flex-wrap items-start justify-center w-full space-y-10 md:space-y-6 md:space-x-6">
+          <motion.div
+            className="md:col-span-3 space-y-8 w-full"
+            initial={{ opacity: 0, x: 60 }}
+            animate={isInView ? { opacity: 1, x: 0 } : {}}
+            transition={{ duration: 0.7, delay: 0.2 }}
+          >
+            <motion.div
+              className="flex flex-row flex-wrap items-start justify-center w-full space-y-10 md:space-y-6 md:space-x-6"
+              initial="hidden"
+              animate={isInView ? "visible" : "hidden"}
+              variants={{
+                hidden: {},
+                visible: {
+                  transition: {
+                    staggerChildren: 0.18,
+                  },
+                },
+              }}
+            >
               {features.map((feature, index) => (
-                <div
+                <motion.div
                   key={index}
                   className="h-full w-full md:w-48 flex flex-col gap-4"
+                  initial={{ opacity: 0, y: 40 }}
+                  animate={isInView ? { opacity: 1, y: 0 } : {}}
+                  transition={{ duration: 0.6, delay: 0.2 + index * 0.15 }}
                 >
                   <div className="w-full h-full md:w-48 md:h-48 bg-primary-darkgray p-8 rounded-lg flex flex-col gap-5 items-center justify-center text-white">
                     <div>{feature.icon}</div>
@@ -70,10 +114,10 @@ const Features = () => {
                       {feature.description}
                     </p>
                   </div>
-                </div>
+                </motion.div>
               ))}
-            </div>
-          </div>
+            </motion.div>
+          </motion.div>
         </div>
       </div>
     </section>

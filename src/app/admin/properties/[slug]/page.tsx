@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import { useParams, useRouter } from "next/navigation";
 import {
   ArrowLeft,
@@ -50,7 +50,7 @@ export default function PropertyDetailPage() {
 
   const [propertyStatus, setPropertyStatus] = useState(property?.status);
 
-  async function handlePropertyFetch() {
+  const handlePropertyFetch = useCallback(async () => {
     const fetchedProperty = await getPropertyBySlug(propertySlug);
 
     if (fetchedProperty) {
@@ -58,7 +58,8 @@ export default function PropertyDetailPage() {
     } else {
       setError("Property not found");
     }
-  }
+  }, [propertySlug]);
+
   // Fetch property details
   useEffect(() => {
     const fetchProperty = async () => {
@@ -77,7 +78,7 @@ export default function PropertyDetailPage() {
     if (propertySlug) {
       fetchProperty();
     }
-  }, [propertySlug, handlePropertyFetch]);
+  }, [propertySlug]);
 
   const handleEditProperty = () => {
     if (
@@ -391,7 +392,7 @@ export default function PropertyDetailPage() {
                     <div>
                       <p className="text-sm text-gray-600">Square Feet</p>
                       <p className="font-semibold">
-                        {property.sqft.toLocaleString()}
+                        {property.sqft ? property.sqft.toLocaleString() : "N/A"}
                       </p>
                     </div>
                   </div>
