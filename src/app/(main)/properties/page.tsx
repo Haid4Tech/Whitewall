@@ -158,7 +158,7 @@ export default function Page() {
         >
           {filteredProperties.map((property, index) => (
             <motion.div
-              key={property.id}
+              key={index}
               variants={{
                 hidden: { y: 50, opacity: 0, scale: 0.9 },
                 visible: { y: 0, opacity: 1, scale: 1 },

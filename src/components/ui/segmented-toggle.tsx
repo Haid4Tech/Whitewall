@@ -43,7 +43,6 @@ export const SegmentedToggle: React.FC<SegmentedToggleProps> = ({
         style={thumbStyle}
       />
       {options.map((option, idx) => {
-        const isActive = value === option.value;
         return (
           <button
             key={option.value}

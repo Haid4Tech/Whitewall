@@ -2,6 +2,7 @@
 
 import React, { useState } from "react";
 import { cn } from "@/lib/utils";
+import Image from "next/image";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Button } from "@/components/ui/button";
@@ -224,7 +225,9 @@ export const BlogManagement = () => {
                     className="flex items-center justify-between p-4 border border-gray-300 rounded-lg hover:bg-gray-50 transition-colors"
                   >
                     <div className="flex items-center space-x-4">
-                      <img
+                      <Image
+                        width={200}
+                        height={200}
                         src={post.featuredImage}
                         alt={post.title}
                         className="w-16 h-16 object-cover rounded-lg"

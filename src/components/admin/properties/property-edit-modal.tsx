@@ -2,6 +2,7 @@
 "use client";
 
 import React, { useState, useRef, useCallback, useEffect } from "react";
+import Image from "next/image";
 import {
   Dialog,
   DialogContent,
@@ -307,7 +308,9 @@ export const PropertyEditDialog = ({
                   <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
                     {existingImages.map((url, index) => (
                       <div key={index} className="relative group">
-                        <img
+                        <Image
+                          width={200}
+                          height={200}
                           src={url}
                           alt={`Property ${index + 1}`}
                           className="w-full h-32 object-cover rounded-lg"
@@ -363,7 +366,9 @@ export const PropertyEditDialog = ({
                   <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
                     {newImageUrls.map((url, index) => (
                       <div key={index} className="relative group">
-                        <img
+                        <Image
+                          width={200}
+                          height={200}
                           src={url}
                           alt={`New Preview ${index + 1}`}
                           className="w-full h-32 object-cover rounded-lg"
