@@ -15,7 +15,7 @@ import { useRouter } from "next/navigation";
 
 import PropertiesDropDown from "./properties-dropdown";
 import { Property } from "@/common/types";
-import { formatTimestamp } from "@/lib/utils";
+import { formatPrice, formatTimestamp } from "@/lib/utils";
 
 interface PropertyCardProps {
   property: Property;
@@ -33,14 +33,6 @@ export const AdminPropertyCard = ({
   isDeleting = false,
 }: PropertyCardProps) => {
   const router = useRouter();
-
-  const formatPrice = (amount: number) => {
-    return new Intl.NumberFormat("en-US", {
-      style: "currency",
-      currency: "USD",
-      minimumFractionDigits: 0,
-    }).format(amount);
-  };
 
   const getStatusColor = (status: string) => {
     switch (status?.toLowerCase()) {
@@ -107,7 +99,7 @@ export const AdminPropertyCard = ({
         <div className="absolute bottom-3 left-3">
           <div className="bg-white/95 backdrop-blur-sm rounded-lg px-3 py-2 shadow-sm">
             <div className="text-2xl font-bold text-gray-900">
-              {formatPrice(property.price)}
+              {formatPrice(property.price, property.currency)}
             </div>
           </div>
         </div>
@@ -136,10 +128,17 @@ export const AdminPropertyCard = ({
               <Bath className="h-4 w-4 mr-1" />
               <span className="text-sm font-medium">{property.bathrooms}</span>
             </div>
-            <div className="flex items-center">
+            <div
+              className={`${
+                (property.sqft == null ||
+                  property.sqft == undefined ||
+                  property.sqft == 0) &&
+                "hidden"
+              } flex items-center`}
+            >
               <Maximize2 className="h-4 w-4 mr-1" />
               <span className="text-sm font-medium">
-                {property.sqft.toLocaleString()} ft²
+                {property.sqft?.toLocaleString()} ft²
               </span>
             </div>
           </div>

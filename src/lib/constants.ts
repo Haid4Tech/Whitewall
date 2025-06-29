@@ -15,9 +15,11 @@ export const ABUJA_LOCATIONS = [
   "Karu",
   "Nyanya",
   "Mararaba",
+  "Wuye",
   "Keffi",
   "Kuje",
   "Abaji",
+  "Guzape",
   "Kwali",
   "Karshi",
   "Kurudu",
@@ -48,6 +50,8 @@ export const PROPERTY_TYPES = [
 ];
 
 export const PRICE_TYPES = ["for sale", "per month", "per year", "per week"];
+
+export const CURRENCIES = ["NGN", "USD", "EUR", "GBP"];
 
 export const STATUS_OPTIONS = ["Available", "Sold"];
 

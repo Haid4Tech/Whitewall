@@ -4,7 +4,7 @@ export const initialProperties: Omit<Property, "id"> = {
   title: "",
   location: "",
   price: 0,
-  currency: "NGR",
+  currency: "NGN",
   priceType: "",
   bedrooms: 0,
   bathrooms: 0,

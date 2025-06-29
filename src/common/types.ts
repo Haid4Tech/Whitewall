@@ -14,11 +14,11 @@ export interface Property {
   slug?: string;
   location: string;
   price: number;
-  currency?: "USD" | "EUR" | "GBP" | "NGR";
+  currency: "USD" | "EUR" | "GBP" | "NGN";
   priceType: string;
   bedrooms: number;
   bathrooms: number;
-  sqft: number;
+  sqft?: number | undefined | null;
   type: string;
   images: string[];
   status?: ListingStatus;
@@ -62,4 +62,20 @@ export interface IFieldItems {
 export interface User {
   name: string;
   uid: string;
+}
+
+
+export interface PropertyFormData {
+  title: string;
+  location: string;
+  price: string;
+  currency: string;
+  priceType: string;
+  bedrooms: string;
+  bathrooms: string;
+  sqft: string;
+  type: string;
+  featured: boolean;
+  description: string;
+  amenities: string[];
 }

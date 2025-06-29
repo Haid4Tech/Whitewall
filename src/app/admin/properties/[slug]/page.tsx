@@ -78,7 +78,7 @@ export default function PropertyDetailPage() {
     if (propertySlug) {
       fetchProperty();
     }
-  }, [propertySlug, handlePropertyFetch]);
+  }, [propertySlug]);
 
   const handleEditProperty = () => {
     if (
@@ -392,7 +392,7 @@ export default function PropertyDetailPage() {
                     <div>
                       <p className="text-sm text-gray-600">Square Feet</p>
                       <p className="font-semibold">
-                        {property.sqft.toLocaleString()}
+                        {property.sqft ? property.sqft.toLocaleString() : "N/A"}
                       </p>
                     </div>
                   </div>

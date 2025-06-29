@@ -28,9 +28,14 @@ const Footer = () => {
               house hunting.
             </p>
             <div className="flex space-x-5">
-              <div className="w-10 h-10 bg-gray-800 rounded-full flex items-center justify-center hover:bg-gray-700 cursor-pointer transition-colors">
-                <Instagram />
-              </div>
+              <Link
+                href="https://www.instagram.com/angie_abuja_realtor?utm_source=ig_web_button_share_sheet&igsh=ZDNlZDc0MzIxNw=="
+                target="_blank"
+              >
+                <div className="w-10 h-10 bg-gray-800 rounded-full flex items-center justify-center hover:bg-gray-700 cursor-pointer transition-colors">
+                  <Instagram />
+                </div>
+              </Link>
               <div className="w-10 h-10 bg-gray-800 rounded-full flex items-center justify-center hover:bg-gray-700 cursor-pointer transition-colors">
                 <Twitter />
               </div>
@@ -48,7 +53,7 @@ const Footer = () => {
                 <Link
                   key={id}
                   href={url}
-                  className="hover:text-white transition-colors transition-colors"
+                  className="hover:text-white transition-colors"
                 >
                   {label}
                 </Link>

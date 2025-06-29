@@ -110,7 +110,7 @@ export const AvailabilityToggle: React.FC<SegmentedToggleProps> = ({
             type="button"
             onClick={() => onChange(option.value)}
             className={`z-10  flex-1 px-5 rounded-full text-sm transition-colors duration-200 focus:outline-none
-              text-black hover:text-purple-200
+             ${isActive ? "text-white" : "text-black"} hover:text-purple-200
             `}
           >
             {option.label}
