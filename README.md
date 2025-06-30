@@ -1,4 +1,6 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+REAL ESTATE - [WHITEWALL](https://nextjs.org)
+
+This is a web application built with NEXT JS, where users can find properties to buy, and rent. 
 
 ## Getting Started
 
