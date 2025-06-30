@@ -6,7 +6,7 @@ import Contact from "@/components/contact/contact";
 
 export default function Home() {
   return (
-    <div className="min-h-screen bg-white">
+    <div className="min-h-screen bg-white overflow-hidden">
       <Hero />
       <Features />
       <HouseLayout />

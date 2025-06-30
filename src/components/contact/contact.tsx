@@ -258,10 +258,11 @@ const Contact: FC<IContact> = ({ display = "sub" }) => {
                   </div>
                   <div className="bg-white px-4 py-2 rounded-lg shadow-lg">
                     <p className="font-semibold text-gray-900">
-                      Luxury Forest House
+                      WhiteWall Realty
                     </p>
                     <p className="text-sm text-gray-600">
-                      123 Forest Drive, Woodland
+                      No.1 Zambezi Crescent off Aguiyi Ironsi Street, Maitama
+                      FCT Abuja.
                     </p>
                   </div>
                 </div>
