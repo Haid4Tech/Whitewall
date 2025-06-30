@@ -16,7 +16,7 @@ import {
 } from "firebase/firestore";
 import { Property } from "../common/types";
 import { db } from "../config/firebase";
-import { generateSlug, generateUniqueSlug } from "../lib/utils";
+import { generateSlug, generateUniqueSlug, clearPhotoGalleryCache } from "../lib/utils";
 
 /**
  * Fetches all properties from Firestore.
@@ -163,6 +163,9 @@ export const createProperty = async (
       updatedAt: Timestamp.now(),
     });
 
+    // Clear photo gallery cache since new property was added
+    clearPhotoGalleryCache();
+
     console.log("Property added with ID:", docRef.id);
     return docRef.id;
   } catch (error) {
@@ -203,6 +206,9 @@ export const updateProperty = async (
 
     await updateDoc(docRef, updatedData);
 
+    // Clear photo gallery cache since property was updated
+    clearPhotoGalleryCache();
+
     console.log("Property updated successfully");
     return true;
   } catch (error) {
@@ -220,6 +226,9 @@ export const deleteProperty = async (id: string): Promise<boolean> => {
   try {
     const docRef = doc(db, "properties", id);
     await deleteDoc(docRef);
+
+    // Clear photo gallery cache since property was deleted
+    clearPhotoGalleryCache();
 
     console.log("Property deleted successfully");
     return true;
@@ -285,6 +294,35 @@ export const searchProperties = async (filters: {
     return properties;
   } catch (error) {
     console.error("Error searching properties:", error);
+    return [];
+  }
+};
+
+/**
+ * Fetches recent properties from Firestore for photo gallery.
+ * @param limitCount - Maximum number of recent properties to return.
+ * @returns An array of recent property documents.
+ */
+export const getRecentProperties = async (
+  limitCount: number = 5
+): Promise<Property[]> => {
+  try {
+    const q = query(
+      collection(db, "properties"),
+      orderBy("createdAt", "desc"),
+      limit(limitCount)
+    );
+
+    const querySnapshot = await getDocs(q);
+
+    const properties = querySnapshot.docs.map((doc) => ({
+      id: doc.id,
+      ...doc.data(),
+    })) as Property[];
+
+    return properties;
+  } catch (error) {
+    console.error("Error fetching recent properties:", error);
     return [];
   }
 };

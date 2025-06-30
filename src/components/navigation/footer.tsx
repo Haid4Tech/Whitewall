@@ -6,6 +6,7 @@ import { NavItems } from "@/common/data";
 import { Instagram, Twitter, Facebook } from "lucide-react";
 import { format } from "date-fns";
 import Link from "next/link";
+import { PHONE_NUMBER } from "@/lib/constants";
 
 const Footer = () => {
   const [date] = useState(new Date());
@@ -68,7 +69,7 @@ const Footer = () => {
               <li>No.1 Zambezi Crescent</li>
               <li>off Aguiyi Ironsi Street,</li>
               <li>Maitama FCT Abuja.</li>
-              <li>+234 809 685 9165</li>
+              <li>{PHONE_NUMBER}</li>
               <li>
                 Opening hours{" "}
                 <span className="text-lg font-semibold">24/7</span>
