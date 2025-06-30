@@ -1,0 +1,166 @@
+<!--
+  Whitewall Realty Contact Email Template
+  Placeholders: {{name}}, {{email}}, {{phone}}, {{message}}, {{date}}, {{brand}}, {{logo_url}}
+-->
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Contact Form Submission</title>
+    <style>
+      body {
+        background: #f4f6fb;
+        margin: 0;
+        padding: 0;
+        font-family: "Segoe UI", Arial, sans-serif;
+        color: #222;
+      }
+      .email-container {
+        max-width: 600px;
+        margin: 40px auto;
+        background: #fff;
+        border-radius: 16px;
+        box-shadow: 0 4px 24px rgba(0, 0, 0, 0.08);
+        overflow: hidden;
+        border: 1px solid #e5e7eb;
+      }
+      .header {
+        background: linear-gradient(90deg, #667eea 0%, #764ba2 100%);
+        color: #fff;
+        padding: 32px 24px 24px 24px;
+        text-align: center;
+        position: relative;
+      }
+      .header img {
+        width: 60px;
+        height: 60px;
+        border-radius: 50%;
+        margin-bottom: 12px;
+        background: #fff;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+      }
+      .header h1 {
+        margin: 0 0 8px 0;
+        font-size: 2rem;
+        font-weight: 700;
+        letter-spacing: 1px;
+      }
+      .header p {
+        margin: 0;
+        font-size: 1.1rem;
+        opacity: 0.95;
+      }
+      .content {
+        padding: 32px 24px 24px 24px;
+      }
+      .info-block {
+        background: #f4f6fb;
+        border-left: 4px solid #667eea;
+        border-radius: 8px;
+        padding: 20px 18px;
+        margin-bottom: 24px;
+      }
+      .info-block h2 {
+        margin: 0 0 12px 0;
+        font-size: 1.1rem;
+        color: #764ba2;
+        font-weight: 600;
+        letter-spacing: 0.5px;
+      }
+      .info-row {
+        display: flex;
+        align-items: center;
+        margin-bottom: 10px;
+      }
+      .info-label {
+        min-width: 110px;
+        font-weight: 500;
+        color: #667eea;
+        font-size: 0.98rem;
+      }
+      .info-value {
+        font-size: 1rem;
+        color: #222;
+        margin-left: 8px;
+        word-break: break-all;
+      }
+      .message-block {
+        background: #fff7e6;
+        border-left: 4px solid #ffb300;
+        border-radius: 8px;
+        padding: 18px 16px;
+        margin-bottom: 24px;
+      }
+      .message-block h2 {
+        margin: 0 0 10px 0;
+        font-size: 1.1rem;
+        color: #ffb300;
+        font-weight: 600;
+      }
+      .message-content {
+        font-size: 1.05rem;
+        color: #444;
+        line-height: 1.7;
+        white-space: pre-line;
+      }
+      .footer {
+        text-align: center;
+        padding: 18px 24px 24px 24px;
+        font-size: 0.98rem;
+        color: #888;
+        background: #f4f6fb;
+        border-top: 1px solid #e5e7eb;
+      }
+      @media (max-width: 600px) {
+        .email-container {
+          border-radius: 0;
+        }
+        .header,
+        .content,
+        .footer {
+          padding-left: 10px;
+          padding-right: 10px;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="email-container">
+      <div class="header">
+        <img src="{{logo_url}}" alt="{{brand}} Logo" />
+        <h1>Contact Request</h1>
+        <p>You've received a new message from your website contact form.</p>
+      </div>
+      <div class="content">
+        <div class="info-block">
+          <h2>Contact Details</h2>
+          <div class="info-row">
+            <span class="info-label">Name:</span
+            ><span class="info-value">{{name}}</span>
+          </div>
+          <div class="info-row">
+            <span class="info-label">Email:</span
+            ><span class="info-value">{{email}}</span>
+          </div>
+          <div class="info-row">
+            <span class="info-label">Phone:</span
+            ><span class="info-value">{{phone}}</span>
+          </div>
+          <div class="info-row">
+            <span class="info-label">Date:</span
+            ><span class="info-value">{{date}}</span>
+          </div>
+        </div>
+        <div class="message-block">
+          <h2>Message</h2>
+          <div class="message-content">{{message}}</div>
+        </div>
+      </div>
+      <div class="footer">
+        &copy; 2025 {{brand}}. All rights reserved.<br />
+        This message was sent from your website contact form.
+      </div>
+    </div>
+  </body>
+</html>

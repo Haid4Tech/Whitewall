@@ -126,3 +126,6 @@ export const COMMON_AMENITIES = [
   "High Ceilings",
   "Open Floor Plan",
 ];
+
+export const PHONE_NUMBER = "+2348035373832";
+export const ANGIE_EMAIL = "angie.abujarealtor@gmail.com";
