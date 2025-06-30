@@ -96,6 +96,7 @@ const Header = () => {
                   key={id}
                   href={url}
                   className="text-gray-700 hover:text-gray-900 transition-colors"
+                  onClick={() => setIsMenuOpen(false)}
                 >
                   {label}
                 </Link>
