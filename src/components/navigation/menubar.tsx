@@ -113,8 +113,21 @@ const Header = () => {
                 </Link>
               ))}
 
-              <Button className="bg-gray-900 hover:bg-gray-800 text-white w-full mt-4">
-                Contact Us
+              <Button
+                onClick={() => {
+                  setIsLoading(true);
+                  setIsMenuOpen(false);
+                  router.push("/contact");
+
+                  const delay = setTimeout(() => {
+                    setIsLoading(false);
+                  }, 3000);
+
+                  return () => clearTimeout(delay);
+                }}
+                className="bg-primary-black hover:bg-primary-black/50 text-white px-6"
+              >
+                {isLoading ? <LoadingSpinner size="sm" /> : "Contact Us"}
               </Button>
             </nav>
           </div>
