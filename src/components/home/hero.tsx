@@ -58,18 +58,6 @@ const Hero = () => {
             >
               <Button className="py-3">Book Now</Button>
             </motion.div>
-            {/* Property stats */}
-            <motion.div
-              className="flex items-center space-x-8 pt-8"
-              initial={{ opacity: 0, y: 40 }}
-              animate={isInView ? { opacity: 1, y: 0 } : {}}
-              transition={{ duration: 0.7, delay: 0.6 }}
-            >
-              <div className="text-center">
-                <div className="text-2xl font-bold text-gray-900">280m²</div>
-                <div className="text-sm text-gray-600">Total Area</div>
-              </div>
-            </motion.div>
           </motion.div>
           {/* Right content - House image and agent */}
           <motion.div
