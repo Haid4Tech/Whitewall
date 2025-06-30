@@ -1,12 +1,13 @@
 "use client";
 
-import { FC } from "react";
+import { FC, useState } from "react";
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { motion, useInView } from "framer-motion";
 import { useRef } from "react";
+// import { ANGIE_EMAIL } from "@/lib/constants";
 
 interface IContact {
   display?: "main" | "sub";
@@ -15,6 +16,59 @@ interface IContact {
 const Contact: FC<IContact> = ({ display = "sub" }) => {
   const ref = useRef(null);
   const isInView = useInView(ref, { once: true, margin: "-100px" });
+
+  const [contactForm, setContactForm] = useState({
+    name: "",
+    email: "",
+    phone: "",
+    message: "",
+  });
+  const [isSubmitting, setIsSubmitting] = useState(false);
+
+  const handleContactSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setIsSubmitting(true);
+
+    try {
+      const response = await fetch("/api/send-email", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          name: contactForm.name,
+          email: contactForm.email,
+          phone: contactForm.phone,
+          message: contactForm.message,
+          subject: `Contact Form: New Message from ${contactForm.name}`,
+          template: "contact",
+        }),
+      });
+
+      const result = await response.json();
+
+      if (response.ok) {
+        // Success - reset form
+        setContactForm({
+          name: "",
+          email: "",
+          phone: "",
+          message: "",
+        });
+        alert("Message sent successfully! We will get back to you soon.");
+      } else {
+        // Error
+        console.error("Failed to send email:", result.error);
+        alert(`Failed to send message: ${result.error || "Unknown error"}`);
+      }
+    } catch (error) {
+      console.error("Error sending email:", error);
+      alert("Failed to send message. Please try again later.");
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
+
   return (
     <section
       id="contact"
@@ -74,68 +128,96 @@ const Contact: FC<IContact> = ({ display = "sub" }) => {
               },
             }}
           >
-            <motion.div
-              className="grid grid-cols-1 md:grid-cols-2 gap-4"
-              initial={{ opacity: 0, y: 30 }}
-              animate={isInView ? { opacity: 1, y: 0 } : {}}
-              transition={{ duration: 0.6, delay: 0.2 }}
-            >
-              <div>
+            <form onSubmit={handleContactSubmit} className="space-y-6">
+              <motion.div
+                className="grid grid-cols-1 md:grid-cols-2 gap-4"
+                initial={{ opacity: 0, y: 30 }}
+                animate={isInView ? { opacity: 1, y: 0 } : {}}
+                transition={{ duration: 0.6, delay: 0.2 }}
+              >
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-2">
+                    Name *
+                  </label>
+                  <Input
+                    placeholder="Your name"
+                    className="w-full"
+                    required
+                    value={contactForm.name}
+                    onChange={(e) =>
+                      setContactForm({ ...contactForm, name: e.target.value })
+                    }
+                  />
+                </div>
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-2">
+                    Email *
+                  </label>
+                  <Input
+                    type="email"
+                    placeholder="Your email"
+                    className="w-full"
+                    required
+                    value={contactForm.email}
+                    onChange={(e) =>
+                      setContactForm({ ...contactForm, email: e.target.value })
+                    }
+                  />
+                </div>
+              </motion.div>
+
+              <motion.div
+                initial={{ opacity: 0, y: 30 }}
+                animate={isInView ? { opacity: 1, y: 0 } : {}}
+                transition={{ duration: 0.6, delay: 0.3 }}
+              >
                 <label className="block text-sm font-medium text-gray-700 mb-2">
-                  Name
-                </label>
-                <Input placeholder="Your name" className="w-full" />
-              </div>
-              <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">
-                  Email
+                  Phone
                 </label>
                 <Input
-                  type="email"
-                  placeholder="Your email"
+                  type="tel"
+                  placeholder="Your phone number"
                   className="w-full"
+                  value={contactForm.phone}
+                  onChange={(e) =>
+                    setContactForm({ ...contactForm, phone: e.target.value })
+                  }
                 />
-              </div>
-            </motion.div>
+              </motion.div>
 
-            <motion.div
-              initial={{ opacity: 0, y: 30 }}
-              animate={isInView ? { opacity: 1, y: 0 } : {}}
-              transition={{ duration: 0.6, delay: 0.3 }}
-            >
-              <label className="block text-sm font-medium text-gray-700 mb-2">
-                Phone
-              </label>
-              <Input
-                type="tel"
-                placeholder="Your phone number"
-                className="w-full"
-              />
-            </motion.div>
+              <motion.div
+                initial={{ opacity: 0, y: 30 }}
+                animate={isInView ? { opacity: 1, y: 0 } : {}}
+                transition={{ duration: 0.6, delay: 0.4 }}
+              >
+                <label className="block text-sm font-medium text-gray-700 mb-2">
+                  Message *
+                </label>
+                <Textarea
+                  placeholder="Tell us about your requirements..."
+                  className="w-full h-32 resize-none"
+                  required
+                  value={contactForm.message}
+                  onChange={(e) =>
+                    setContactForm({ ...contactForm, message: e.target.value })
+                  }
+                />
+              </motion.div>
 
-            <motion.div
-              initial={{ opacity: 0, y: 30 }}
-              animate={isInView ? { opacity: 1, y: 0 } : {}}
-              transition={{ duration: 0.6, delay: 0.4 }}
-            >
-              <label className="block text-sm font-medium text-gray-700 mb-2">
-                Message
-              </label>
-              <Textarea
-                placeholder="Tell us about your requirements..."
-                className="w-full h-32 resize-none"
-              />
-            </motion.div>
-
-            <motion.div
-              initial={{ opacity: 0, scale: 0.9 }}
-              animate={isInView ? { opacity: 1, scale: 1 } : {}}
-              transition={{ duration: 0.6, delay: 0.5 }}
-            >
-              <Button className="text-white w-full py-3 bg-primary-black">
-                Send Message
-              </Button>
-            </motion.div>
+              <motion.div
+                initial={{ opacity: 0, scale: 0.9 }}
+                animate={isInView ? { opacity: 1, scale: 1 } : {}}
+                transition={{ duration: 0.6, delay: 0.5 }}
+              >
+                <Button
+                  type="submit"
+                  className="text-white w-full py-3 bg-primary-black"
+                  disabled={isSubmitting}
+                >
+                  {isSubmitting ? "Sending..." : "Send Message"}
+                </Button>
+              </motion.div>
+            </form>
 
             <motion.p
               className="text-sm text-gray-500 text-center"
@@ -176,10 +258,11 @@ const Contact: FC<IContact> = ({ display = "sub" }) => {
                   </div>
                   <div className="bg-white px-4 py-2 rounded-lg shadow-lg">
                     <p className="font-semibold text-gray-900">
-                      Luxury Forest House
+                      WhiteWall Realty
                     </p>
                     <p className="text-sm text-gray-600">
-                      123 Forest Drive, Woodland
+                      No.1 Zambezi Crescent off Aguiyi Ironsi Street, Maitama
+                      FCT Abuja.
                     </p>
                   </div>
                 </div>

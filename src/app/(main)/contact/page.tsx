@@ -6,6 +6,8 @@ import Contact from "@/components/contact/contact";
 import { OSM } from "ol/source";
 import { Map, View, TileLayer } from "react-openlayers";
 import "react-openlayers/dist/index.css";
+import { PHONE_NUMBER, ANGIE_EMAIL } from "@/lib/constants";
+import { FaInstagram } from "react-icons/fa";
 
 export default function Page() {
   return (
@@ -46,7 +48,7 @@ export default function Page() {
                   >
                     Phone
                   </p>
-                  <p className={"text-sm font-light"}>08084523543</p>
+                  <p className={"text-sm font-light"}>{PHONE_NUMBER}</p>
                 </div>
               </div>
               <div className="flex flex-row gap-3 items-center">
@@ -76,7 +78,22 @@ export default function Page() {
                     Email
                   </p>
                   <p className={"text-sm font-light"}>
-                    info@whitewallrealtyco.com.ng
+                    {ANGIE_EMAIL}
+                  </p>
+                </div>
+              </div>
+              <div className="flex flex-row gap-3 items-center">
+                <FaInstagram className={"text-primary-black"} />
+                <div>
+                  <p
+                    className={
+                      "text-xs font-semibold text-primary-black  uppercase"
+                    }
+                  >
+                    Instagram
+                  </p>
+                  <p className={"text-sm font-light"}>
+                    @angie_abuja_realtor
                   </p>
                 </div>
               </div>

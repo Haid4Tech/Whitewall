@@ -8,10 +8,12 @@ import { Button } from "@/components/ui/button";
 import { NavItems } from "@/common/data";
 import Link from "next/link";
 import { cn } from "@/lib/utils";
+import LoadingSpinner from "../ui/loading-spinner";
 
 const Header = () => {
   const pathname = usePathname();
   const [isMenuOpen, setIsMenuOpen] = useState<boolean>(false);
+  const [isLoading, setIsLoading] = useState<boolean>(false);
   const router = useRouter();
 
   return (
@@ -55,10 +57,19 @@ const Header = () => {
               <span className="cursor-pointer no-select">EN</span>
             </div>
             <Button
-              onClick={() => router.push("/contact")}
+              onClick={() => {
+                setIsLoading(true);
+                router.push("/contact");
+
+                const delay = setTimeout(() => {
+                  setIsLoading(false);
+                }, 3000);
+
+                return () => clearTimeout(delay);
+              }}
               className="bg-primary-black hover:bg-primary-black/50 text-white px-6"
             >
-              Contact Us
+              {isLoading ? <LoadingSpinner size="sm" /> : "Contact Us"}
             </Button>
           </div>
 
