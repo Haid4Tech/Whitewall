@@ -77,13 +77,13 @@ export default function PropertyDetailPage({
     phone: "",
     message: "",
   });
-  const [contactForm, setContactForm] = useState({
-    name: "",
-    email: "",
-    phone: "",
-    subject: "",
-    message: "",
-  });
+  // const [contactForm, setContactForm] = useState({
+  //   name: "",
+  //   email: "",
+  //   phone: "",
+  //   subject: "",
+  //   message: "",
+  // });
 
   // Animation refs
   const heroRef = useRef(null);

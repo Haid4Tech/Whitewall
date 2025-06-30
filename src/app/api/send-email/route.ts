@@ -1,6 +1,7 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { NextRequest, NextResponse } from "next/server";
 import nodemailer from "nodemailer";
-import { ANGIE_EMAIL } from "@/lib/constants";
+// import { ANGIE_EMAIL } from "@/lib/constants";
 import fs from "fs";
 import path from "path";
 

@@ -7,7 +7,7 @@ import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { motion, useInView } from "framer-motion";
 import { useRef } from "react";
-import { ANGIE_EMAIL } from "@/lib/constants";
+// import { ANGIE_EMAIL } from "@/lib/constants";
 
 interface IContact {
   display?: "main" | "sub";
@@ -28,12 +28,12 @@ const Contact: FC<IContact> = ({ display = "sub" }) => {
   const handleContactSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsSubmitting(true);
-    
+
     try {
-      const response = await fetch('/api/send-email', {
-        method: 'POST',
+      const response = await fetch("/api/send-email", {
+        method: "POST",
         headers: {
-          'Content-Type': 'application/json',
+          "Content-Type": "application/json",
         },
         body: JSON.stringify({
           name: contactForm.name,
@@ -41,7 +41,7 @@ const Contact: FC<IContact> = ({ display = "sub" }) => {
           phone: contactForm.phone,
           message: contactForm.message,
           subject: `Contact Form: New Message from ${contactForm.name}`,
-          template: 'contact'
+          template: "contact",
         }),
       });
 
@@ -55,15 +55,15 @@ const Contact: FC<IContact> = ({ display = "sub" }) => {
           phone: "",
           message: "",
         });
-        alert('Message sent successfully! We will get back to you soon.');
+        alert("Message sent successfully! We will get back to you soon.");
       } else {
         // Error
-        console.error('Failed to send email:', result.error);
-        alert(`Failed to send message: ${result.error || 'Unknown error'}`);
+        console.error("Failed to send email:", result.error);
+        alert(`Failed to send message: ${result.error || "Unknown error"}`);
       }
     } catch (error) {
-      console.error('Error sending email:', error);
-      alert('Failed to send message. Please try again later.');
+      console.error("Error sending email:", error);
+      alert("Failed to send message. Please try again later.");
     } finally {
       setIsSubmitting(false);
     }
