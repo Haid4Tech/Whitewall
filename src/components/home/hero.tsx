@@ -37,7 +37,7 @@ const Hero = () => {
               >
                 Luxury houses
                 <br />
-                <span className="text-gray-700">find yours today</span>
+                <span className="text-gray-700">Find yours today</span>
               </motion.h1>
               <motion.p
                 className="text-lg text-gray-600 max-w-md leading-relaxed"
