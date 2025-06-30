@@ -88,7 +88,7 @@ const Hero = () => {
               <Image
                 width={200}
                 height={200}
-                src={"/wh_img3.jpg"}
+                src={"/recent_listing.jpg"}
                 alt="Luxury house near forest"
                 className="w-full h-[500px] object-cover rounded-2xl shadow-2xl"
               />
