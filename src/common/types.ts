@@ -32,12 +32,14 @@ export interface Property {
 
 export type IBlogCard = BlogPost & { id: string };
 
-interface BlogAuthor {
-  name?: string;
-  image?: string;
+export interface BlogAuthor {
+  name: string;
+  avatarUrl?: string;
+  bio?: string;
 }
 
 export interface BlogPost {
+  id?: string; // If using Firestore or general database ID
   slug?: string;
   title?: string;
   excerpt?: string;
@@ -45,17 +47,28 @@ export interface BlogPost {
   author?: BlogAuthor;
   readTime?: number;
   category?: string;
-  featuredImage?: string;
+  featured?: boolean; // can still be used for display
+  coverImageFile?: File | null; // NEW: to track uploaded cover image
+  coverImageUrl?: string; // NEW: preview or uploaded URL
+
+  images?: File[]; // NEW: raw image files
+  imageUrls?: string[]; // NEW: image URLs or previews
+
+  youtubeLinks?: string[]; // NEW: YouTube video links
+
   isPublished?: boolean;
-  status?: "draft" | "published" | "scheduled";
-  tags: string[];
+  status?: "draft" | "published" | "scheduled" | null;
+
+  tags?: string[]; // already present
+
   views?: number;
   likes?: number;
   seoScore?: number;
   metaDescription?: string;
   metaKeywords?: string[];
-  createdAt?: string | Date | Timestamp | null;
+
   publishDate?: string | Date | Timestamp | null;
+  createdAt?: string | Date | Timestamp | null;
   updatedAt?: string | Date | Timestamp | null;
 }
 

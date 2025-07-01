@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, SetStateAction, Dispatch } from "react";
 import { useRouter } from "next/navigation";
 import Image from "next/image";
 import {
@@ -12,47 +12,67 @@ import {
   Eye,
   Heart,
   BarChart3,
+  Loader2,
 } from "lucide-react";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { BlogPost } from "@/common/types";
-// import { BlogFormDialog } from "./BlogFormDialog";
-// import { DeleteConfirmDialog } from "./DeleteConfirmDialog";
+import LoadingSpinner from "@/components/ui/loading-spinner";
+import { deleteBlog } from "@/firebase/blog";
+import { toast } from "sonner";
+import { ConfirmDialog } from "@/components/ui/confirm-dialog";
+
+interface ILoadingStates {
+  isEdit: boolean;
+  isDelete: boolean;
+  isPreview: boolean;
+}
+
+const loadingStatesInitial = {
+  isEdit: false,
+  isDelete: false,
+  isPreview: false,
+};
 
 type IBlogCard = BlogPost & { id: string };
 
 interface AdminBlogCardProps {
   post: IBlogCard;
-  onEdit?: (post: IBlogCard) => void;
-  onDelete?: (id: string) => void;
+  setDeleted: Dispatch<SetStateAction<boolean>>;
 }
 
-export const AdminBlogCard = ({
-  post,
-  onEdit,
-  onDelete,
-}: AdminBlogCardProps) => {
+export const AdminBlogCard = ({ post, setDeleted }: AdminBlogCardProps) => {
   const router = useRouter();
-  const [showEditDialog, setShowEditDialog] = useState(false);
-  const [showDeleteDialog, setShowDeleteDialog] = useState(false);
+  const [states, setStates] = useState<ILoadingStates>(loadingStatesInitial);
+  const [isDeleteDialogOpen, setIsDeleteDialogOpen] = useState(false);
+  const [blogToDelete, setBlogToDelete] = useState<BlogPost | null>(null);
 
-  const handleDelete = () => {
-    setShowDeleteDialog(true);
+  const handleDelete = async (blog: BlogPost) => {
+    setBlogToDelete(blog);
+    setIsDeleteDialogOpen(true);
   };
 
-  const confirmDelete = () => {
-    if (onDelete) {
-      onDelete(post.id);
+  const confirmDelete = async () => {
+    try {
+      setStates((prev) => ({ ...prev, isDelete: true }));
+
+      const isDeleted = await deleteBlog(post.id);
+
+      if (isDeleted) {
+        setDeleted(isDeleted);
+        toast.success("Deleted post successfully!");
+      }
+    } catch (error) {
+      throw error;
+    } finally {
+      setStates((prev) => ({ ...prev, isDelete: false }));
     }
-    setShowDeleteDialog(false);
   };
 
-  const handleSaveEdit = (updatedPost: BlogPost) => {
-    if (onEdit) {
-      onEdit({ ...updatedPost, id: post.id });
-    }
-    setShowEditDialog(false);
+  const cancelDelete = () => {
+    setBlogToDelete(null);
+    setIsDeleteDialogOpen(false);
   };
 
   const formatDate = (date: any) => {
@@ -79,12 +99,21 @@ export const AdminBlogCard = ({
   return (
     <>
       <Card className="group cursor-pointer overflow-hidden hover:shadow-lg transition-all duration-300 animate-fade-in">
+        {states.isDelete && (
+          <div className="absolute inset-0 bg-white/80 backdrop-blur-sm z-10 flex items-center justify-center">
+            <div className="flex items-center gap-2 text-gray-600">
+              <Loader2 size={18} className="animate-spin" />
+              <span className="text-sm font-medium">Deleting...</span>
+            </div>
+          </div>
+        )}
+
         <div className="relative overflow-hidden">
-          {post.featuredImage ? (
+          {post?.coverImageUrl ? (
             <Image
               width={200}
               height={200}
-              src={post.featuredImage}
+              src={post?.coverImageUrl ?? ""}
               alt={post.title || "Blog post"}
               className="w-full h-48 object-cover transition-transform duration-300 group-hover:scale-105"
             />
@@ -97,9 +126,11 @@ export const AdminBlogCard = ({
           {/* Status Badge */}
           <div className="absolute top-3 left-3">
             <Badge
-              className={`${getStatusColor(post.status || "draft")} border`}
+              className={`${getStatusColor(
+                post.isPublished ? "published" : "draft"
+              )} border`}
             >
-              {post.status || "draft"}
+              {post.isPublished ? "published" : "draft"}
             </Badge>
           </div>
 
@@ -128,7 +159,7 @@ export const AdminBlogCard = ({
             <Button
               size="sm"
               variant="destructive"
-              onClick={handleDelete}
+              onClick={() => handleDelete(post)}
               className="bg-red-500/90 hover:bg-red-600"
             >
               <Trash2 size={15} />
@@ -136,16 +167,18 @@ export const AdminBlogCard = ({
           </div>
         </div>
 
-        <CardContent className="p-4">
-          <div className="flex items-start justify-between mb-2">
+        <CardContent className="pb-4 px-4 pt-0">
+          <div className="flex items-start justify-between mb-2 h-14">
             <h3 className="font-semibold text-lg line-clamp-2 group-hover:text-primary transition-colors flex-1">
               {post.title || "Untitled Post"}
             </h3>
           </div>
 
-          <p className="text-muted-foreground text-sm line-clamp-3 mb-4">
-            {post.excerpt || "No excerpt available..."}
-          </p>
+          <div className={"h-15"}>
+            <p className="text-muted-foreground text-sm line-clamp-2 mb-4">
+              {post.excerpt || "No excerpt available..."}
+            </p>
+          </div>
 
           {/* Metadata */}
           <div className="flex items-center gap-4 text-xs text-muted-foreground mb-4">
@@ -180,7 +213,7 @@ export const AdminBlogCard = ({
           </div>
 
           {/* Tags */}
-          <div className="flex flex-wrap gap-1 mb-4">
+          <div className="flex flex-wrap gap-1 mb-4 h-4">
             {post.tags?.slice(0, 2).map((tag, index) => (
               <Badge key={index} variant="outline" className="text-xs">
                 {tag}
@@ -198,38 +231,73 @@ export const AdminBlogCard = ({
             <Button
               size="sm"
               variant="outline"
-              onClick={() => router.push(`/admin/blogs/${post.slug}/edit`)}
+              onClick={() => {
+                setStates((prev) => ({ ...prev, isPreview: true }));
+                router.push(`/admin/blogs/${post.id}`);
+              }}
               className="flex-1"
             >
-              <Edit className="h-3 w-3 mr-1" />
-              Edit
+              {states.isPreview ? (
+                <LoadingSpinner />
+              ) : (
+                <>
+                  <Eye size={15} />
+                  View
+                </>
+              )}
             </Button>
             <Button
               size="sm"
-              variant="outline"
-              onClick={handleDelete}
+              onClick={() => {
+                setStates((prev) => ({ ...prev, isEdit: true }));
+                router.push(`/admin/blogs/${post.id}/edit`);
+              }}
+              className="flex-1"
+            >
+              {states.isEdit ? (
+                <LoadingSpinner />
+              ) : (
+                <>
+                  <Edit size={15} />
+                  Edit
+                </>
+              )}
+            </Button>
+            <Button
+              size="sm"
+              variant="delete"
+              onClick={() => handleDelete(post)}
               className="text-red-600 hover:text-red-700 hover:bg-red-50"
             >
-              <Trash2 className="h-3 w-3" />
+              {states.isDelete ? (
+                <LoadingSpinner
+                  className="border-primary-danger/10 border-t-primary-danger"
+                  size="sm"
+                />
+              ) : (
+                <Trash2 size={15} />
+              )}
             </Button>
           </div>
         </CardContent>
       </Card>
 
-      {/* <BlogFormDialog
-        open={showEditDialog}
-        onOpenChange={setShowEditDialog}
-        post={post}
-        onSave={handleSaveEdit}
-        mode="edit"
-      />
-
-      <DeleteConfirmDialog
-        open={showDeleteDialog}
-        onOpenChange={setShowDeleteDialog}
+      {/* Delete Dialog */}
+      <ConfirmDialog
+        isOpen={isDeleteDialogOpen}
+        onClose={cancelDelete}
         onConfirm={confirmDelete}
-        title={post.title || "Untitled Post"}
-      /> */}
+        title="Delete Property"
+        description={
+          blogToDelete
+            ? `Are you sure you want to delete "${blogToDelete.title}"? This action cannot be undone.`
+            : ""
+        }
+        confirmText="Delete Post"
+        cancelText="Cancel"
+        variant="danger"
+        isLoading={states.isDelete}
+      />
     </>
   );
 };

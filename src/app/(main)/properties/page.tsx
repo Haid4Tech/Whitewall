@@ -10,8 +10,6 @@ import { PropertyModal } from "@/components/properties/property-modal";
 import { Property } from "@/common/types";
 import { getProperties } from "@/firebase/properties";
 import LoadingSpinner from "@/components/ui/loading-spinner";
-// import { Button } from "@/components/ui/button";
-// import { migratePropertiesToSlugs } from "@/scripts/migrate-to-slugs";
 
 export default function Page() {
   const [properties, setProperties] = useState<Property[]>([]);

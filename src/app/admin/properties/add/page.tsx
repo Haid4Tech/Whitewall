@@ -9,8 +9,6 @@ import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent } from "@/components/ui/card";
-// import { SuccessToast } from "@/components/ui/success-toast";
-// import { ErrorToast } from "@/components/ui/error-toast";
 import { createProperty } from "@/firebase/properties";
 import { uploadImagesToSpaces } from "@/lib/spaces-upload";
 import Image from "next/image";
@@ -477,7 +475,7 @@ export default function AddPropertyPage() {
                         key={amenity}
                         type="button"
                         onClick={() => addCommonAmenity(amenity)}
-                        className="text-left p-2 rounded border border-gray-200 hover:border-blue-300 hover:bg-blue-50 transition-colors text-sm"
+                        className="cursor-pointer text-left p-2 rounded border border-gray-200 hover:border-blue-300 hover:bg-blue-50 transition-colors text-sm"
                       >
                         {amenity}
                       </button>
@@ -490,7 +488,7 @@ export default function AddPropertyPage() {
                         onClick={() =>
                           setShowAmenitiesDropdown(!showAmenitiesDropdown)
                         }
-                        className="text-blue-600 hover:text-blue-800 text-sm font-medium"
+                        className="cursor-pointer text-blue-600 hover:text-blue-800 text-sm font-medium"
                       >
                         {showAmenitiesDropdown
                           ? "Show Less"
@@ -505,7 +503,7 @@ export default function AddPropertyPage() {
                           key={amenity}
                           type="button"
                           onClick={() => addCommonAmenity(amenity)}
-                          className="text-left p-2 rounded border border-gray-200 hover:border-blue-300 hover:bg-blue-50 transition-colors text-sm"
+                          className="cursor-pointer text-left p-2 rounded border border-gray-200 hover:border-blue-300 hover:bg-blue-50 transition-colors text-sm"
                         >
                           {amenity}
                         </button>
@@ -533,7 +531,7 @@ export default function AddPropertyPage() {
                       onClick={addAmenity}
                       variant="outline"
                     >
-                      <Plus className="h-4 w-4" />
+                      <Plus size={20} />
                     </Button>
                   </div>
                 </div>
@@ -549,7 +547,7 @@ export default function AddPropertyPage() {
                         <Badge
                           key={index}
                           variant="secondary"
-                          className="flex items-center gap-1"
+                          className="bg-gray-200 flex items-center gap-1"
                         >
                           {amenity}
                           <button
