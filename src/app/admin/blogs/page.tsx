@@ -38,7 +38,6 @@ export default function Page() {
   const [posts, setPosts] = useState<BlogProps[]>([]);
   const [searchTerm, setSearchTerm] = useState("");
   const [deleted, setDeleted] = useState<boolean>(false);
-  const [selectedCategory, setSelectedCategory] = useState("all");
 
   useEffect(() => {
     (async () => {
@@ -48,6 +47,7 @@ export default function Page() {
         setPosts(blogs);
       } catch (error) {
         setStates((prev) => ({ ...prev, isBlogLoading: false }));
+        throw error;
       } finally {
         setStates((prev) => ({ ...prev, isBlogLoading: false }));
       }
@@ -58,9 +58,8 @@ export default function Page() {
     const matchesSearch =
       post?.title?.toLowerCase().includes(searchTerm.toLowerCase()) ||
       post?.author?.name?.toLowerCase().includes(searchTerm.toLowerCase());
-    const matchesCategory =
-      selectedCategory === "all" || post.category === selectedCategory;
-    return matchesSearch && matchesCategory;
+
+    return matchesSearch;
   });
 
   if (states.isBlogLoading) {

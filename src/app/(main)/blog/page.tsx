@@ -1,7 +1,8 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 "use client";
 
 import { useEffect, useState, useMemo } from "react";
-import { useRouter, useSelectedLayoutSegment } from "next/navigation";
+import { useRouter } from "next/navigation";
 import { Search, Calendar, User, Clock } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
