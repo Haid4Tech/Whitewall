@@ -1,44 +1,104 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 "use client";
 
-import { useState, useMemo } from "react";
+import { useEffect, useState, useMemo } from "react";
 import { useRouter } from "next/navigation";
 import { Search, Calendar, User, Clock } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { BlogCard } from "@/components/blog/blog-card";
-import { blogPosts } from "@/common/data";
+import { CATEGORIES } from "@/lib/constants";
+import { BlogPost } from "@/common/types";
 import Image from "next/image";
+import { getBlogs } from "@/firebase/blog";
+import LoadingSpinner from "@/components/ui/loading-spinner";
+
+interface LoadingStatesProps {
+  readArticle: boolean;
+  isError: boolean;
+}
+
+const LoadingStatesInitial = {
+  readArticle: false,
+  isError: false,
+};
+
+type BlogProps = BlogPost & { id: string };
 
 export default function Page() {
   const router = useRouter();
-  const [searchQuery, setSearchQuery] = useState("");
-  const [selectedCategory, setSelectedCategory] = useState("All");
+  const [searchQuery, setSearchQuery] = useState<string>("");
+  const [posts, setPosts] = useState<BlogProps[]>([]);
+  const [selectedCategory, setSelectedCategory] = useState<string>("All");
+  const [error, setError] = useState<string | null>(null);
+  const [states, setStates] =
+    useState<LoadingStatesProps>(LoadingStatesInitial);
 
-  const categories = [
-    "All",
-    "Market Analysis",
-    "Selling Tips",
-    "Investment",
-    "Luxury Market",
-  ];
+  useEffect(() => {
+    // fetch blog posts on mount
+    (async () => {
+      try {
+        const blogPosts = await getBlogs();
+        setPosts(blogPosts);
+        setError(null);
+      } catch (error) {
+        setStates((prev) => ({ ...prev, isError: true }));
+        setError("Failed to load blog posts. Please try again later.");
+        throw error;
+      }
+    })();
+  }, []);
 
   const filteredPosts = useMemo(() => {
-    return blogPosts.filter((post) => {
+    return posts.filter((post) => {
+      // Exclude the featured post from the grid
+      if (post.featured) return false;
+
       const matchesSearch =
         post?.title?.toLowerCase().includes(searchQuery.toLowerCase()) ||
         post?.excerpt?.toLowerCase().includes(searchQuery.toLowerCase()) ||
-        post?.tags.some((tag) =>
+        post?.tags?.some((tag) =>
           tag.toLowerCase().includes(searchQuery.toLowerCase())
         );
+
       const matchesCategory =
         selectedCategory === "All" || post.category === selectedCategory;
 
       return matchesSearch && matchesCategory;
     });
-  }, [searchQuery, selectedCategory]);
+  }, [posts, searchQuery, selectedCategory]);
 
-  const featuredPost = blogPosts[0];
+  // get features post
+  const featuredPost = posts.find((post) => post.featured);
+
+  if (posts.length === 0 && !featuredPost) {
+    return (
+      <div className="w-full min-h-screen bg-background flex flex-col items-center justify-center">
+        <LoadingSpinner size="lg" />
+        <p className="mt-4 text-muted-foreground">Loading blog...</p>
+      </div>
+    );
+  }
+
+  if (states.isError) {
+    return (
+      <div className="min-h-screen bg-background flex items-center justify-center">
+        <div className="text-center">
+          <h2 className="text-xl font-semibold text-foreground mb-2">
+            Error Loading Blog Posts
+          </h2>
+          <p className="text-muted-foreground mb-4">{error}</p>
+          <button
+            onClick={() => window.location.reload()}
+            className="px-4 py-2 bg-primary text-primary-foreground rounded-md hover:bg-primary/90"
+          >
+            Try Again
+          </button>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="min-h-screen bg-background">
@@ -65,7 +125,7 @@ export default function Page() {
               <Image
                 width={200}
                 height={200}
-                src={featuredPost?.image ?? ""}
+                src={featuredPost?.coverImageUrl || ""}
                 alt={featuredPost?.title ?? ""}
                 className="w-full h-full object-cover"
               />
@@ -75,36 +135,52 @@ export default function Page() {
             </div>
             <div className="p-6 flex flex-col justify-center">
               <Badge variant="secondary" className="w-fit mb-3">
-                {featuredPost.category}
+                {featuredPost?.category ?? ""}
               </Badge>
               <h3 className="text-2xl font-bold mb-4 leading-tight">
-                {featuredPost.title}
+                {featuredPost?.title ?? ""}
               </h3>
               <p className="text-muted-foreground mb-6">
-                {featuredPost.excerpt}
+                {featuredPost?.excerpt ?? ""}
               </p>
               <div className="flex items-center gap-4 text-sm text-muted-foreground mb-6">
                 <div className="flex items-center">
                   <User className="h-4 w-4 mr-1" />
-                  {featuredPost.author}
+                  {featuredPost?.author?.name}
                 </div>
                 <div className="flex items-center">
                   <Calendar className="h-4 w-4 mr-1" />
-                  {new Date(
-                    featuredPost?.publishDate ?? ""
-                  ).toLocaleDateString()}
+                  {featuredPost?.publishDate
+                    ? // Handle Firestore Timestamp or string/Date
+                      typeof featuredPost.publishDate === "object" &&
+                      typeof (featuredPost.publishDate as any).toDate ===
+                        "function"
+                      ? (featuredPost.publishDate as any)
+                          .toDate()
+                          .toLocaleDateString()
+                      : new Date(
+                          featuredPost.publishDate as string | number | Date
+                        ).toLocaleDateString()
+                    : "No Date"}
                 </div>
                 <div className="flex items-center">
                   <Clock className="h-4 w-4 mr-1" />
-                  {featuredPost.readTime}
+                  {featuredPost?.readTime ?? 0}
                 </div>
               </div>
 
               <Button
-                onClick={() => router.push(`/blog/${featuredPost.slug}`)}
+                onClick={() => {
+                  setStates((prev) => ({ ...prev, readArticle: true }));
+                  router.push(`/blog/${featuredPost?.id}`);
+                }}
                 className="w-fit"
               >
-                Read Full Article
+                {states.readArticle ? (
+                  <LoadingSpinner size="sm" />
+                ) : (
+                  "Read Full Article"
+                )}
               </Button>
             </div>
           </div>
@@ -123,7 +199,7 @@ export default function Page() {
           </div>
 
           <div className="flex flex-wrap gap-2">
-            {categories.map((category) => (
+            {CATEGORIES.map((category) => (
               <Button
                 key={category}
                 variant={selectedCategory === category ? "default" : "outline"}
@@ -150,7 +226,7 @@ export default function Page() {
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {filteredPosts.slice(1).map((post) => (
+          {filteredPosts.map((post) => (
             <BlogCard key={post?.id} post={post} />
           ))}
         </div>

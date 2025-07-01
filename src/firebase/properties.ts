@@ -162,8 +162,6 @@ export const createProperty = async (
       createdAt: Timestamp.now(),
       updatedAt: Timestamp.now(),
     });
-
-    console.log("Property added with ID:", docRef.id);
     return docRef.id;
   } catch (error) {
     console.error("Error adding property document:", error);
@@ -202,8 +200,6 @@ export const updateProperty = async (
     }
 
     await updateDoc(docRef, updatedData);
-
-    console.log("Property updated successfully");
     return true;
   } catch (error) {
     console.error("Error updating property:", error);
@@ -220,8 +216,6 @@ export const deleteProperty = async (id: string): Promise<boolean> => {
   try {
     const docRef = doc(db, "properties", id);
     await deleteDoc(docRef);
-
-    console.log("Property deleted successfully");
     return true;
   } catch (error) {
     console.error("Error deleting property:", error);

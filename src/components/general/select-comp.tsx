@@ -17,6 +17,7 @@ interface IDropdownSelect {
   handleChange: (status: string, value: string) => void;
   items: string[];
   label?: string;
+  compulsory?: boolean;
 }
 
 interface ISearchableDropdown {
@@ -35,10 +36,15 @@ const DropdownSelect: FC<IDropdownSelect> = ({
   handleChange,
   items,
   label,
+  compulsory,
 }) => {
   return (
-    <div className="grid w-full items-center gap-2">
-      {label && <Label htmlFor="status">{label}</Label>}
+    <div className="w-full items-center space-y-3">
+      {label && (
+        <Label htmlFor="status">
+          {label} {compulsory && "*"}
+        </Label>
+      )}
       <Select
         value={value}
         onValueChange={(value) => handleChange(name, value)}

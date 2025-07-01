@@ -49,6 +49,14 @@ export const PROPERTY_TYPES = [
   "studio",
 ];
 
+export const CATEGORIES = [
+  "All",
+  "Market Trends",
+  "Luxury Real Estate",
+  "Selling Tips",
+  "Luxury Market",
+];
+
 export const PRICE_TYPES = ["for sale", "per month", "per year", "per week"];
 
 export const CURRENCIES = ["NGN", "USD", "EUR", "GBP"];

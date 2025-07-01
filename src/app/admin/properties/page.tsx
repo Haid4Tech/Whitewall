@@ -3,50 +3,30 @@
 import { useState, useEffect, useMemo } from "react";
 import { useRouter } from "next/navigation";
 import { Property } from "@/common/types";
-
 import { AdminPropertyCard } from "@/components/admin/properties/admin-property-card";
 import { PropertyEditDialog } from "@/components/admin/properties/property-edit-modal";
 import { PropertyFilters } from "@/components/admin/properties/property-filters";
 import { ConfirmDialog } from "@/components/ui/confirm-dialog";
 import { Plus, MapPin, Grid3X3 } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { SuccessToast } from "@/components/ui/success-toast";
-import { ErrorToast } from "@/components/ui/error-toast";
+import { toast } from "sonner";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 
 import { getProperties, deleteProperty } from "@/firebase/properties";
 import LoadingSpinner from "@/components/ui/loading-spinner";
-
-interface FilterState {
-  searchQuery: string;
-  location: string;
-  propertyType: string;
-  priceType: string;
-  status: string;
-  minPrice: string;
-  maxPrice: string;
-  minBedrooms: string;
-  maxBedrooms: string;
-  minBathrooms: string;
-  maxBathrooms: string;
-  minSqft: string;
-  maxSqft: string;
-  featured: boolean | null;
-  amenities: string[];
-}
+import { FilterState } from "@/common/types";
 
 export default function Page() {
   const router = useRouter();
+  const [clickedState, setClickedState] = useState({
+    clickedAddProperty: false,
+  });
   const [properties, setProperties] = useState<Property[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [editingProperty, setEditingProperty] = useState<Property | null>(null);
   const [isEditDialogOpen, setIsEditDialogOpen] = useState(false);
-  const [showSuccessToast, setShowSuccessToast] = useState(false);
-  const [showErrorToast, setShowErrorToast] = useState(false);
-  const [successMessage, setSuccessMessage] = useState("");
-  const [errorMessage, setErrorMessage] = useState("");
   const [deletingPropertyId, setDeletingPropertyId] = useState<string | null>(
     null
   );
@@ -201,10 +181,8 @@ export default function Page() {
     setProperties((prev) =>
       prev.map((p) => (p.id === updatedProperty.id ? updatedProperty : p))
     );
-    setSuccessMessage(
-      `Property "${updatedProperty.title}" updated successfully`
-    );
-    setShowSuccessToast(true);
+
+    toast.success(`Property "${updatedProperty.title}" updated successfully`);
   };
 
   const handleViewProperty = (property: Property) => {
@@ -226,18 +204,15 @@ export default function Page() {
         setProperties((prev) =>
           prev.filter((p) => p.id !== propertyToDelete.id)
         );
-        setSuccessMessage(
+        toast.success(
           `Property "${propertyToDelete.title}" deleted successfully`
         );
-        setShowSuccessToast(true);
       } else {
-        setErrorMessage("Failed to delete property. Please try again.");
-        setShowErrorToast(true);
+        toast.error("Failed to delete property. Please try again.");
       }
     } catch (error) {
       console.error("Error deleting property:", error);
-      setErrorMessage("Error deleting property. Please try again.");
-      setShowErrorToast(true);
+      toast.error("Error deleting property. Please try again.");
     } finally {
       setDeletingPropertyId(null);
       setPropertyToDelete(null);
@@ -341,10 +316,22 @@ export default function Page() {
           </div>
           <Button
             className="ml-auto"
-            onClick={() => router.push(`/admin/properties/add`)}
+            onClick={() => {
+              setClickedState({ clickedAddProperty: true });
+              router.push(`/admin/properties/add`);
+            }}
           >
-            <Plus size={15} />
-            Add Property
+            {clickedState.clickedAddProperty ? (
+              <>
+                <LoadingSpinner size="sm" />
+                Redirecting...
+              </>
+            ) : (
+              <>
+                <Plus className={"mr-1"} size={15} />
+                Add Property
+              </>
+            )}
           </Button>
         </div>
       </div>
@@ -460,20 +447,6 @@ export default function Page() {
           onSave={handleSaveProperty}
         />
       )}
-
-      {/* Success Toast */}
-      <SuccessToast
-        isVisible={showSuccessToast}
-        onClose={() => setShowSuccessToast(false)}
-        message={successMessage}
-      />
-
-      {/* Error Toast */}
-      <ErrorToast
-        isVisible={showErrorToast}
-        onClose={() => setShowErrorToast(false)}
-        message={errorMessage}
-      />
 
       {/* Delete Dialog */}
       <ConfirmDialog
