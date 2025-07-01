@@ -214,7 +214,7 @@ export const AdminBlogCard = ({ post, setDeleted }: AdminBlogCardProps) => {
           </div>
 
           {/* Tags */}
-          <div className="flex flex-wrap gap-1 mb-4 h-4">
+          <div className="flex flex-wrap gap-1 mb-4">
             {post.tags?.slice(0, 2).map((tag, index) => (
               <Badge key={index} variant="outline" className="text-xs">
                 {tag}
