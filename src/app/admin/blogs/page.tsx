@@ -20,7 +20,7 @@ import { getBlogs } from "@/firebase/blog";
 
 enum tabsEnum {
   POSTS = "posts",
-  ANALYTICS = "analytics",
+  // ANALYTICS = "analytics",
 }
 
 type BlogProps = BlogPost & { id: string };
