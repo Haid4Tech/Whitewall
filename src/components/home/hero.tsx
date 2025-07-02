@@ -1,13 +1,18 @@
 "use client";
 
+import { useRef, useState } from "react";
+import { useRouter } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import Image from "next/image";
 import { motion, useInView } from "framer-motion";
-import { useRef } from "react";
+import LoadingSpinner from "../ui/loading-spinner";
 
 const Hero = () => {
   const ref = useRef(null);
+  const router = useRouter();
   const isInView = useInView(ref, { once: true, margin: "-100px" });
+  const [loading, setLoading] = useState<boolean>(false);
+
   return (
     <section
       id="home"
@@ -56,7 +61,15 @@ const Hero = () => {
               animate={isInView ? { opacity: 1, scale: 1 } : {}}
               transition={{ duration: 0.6, delay: 0.5, type: "spring" }}
             >
-              <Button className="py-3">Book Now</Button>
+              <Button
+                className="py-3 w-1/3"
+                onClick={() => {
+                  setLoading(true);
+                  router.push("/properties");
+                }}
+              >
+                {loading ? <LoadingSpinner size="sm" /> : "View Properties"}
+              </Button>
             </motion.div>
           </motion.div>
           {/* Right content - House image and agent */}

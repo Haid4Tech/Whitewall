@@ -243,6 +243,7 @@ const BlogForm: React.FC<BlogFormProps> = ({ postId, blogformType }) => {
         >
           {formData.coverImageUrl ? (
             <img
+              loading="lazy"
               src={formData.coverImageUrl}
               alt="Cover Preview"
               className="w-full h-48 object-cover rounded-md"

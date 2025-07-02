@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { clsx, type ClassValue } from "clsx";
 import { twMerge } from "tailwind-merge";
 import { Timestamp } from "firebase/firestore";
@@ -102,13 +103,13 @@ export const clearPhotoGalleryCache = () => {
 
 export const getPhotoGalleryCache = () => {
   if (!photoGalleryCache) return null;
-  
+
   const now = Date.now();
   if (now - photoGalleryCache.timestamp > PHOTO_GALLERY_CACHE_DURATION) {
     photoGalleryCache = null;
     return null;
   }
-  
+
   return photoGalleryCache.images;
 };
 
