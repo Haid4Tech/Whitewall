@@ -16,7 +16,11 @@ import {
 } from "firebase/firestore";
 import { Property } from "../common/types";
 import { db } from "../config/firebase";
-import { generateSlug, generateUniqueSlug, clearPhotoGalleryCache } from "../lib/utils";
+import {
+  generateSlug,
+  generateUniqueSlug,
+  clearPhotoGalleryCache,
+} from "../lib/utils";
 
 /**
  * Fetches all properties from Firestore.

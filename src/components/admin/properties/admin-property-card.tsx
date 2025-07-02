@@ -62,7 +62,7 @@ export const AdminPropertyCard = ({
       {isDeleting && (
         <div className="absolute inset-0 bg-white/80 backdrop-blur-sm z-10 flex items-center justify-center">
           <div className="flex items-center gap-2 text-gray-600">
-            <Loader2 className="h-5 w-5 animate-spin" />
+            <Loader2 size={18} className="animate-spin" />
             <span className="text-sm font-medium">Deleting...</span>
           </div>
         </div>
@@ -149,7 +149,12 @@ export const AdminPropertyCard = ({
           {/* Date Added */}
           <div className="flex items-center text-gray-400 text-xs">
             <Calendar className={"mr-1"} size={13} />
-            Added {formatTimestamp(property.createdAt)}
+            Added{" "}
+            {formatTimestamp(
+              property.createdAt instanceof Date
+                ? property.createdAt.toISOString()
+                : property.createdAt ?? undefined
+            )}
           </div>
 
           {/* Action Buttons */}

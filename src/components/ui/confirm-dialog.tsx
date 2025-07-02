@@ -37,15 +37,15 @@ export const ConfirmDialog = ({
     switch (variant) {
       case "danger":
         return {
-          icon: <Trash2 className="h-8 w-8 text-red-600" />,
+          icon: <Trash2 size={25} className="text-primary-danger" />,
           confirmButton:
-            "bg-red-600 hover:bg-red-700 focus:ring-red-500 text-white border-red-600",
-          iconBg: "bg-red-50 border-red-200",
-          borderColor: "border-red-200",
+            "bg-primary-danger hover:bg-primary-danger/50 focus:ring-primary-danger text-white border-primary-danger",
+          iconBg: "bg-red-50 border-primary-danger",
+          borderColor: "border-primary-danger",
         };
       case "warning":
         return {
-          icon: <AlertTriangle className="h-8 w-8 text-amber-600" />,
+          icon: <AlertTriangle size={25} className="text-amber-600" />,
           confirmButton:
             "bg-amber-600 hover:bg-amber-700 focus:ring-amber-500 text-white border-amber-600",
           iconBg: "bg-amber-50 border-amber-200",
@@ -53,7 +53,7 @@ export const ConfirmDialog = ({
         };
       case "info":
         return {
-          icon: <AlertCircle className="h-8 w-8 text-blue-600" />,
+          icon: <AlertCircle size={25} className="text-blue-600" />,
           confirmButton:
             "bg-blue-600 hover:bg-blue-700 focus:ring-blue-500 text-white border-blue-600",
           iconBg: "bg-blue-50 border-blue-200",
@@ -61,11 +61,11 @@ export const ConfirmDialog = ({
         };
       default:
         return {
-          icon: <Trash2 className="h-8 w-8 text-red-600" />,
+          icon: <Trash2 size={25} className="text-primary-danger" />,
           confirmButton:
-            "bg-red-600 hover:bg-red-700 focus:ring-red-500 text-white border-red-600",
-          iconBg: "bg-red-50 border-red-200",
-          borderColor: "border-red-200",
+            "bg-primary-danger hover:bg-primary-danger/50 focus:ring-primary-danger text-white border-primary-danger",
+          iconBg: "bg-primary-danger/50 border-primary-danger/20",
+          borderColor: "border-primary-danger/20",
         };
     }
   };
@@ -83,17 +83,17 @@ export const ConfirmDialog = ({
               {styles.icon}
             </div>
             <div className="flex-1 min-w-0">
-              <DialogTitle className="text-xl font-semibold text-gray-900 leading-6">
+              <DialogTitle className="text-base font-semibold text-gray-900 leading-6">
                 {title}
               </DialogTitle>
             </div>
           </div>
-          <DialogDescription className="text-base text-gray-600 leading-relaxed text-center">
+          <DialogDescription className="text-sm text-gray-600 leading-relaxed text-center">
             {description}
           </DialogDescription>
         </DialogHeader>
 
-        <DialogFooter className="flex flex-col-reverse sm:flex-row sm:justify-end sm:space-x-3 gap-3 mt-6">
+        <DialogFooter className="flex flex-col-reverse sm:flex-row sm:justify-center sm:space-x-1 gap-3 mt-6">
           <Button
             type="button"
             variant="outline"
