@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { clsx, type ClassValue } from "clsx";
 import { twMerge } from "tailwind-merge";
 import { Timestamp } from "firebase/firestore";
@@ -91,3 +92,30 @@ export function formatNumberWithCommas(value: string) {
   if (isNaN(num)) return value;
   return num.toLocaleString();
 }
+
+// Photo Gallery Cache Management
+let photoGalleryCache: { images: any[]; timestamp: number } | null = null;
+const PHOTO_GALLERY_CACHE_DURATION = 5 * 60 * 1000; // 5 minutes
+
+export const clearPhotoGalleryCache = () => {
+  photoGalleryCache = null;
+};
+
+export const getPhotoGalleryCache = () => {
+  if (!photoGalleryCache) return null;
+
+  const now = Date.now();
+  if (now - photoGalleryCache.timestamp > PHOTO_GALLERY_CACHE_DURATION) {
+    photoGalleryCache = null;
+    return null;
+  }
+
+  return photoGalleryCache.images;
+};
+
+export const setPhotoGalleryCache = (images: any[]) => {
+  photoGalleryCache = {
+    images,
+    timestamp: Date.now(),
+  };
+};

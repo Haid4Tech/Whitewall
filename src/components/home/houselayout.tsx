@@ -83,8 +83,8 @@ const HouseLayout = () => {
               animate={isInView ? { opacity: 1, scale: 1 } : {}}
               transition={{ duration: 0.7, delay: 0.5 }}
             >
-              <Image
-                priority
+              <img
+                loading="lazy"
                 width={100}
                 height={100}
                 src="/diner_room.jpg"

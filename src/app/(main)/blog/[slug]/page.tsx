@@ -87,6 +87,7 @@ export default function Page() {
     <div className="min-h-screen bg-background">
       <div className="relative h-[70vh] overflow-hidden">
         <img
+          loading="lazy"
           width={400}
           height={400}
           src={blog?.coverImageUrl ?? ""}
