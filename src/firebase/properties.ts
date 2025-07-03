@@ -13,6 +13,7 @@ import {
   orderBy,
   limit,
   Timestamp,
+  onSnapshot,
 } from "firebase/firestore";
 import { Property } from "../common/types";
 import { db } from "../config/firebase";
@@ -329,4 +330,31 @@ export const getRecentProperties = async (
     console.error("Error fetching recent properties:", error);
     return [];
   }
+};
+
+/**
+ * Get Properties count
+ * @returns
+ */
+export const listenToPropertyCounts = (
+  callback: (counts: { all: number; sold: number; available: number }) => void
+) => {
+  const col = collection(db, "properties");
+
+  const unsubscribe = onSnapshot(col, (snapshot) => {
+    let all = 0;
+    let sold = 0;
+    let available = 0;
+
+    snapshot.forEach((doc) => {
+      all++;
+      const status = doc.data().status;
+      if (status === "Sold") sold++;
+      else if (status === "Available") available++;
+    });
+
+    callback({ all, sold, available });
+  });
+
+  return unsubscribe; // call this to stop listening
 };

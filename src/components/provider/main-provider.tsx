@@ -41,12 +41,15 @@ const MainProvider: FC<IAppProvider> = ({ children }) => {
         if (user) {
           const me = await userById(user.uid);
           setIsLoggedin(true);
+          setIsLoading(false);
           setUser(me);
         } else {
           setIsLoggedin(false);
+          setIsLoading(false);
         }
       } catch (error) {
         setIsLoggedin(false);
+        setIsLoading(false);
         console.error("Error checking authentication state:", error);
         throw new Error("Error logging in");
       }

@@ -48,3 +48,15 @@ export const initialBlogData = {
   publishDate: null,
   updatedAt: null,
 };
+
+export const propertiesInitialCount = {
+  all: 0,
+  sold: 0,
+  available: 0,
+};
+
+export const blogInitialCount = {
+  all: 0,
+  published: 0,
+  drafts: 0,
+};

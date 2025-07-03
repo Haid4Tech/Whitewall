@@ -2,7 +2,7 @@
 
 import { useState, useRef, useCallback } from "react";
 import { useRouter } from "next/navigation";
-import { ArrowLeft, Upload, X, Plus, Loader2 } from "lucide-react";
+import { Upload, X, Plus, Loader2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -24,6 +24,7 @@ import {
 import { toast } from "sonner";
 import { formatNumberWithCommas } from "@/lib/utils";
 import { PropertyFormData } from "@/common/types";
+import AdminNavHeader from "@/components/general/admin-nav-header";
 
 export default function AddPropertyPage() {
   const router = useRouter();
@@ -212,23 +213,7 @@ export default function AddPropertyPage() {
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-50 to-slate-100">
       {/* Header */}
-      <div className="bg-white shadow-sm border-b">
-        <div className="mx-auto sm:px-6 lg:px-8">
-          <div className="flex flex-row h-16 items-center gap-5 w-full">
-            <Button
-              variant="secondary"
-              onClick={() => router.back()}
-              className="flex items-center gap-2 hover:shadow-md"
-            >
-              <ArrowLeft size={15} />
-              Back
-            </Button>
-            <p className="mx-auto text-base md:text-xl font-semibold text-gray-900">
-              Add New Property
-            </p>
-          </div>
-        </div>
-      </div>
+      <AdminNavHeader header={"Add New Property"} />
 
       <div className="w-full mx-auto py-4 md:py-8">
         <div className="mx-auto">

@@ -10,6 +10,7 @@ import {
   doc,
   getDoc,
   Timestamp,
+  onSnapshot,
 } from "firebase/firestore";
 import { getStorage, ref, uploadBytes, getDownloadURL } from "firebase/storage";
 import { BlogPost } from "../common/types";
@@ -225,3 +226,31 @@ export async function isBlogFeatured(blogId: string): Promise<boolean> {
 
   return false;
 }
+
+/**
+ * Listen for blog summary
+ * @param callback
+ * @returns
+ */
+export const listenToBlogCounts = (
+  callback: (counts: { all: number; published: number; drafts: number }) => void
+) => {
+  const col = collection(db, "blogs");
+
+  const unsubscribe = onSnapshot(col, (snapshot) => {
+    let all = 0;
+    let published = 0;
+    let drafts = 0;
+
+    snapshot.forEach((doc) => {
+      all++;
+      const status = doc.data().isPublished;
+      if (status) published++;
+      else if (!status) drafts++;
+    });
+
+    callback({ all, published, drafts });
+  });
+
+  return unsubscribe; // call this to stop listening
+};

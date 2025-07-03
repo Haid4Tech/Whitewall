@@ -1,31 +1,61 @@
+"use client";
+
+import { useEffect, useState } from "react";
 import { Card } from "@/components/ui/card";
+import { propertiesCountProp, blogCountProp } from "@/common/types";
+import {
+  propertiesInitialCount,
+  blogInitialCount,
+} from "@/common/initial-values";
+import { listenToPropertyCounts } from "@/firebase/properties";
+import { listenToBlogCounts } from "@/firebase/blog";
 import { Building2, FileText, Users, TrendingUp } from "lucide-react";
 
 export default function Page() {
+  const [propertiesCount, setPropertiesCount] = useState<propertiesCountProp>(
+    propertiesInitialCount
+  );
+  const [blogCount, setBlogCount] = useState<blogCountProp>(blogInitialCount);
+
+  useEffect(() => {
+    const unsubscribeToProperties = listenToPropertyCounts((counts) => {
+      setPropertiesCount(counts);
+    });
+
+    const unsubscribeToBlog = listenToBlogCounts((counts) => {
+      setBlogCount(counts);
+    });
+
+    return () => {
+      unsubscribeToProperties();
+      unsubscribeToBlog();
+    };
+  }, []);
+
   const stats = [
     {
       label: "Total Properties",
-      value: "156",
+      value: propertiesCount?.all ?? 0,
       icon: Building2,
       color: "text-blue-600",
     },
     {
       label: "Active Listings",
-      value: "89",
+      value: propertiesCount?.available ?? 0,
       icon: TrendingUp,
       color: "text-green-600",
     },
     {
-      label: "Blog Posts",
-      value: "24",
-      icon: FileText,
-      color: "text-purple-600",
-    },
-    {
-      label: "Active Agents",
-      value: "12",
+      label: "Sold Listings",
+      value: propertiesCount?.sold ?? 0,
       icon: Users,
       color: "text-orange-600",
+    },
+    {
+      label: "Blog Posts",
+      value: blogCount?.all ?? 0,
+      icon: FileText,
+      color: "text-purple-600",
     },
   ];
 
@@ -38,7 +68,7 @@ export default function Page() {
         </p>
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
         {stats.map((stat) => {
           const Icon = stat.icon;
           return (
@@ -57,7 +87,7 @@ export default function Page() {
         })}
       </div>
 
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+      {/* <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
         <Card className="p-6">
           <h3 className="text-lg font-semibold mb-4">Recent Properties</h3>
           <div className="space-y-3">
@@ -97,7 +127,7 @@ export default function Page() {
             ))}
           </div>
         </Card>
-      </div>
+      </div> */}
     </div>
   );
 }

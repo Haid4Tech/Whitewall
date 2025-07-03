@@ -1,8 +1,10 @@
 "use client";
 
 import { useState } from "react";
+import { useMainContext } from "@/components/provider/main-provider";
 import { Button } from "@/components/ui/button";
 import InputWithLabel from "@/components/general/input-field";
+import LoadingSpinner from "@/components/ui/loading-spinner";
 import { login } from "@/firebase/auth";
 
 interface AuthFormProps {
@@ -10,18 +12,19 @@ interface AuthFormProps {
 }
 
 const AuthForm = ({ isLogin }: AuthFormProps) => {
+  const { isLoading } = useMainContext();
   const [formData, setFormData] = useState({
     name: "",
     email: "",
     password: "",
   });
   const [showPassword, setShowPassword] = useState(false);
-  const [isLoading, setIsLoading] = useState(false);
+  const [isAuth, setIsAuth] = useState(false);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setShowPassword(false);
-    setIsLoading(true);
+    setIsAuth(true);
 
     // Basic validation
     const newErrors: Record<string, string> = {};
@@ -39,7 +42,7 @@ const AuthForm = ({ isLogin }: AuthFormProps) => {
     }
 
     if (Object.keys(newErrors).length > 0) {
-      setIsLoading(false);
+      setIsAuth(false);
       return;
     }
 
@@ -47,7 +50,7 @@ const AuthForm = ({ isLogin }: AuthFormProps) => {
     const password = formData?.password;
     await login(email, password);
 
-    setIsLoading(false);
+    setIsAuth(false);
   };
 
   return (
@@ -88,18 +91,25 @@ const AuthForm = ({ isLogin }: AuthFormProps) => {
 
       <Button
         type="submit"
-        disabled={isLoading}
+        disabled={isAuth}
         className="w-full text-white font-medium py-3 px-4 rounded-lg transition-all duration-200 transform hover:scale-[1.02] disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none"
       >
-        {isLoading ? (
+        {isAuth ? (
           <div className="flex items-center justify-center">
-            <div className="animate-spin rounded-full h-5 w-5 border-2 border-white border-t-transparent mr-2"></div>
+            <LoadingSpinner size="sm" />
             {isLogin ? "Signing in..." : "Creating account..."}
           </div>
-        ) : isLogin ? (
-          "Sign In"
         ) : (
-          "Create Account"
+          <>
+            {isLoading ? (
+              <div className="flex flex-row gap-1 items-center">
+                <LoadingSpinner size="sm" />
+                <p>Checking...</p>
+              </div>
+            ) : (
+              <>{isLogin ? "Sign In" : "Create Account"}</>
+            )}
+          </>
         )}
       </Button>
     </form>

@@ -1,21 +1,19 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { useParams, useRouter } from "next/navigation";
+import { useParams } from "next/navigation";
 import { getBlogDocumentById } from "@/firebase/blog";
-import { Button } from "@/components/ui/button";
-import { Calendar, User, Clock, BookOpen, MoveLeft } from "lucide-react";
+import { Calendar, User, Clock, BookOpen } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import ReactMarkdown from "react-markdown";
 import { BlogPost } from "@/common/types";
 import Image from "next/image";
 import { formatTimestamp } from "@/lib/utils";
+import AdminNavHeader from "@/components/general/admin-nav-header";
 import LoadingSpinner from "@/components/ui/loading-spinner";
 
 export default function Page() {
   const params = useParams<{ slug: string }>();
-  const router = useRouter();
-  const [state, setState] = useState<boolean>(false);
   const [blog, setBlog] = useState<BlogPost | null>();
 
   useEffect(() => {
@@ -36,16 +34,8 @@ export default function Page() {
 
   return (
     <div className="space-y-8 pb-8">
-      <Button
-        className="w-1/8"
-        onClick={() => {
-          setState(true);
-          router.back();
-        }}
-      >
-        {state ? <LoadingSpinner size="sm" /> : <MoveLeft size={15} />}
-        Back
-      </Button>
+      <AdminNavHeader header="Blog Preview" />
+
       <div className="relative h-[70vh] overflow-hidden">
         <Image
           width={400}

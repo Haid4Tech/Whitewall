@@ -123,3 +123,15 @@ export interface PropertyFormData {
   description: string;
   amenities: string[];
 }
+
+export interface propertiesCountProp {
+  all: number;
+  sold: number;
+  available: number;
+}
+
+export interface blogCountProp {
+  all: number;
+  published: number;
+  drafts: number;
+}

@@ -4,7 +4,6 @@
 import { useState, useEffect, useCallback } from "react";
 import { useParams, useRouter } from "next/navigation";
 import {
-  ArrowLeft,
   Edit,
   Trash2,
   Eye,
@@ -27,8 +26,8 @@ import {
 } from "@/firebase/properties";
 import { ListingStatus, Property } from "@/common/types";
 import LoadingSpinner from "@/components/ui/loading-spinner";
-import { SuccessToast } from "@/components/ui/success-toast";
-import { ErrorToast } from "@/components/ui/error-toast";
+import AdminNavHeader from "@/components/general/admin-nav-header";
+import { toast } from "sonner";
 import { AvailabilityToggle } from "@/components/ui/segmented-toggle";
 import Image from "next/image";
 
@@ -41,13 +40,9 @@ export default function PropertyDetailPage() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [isEditDialogOpen, setIsEditDialogOpen] = useState(false);
-  const [showSuccessToast, setShowSuccessToast] = useState(false);
-  const [showErrorToast, setShowErrorToast] = useState(false);
-  const [errorMessage, setErrorMessage] = useState("");
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
   const [isDeleteDialogOpen, setIsDeleteDialogOpen] = useState(false);
   const [isDeleting, setIsDeleting] = useState(false);
-
   const [propertyStatus, setPropertyStatus] = useState(property?.status);
 
   const handlePropertyFetch = useCallback(async () => {
@@ -96,7 +91,7 @@ export default function PropertyDetailPage() {
 
   const handleSaveProperty = (updatedProperty: Property) => {
     setProperty(updatedProperty);
-    setShowSuccessToast(true);
+    toast.success("Property updated successfully!");
   };
 
   const handleDeleteProperty = async () => {
@@ -121,19 +116,17 @@ export default function PropertyDetailPage() {
       const success = await updateProperty(property!.id, updatedPropertyData);
 
       if (success) {
-        setShowSuccessToast(true);
+        toast.success("Property updated successfully!");
         // Call the onSave callback with updated data
 
         await handlePropertyFetch();
         setPropertyStatus(available ? "Available" : "Sold");
       } else {
-        setErrorMessage("Failed to update property. Please try again.");
-        setShowErrorToast(true);
+        toast.error("Failed to update property. Please try again.");
       }
     } catch (error) {
       console.error("Error updating property:", error);
-      setErrorMessage("Error updating property. Please try again.");
-      setShowErrorToast(true);
+      toast.error("Error updating property. Please try again.");
     } finally {
       /*    setIsUploading(false);
       setUploadProgress(0); */
@@ -147,18 +140,16 @@ export default function PropertyDetailPage() {
       setIsDeleting(true);
       const success = await deleteProperty(property.id);
       if (success) {
-        setShowSuccessToast(true);
+        toast.success("Property updated successfully!");
         setTimeout(() => {
           router.push("/admin/properties");
         }, 1500);
       } else {
-        setErrorMessage("Failed to delete property. Please try again.");
-        setShowErrorToast(true);
+        toast.error("Failed to delete property. Please try again.");
       }
     } catch (error) {
       console.error("Error deleting property:", error);
-      setErrorMessage("Error deleting property. Please try again.");
-      setShowErrorToast(true);
+      toast.error("Error deleting property. Please try again.");
     } finally {
       setIsDeleting(false);
       setIsDeleteDialogOpen(false);
@@ -236,64 +227,28 @@ export default function PropertyDetailPage() {
   }
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screen">
       {/* Header */}
-      <div className="bg-white shadow-sm border-b">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex items-center justify-between h-16">
-            <div className="flex items-center gap-4">
-              <Button
-                variant="ghost"
-                onClick={() => router.back()}
-                className="flex items-center gap-2"
-              >
-                <ArrowLeft className="h-4 w-4" />
-                Back
-              </Button>
-              <h1 className="hidden sm:block text-xl font-semibold text-gray-900">
-                Property Details
-              </h1>
-            </div>
-            <div className="flex items-center gap-3">
-              <Button
-                variant="outline"
-                onClick={handleEditProperty}
-                className="flex items-center gap-2"
-              >
-                <Edit className="h-4 w-4" />
-                Edit
-              </Button>
-              <Button
-                variant="destructive"
-                onClick={handleDeleteProperty}
-                className="flex items-center gap-2"
-              >
-                <Trash2 className="h-4 w-4" />
-                Delete
-              </Button>
-            </div>
-          </div>
-        </div>
-      </div>
+      <AdminNavHeader header={"Property Details"} />
 
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+      <div className="mx-auto py-8">
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
           {/* Main Content */}
           <div className="lg:col-span-2 space-y-6">
             {/* Property Title and Status */}
             <Card>
               <CardHeader>
-                <div className="flex items-start justify-between">
+                <div className="flex flex-col md:flex-row items-start justify-between gap-3">
                   <div>
-                    <CardTitle className="text-2xl font-bold text-gray-900 mb-2">
+                    <CardTitle className="text-xl md:text-2xl font-bold text-gray-900 mb-2">
                       {property.title}
                     </CardTitle>
                     <div className="flex items-center gap-2 text-gray-600">
-                      <MapPin className="h-4 w-4" />
-                      <span>{property.location}</span>
+                      <MapPin size={12} />
+                      <span className="text-sm">{property.location}</span>
                     </div>
                   </div>
-                  <div className="flex flex-col items-end gap-2">
+                  <div className="flex flex-col items-end gap-2 ml-auto">
                     <Badge
                       variant={property.featured ? "default" : "secondary"}
                       className="flex items-center gap-1"
@@ -449,6 +404,24 @@ export default function PropertyDetailPage() {
 
           {/* Sidebar */}
           <div className="space-y-6">
+            <div className="grid grid-cols-2 gap-3">
+              <Button
+                variant="outline"
+                onClick={handleEditProperty}
+                className="flex items-center gap-2 w-full"
+              >
+                <Edit size={15} />
+                Edit
+              </Button>
+              <Button
+                variant="destructive"
+                onClick={handleDeleteProperty}
+                className="flex items-center gap-2 w-full"
+              >
+                <Trash2 size={15} />
+                Delete
+              </Button>
+            </div>
             {/* Property Status */}
             <Card>
               <CardHeader>
@@ -522,7 +495,7 @@ export default function PropertyDetailPage() {
                     onClick={handleEditProperty}
                     className="w-full flex items-center gap-2"
                   >
-                    <Edit className="h-4 w-4" />
+                    <Edit size={12} />
                     Edit Property
                   </Button>
                   <Button
@@ -530,7 +503,7 @@ export default function PropertyDetailPage() {
                     onClick={() => router.push(`/properties/${property.slug}`)}
                     className="w-full flex items-center gap-2"
                   >
-                    <Eye className="h-4 w-4" />
+                    <Eye size={12} />
                     View Public Page
                   </Button>
                   <Button
@@ -538,7 +511,7 @@ export default function PropertyDetailPage() {
                     onClick={handleDeleteProperty}
                     className="w-full flex items-center gap-2"
                   >
-                    <Trash2 className="h-4 w-4" />
+                    <Trash2 size={12} />
                     Delete Property
                   </Button>
 
@@ -569,20 +542,6 @@ export default function PropertyDetailPage() {
           onSave={handleSaveProperty}
         />
       )}
-
-      {/* Success Toast */}
-      <SuccessToast
-        isVisible={showSuccessToast}
-        onClose={() => setShowSuccessToast(false)}
-        message="Property updated successfully!"
-      />
-
-      {/* Error Toast */}
-      <ErrorToast
-        isVisible={showErrorToast}
-        onClose={() => setShowErrorToast(false)}
-        message={errorMessage || "An error occurred. Please try again."}
-      />
 
       {/* Delete Confirmation Dialog */}
       <ConfirmDialog

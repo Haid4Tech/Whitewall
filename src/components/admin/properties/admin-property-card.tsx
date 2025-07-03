@@ -1,3 +1,6 @@
+"use client";
+
+import { useState } from "react";
 import {
   MapPin,
   Bed,
@@ -13,6 +16,7 @@ import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent } from "@/components/ui/card";
 import { useRouter } from "next/navigation";
+import LoadingSpinner from "@/components/ui/loading-spinner";
 
 import PropertiesDropDown from "./properties-dropdown";
 import { Property } from "@/common/types";
@@ -34,6 +38,13 @@ export const AdminPropertyCard = ({
   isDeleting = false,
 }: PropertyCardProps) => {
   const router = useRouter();
+  const [loadingStates, setLoadingStates] = useState<{
+    isViewLoading: boolean;
+    isEditLoading: boolean;
+  }>({
+    isViewLoading: false,
+    isEditLoading: false,
+  });
 
   const getStatusColor = (status: string) => {
     switch (status?.toLowerCase()) {
@@ -163,13 +174,34 @@ export const AdminPropertyCard = ({
               variant="outline"
               size="sm"
               className="flex-1"
-              onClick={handleView}
+              onClick={() => {
+                setLoadingStates((prev) => ({
+                  ...prev,
+                  isViewLoading: true,
+                }));
+                handleView();
+              }}
             >
               <Eye className="h-4 w-4 mr-2" />
               View
             </Button>
-            <Button size="sm" className="flex-1" onClick={onEdit}>
-              <Edit className="h-4 w-4 mr-2" />
+            <Button
+              size="sm"
+              className="flex-1"
+              onClick={() => {
+                setLoadingStates((prev) => ({
+                  ...prev,
+                  isEditLoading: true,
+                }));
+
+                if (onEdit) onEdit();
+              }}
+            >
+              {loadingStates.isEditLoading ? (
+                <LoadingSpinner size="sm" />
+              ) : (
+                <Edit size={12} className="mr-2" />
+              )}
               Edit
             </Button>
           </div>

@@ -1,7 +1,7 @@
 "use client";
 
 import { useRouter } from "next/navigation";
-import { Building2, FileText, Users, BarChart3 } from "lucide-react";
+import { Building2, FileText, BarChart3 } from "lucide-react";
 import { cn } from "@/lib/utils";
 
 interface SidebarProps {
@@ -18,7 +18,7 @@ const menuItems = [
     link: "/properties",
   },
   { id: "blogs", label: "Blogs", icon: FileText, link: "/blogs" },
-  { id: "agents", label: "Agents", icon: Users, link: "/agents" },
+  // { id: "agents", label: "Agents", icon: Users, link: "/agents" },
 ];
 
 export const Sidebar = ({ activeSection, onSectionChange }: SidebarProps) => {

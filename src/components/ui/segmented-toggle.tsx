@@ -35,7 +35,7 @@ export const SegmentedToggle: React.FC<SegmentedToggleProps> = ({
   return (
     <div
       ref={containerRef}
-      className={`relative flex w-max rounded-full border-1 border-black p-1 transition-colors ${className}`}
+      className={`relative flex w-max rounded-full border-1 border-gray-300 p-1 transition-colors ${className}`}
     >
       {/* Animated Thumb */}
       <span
@@ -52,7 +52,7 @@ export const SegmentedToggle: React.FC<SegmentedToggleProps> = ({
             }}
             type="button"
             onClick={() => onChange(option.value)}
-            className={`cursor-pointer z-10 flex-1 py-1 px-5 rounded-full text-xs md:text-sm transition-colors duration-200 focus:outline-none text-black hover:text-gray-500"
+            className={`w-full cursor-pointer z-10 flex-1 py-1 px-5 rounded-full text-xs md:text-sm transition-colors duration-200 focus:outline-none text-black hover:text-gray-500"
             `}
           >
             {option.label}
@@ -62,7 +62,6 @@ export const SegmentedToggle: React.FC<SegmentedToggleProps> = ({
     </div>
   );
 };
-
 
 export const AvailabilityToggle: React.FC<SegmentedToggleProps> = ({
   options,
@@ -92,15 +91,14 @@ export const AvailabilityToggle: React.FC<SegmentedToggleProps> = ({
   return (
     <div
       ref={containerRef}
-      className={`relative flex w-full rounded-md bg-white border-2 border-black p-1 transition-colors ${className}`}
+      className={`relative flex w-full rounded-full border-1 border-gray-300 p-1 transition-colors ${className}`}
     >
       {/* Animated Thumb */}
       <span
-        className="absolute top-1 left-0 rounded-md bg-black shadow transition-all duration-300 ease-in-out z-0"
+        className="absolute top-1 left-0 rounded-full bg-white py-1 shadow transition-all duration-300 ease-in-out z-0"
         style={thumbStyle}
       />
       {options.map((option, idx) => {
-        const isActive = value === option.value;
         return (
           <button
             key={option.value}
@@ -110,8 +108,7 @@ export const AvailabilityToggle: React.FC<SegmentedToggleProps> = ({
             }}
             type="button"
             onClick={() => onChange(option.value)}
-            className={`z-10  flex-1 px-5 rounded-full text-sm transition-colors duration-200 focus:outline-none
-             ${isActive ? "text-white" : "text-black"} hover:text-purple-200
+            className={`cursor-pointer z-10 flex-1 py-1 px-5 rounded-full text-xs md:text-sm transition-colors duration-200 focus:outline-none text-black hover:text-gray-500"
             `}
           >
             {option.label}
