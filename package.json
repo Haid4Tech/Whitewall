@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "dev": "next dev --turbopack",
-    "build": "next build && tsc server.ts",
+    "build": "next build",
     "start": "NODE_ENV=production node server.ts",
     "lint": "next lint"
   },
