@@ -4,6 +4,7 @@ import nodemailer from "nodemailer";
 // import { ANGIE_EMAIL } from "@/lib/constants";
 import fs from "fs";
 import path from "path";
+import { ANGIE_EMAIL } from "@/lib/constants";
 
 // Create transporter
 const transporter = nodemailer.createTransport({
@@ -124,7 +125,7 @@ Sent from Whitewall Realty website contact form.
     // Email options
     const mailOptions = {
       from: process.env.EMAIL_USER,
-      to: "jdon144@gmail.com", //TODO: Replace with AMGIE_EMAIL
+      to: ANGIE_EMAIL,
       subject: subject || `Contact Form: New Message from ${name}`,
       text: textContent,
       html: htmlContent,
